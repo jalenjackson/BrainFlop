@@ -1,9 +1,13 @@
-import Navbar from '../components/Navbar';
+import Explore from '../src/components/Explore';
+import Head from 'next/head';
 
 const Index = () => (
-  <section className='text'>
-    <Navbar />
-    <h1>Hello World</h1>
+  <section>
+    <Head>
+      <title>Index page!</title>
+      <meta name="description" content="This index page is awesome" />
+    </Head>
+    <Explore />
   </section>
 );
 

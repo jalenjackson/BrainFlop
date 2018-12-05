@@ -5,15 +5,21 @@
   "main": "index.js",
   "scripts": {
     "build": "next build",
-    "dev": "next"
+    "dev": "nodemon server/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
+    "express": "^4.16.4",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.11",
     "next": "^7.0.2",
+    "next-images": "^1.0.3",
     "node-sass": "^4.10.0",
+    "nodemon": "^1.18.7",
     "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "react-dom": "^16.6.3",
+    "react-ga": "^2.5.6"
   }
 }
