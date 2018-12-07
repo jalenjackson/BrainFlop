@@ -1,2 +1,373 @@
+@import ../../sass/mixins/material.sass
+@import ../../sass/mixins/animation.sass
+@import ../../sass/mixins/breakpoints.sass
+
 #navbar
-  background: blue
+  display: flex
+  @include modal(100%, 70px)
+  background: white
+  z-index: 9
+  flex-wrap: wrap
+  border-bottom: 1px solid #E6EAEA
+  @include medium-screen-down
+    border: none
+    @include modal(100%, 100px)
+  .search-overlay
+    position: fixed
+    top: 70px
+    right: 0
+    width: calc(100% - 75px)
+    height: 100%
+    background: rgba(0, 0, 0, 0.5)
+    z-index: 9
+    opacity: 0
+    -webkit-transition: opacity 300ms ease-in-out
+    -moz-transition: opacity 300ms ease-in-out
+    -ms-transition: opacity 300ms ease-in-out
+    -o-transition: opacity 300ms ease-in-out
+    transition: opacity 300ms ease-in-out
+    pointer-events: none
+    @include medium-screen-down
+      width: 100%
+      left: 0
+  .side-bar
+    position: fixed
+    top: 0
+    left: 0
+    width: 75px
+    height: 100%
+    background: white
+    border-right: 1px solid #E6EAEA
+    @include medium-screen-down
+    @include flex
+    justify-content: center
+    align-items: center
+    @include medium-screen-down
+      display: none
+    .quick-links
+      .icon-container
+        padding: 5px 5px 5px 5px
+        -webkit-border-radius: 100%
+        -moz-border-radius: 100%
+        border-radius: 100%
+      a
+        display: block
+        padding-bottom: 30px
+        img
+          width: 25px
+          height: auto
+
+  .mobile-quick-links
+    display: none
+    @include medium-screen-down
+      width: 100%
+      left: 0
+      flex-grow: inherit
+      flex-basis: 100%
+      -webkit-box-orient: horizontal
+      @include flex
+      align-items: stretch
+      border-bottom: 1px solid #E6EAEA
+      -webkit-transition: opacity 300ms ease-in-out
+      -moz-transition: opacity 300ms ease-in-out
+      -ms-transition: opacity 300ms ease-in-out
+      -o-transition: opacity 300ms ease-in-out
+      transition: opacity 300ms ease-in-out
+      a
+        margin: 0
+        width: 25%
+        margin-top: -20px
+      .icon-container
+        position: relative
+        flex-direction: column
+        @include flex
+        align-items: center
+        align-content: center
+        height: 35px
+        background: white
+        img
+          position: absolute
+          width: 30px
+          height: auto
+          -webkit-transform: scale(1)
+          -moz-transform: scale(1)
+          -ms-transform: scale(1)
+          -o-transform: scale(1)
+          transform: scale(1)
+  .collapsed-navbar
+    -webkit-transform: translate3d(-150%, 0, 0)
+    -moz-transform: translate3d(-150%, 0, 0)
+    -ms-transform: translate3d(-150%, 0, 0)
+    -o-transform: translate3d(-150%, 0, 0)
+    transform: translate3d(-150%, 0, 0)
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 5px rgba(0,0,0,0.25)
+    @include modal(20%, 100%)
+    background: white
+    z-index: 10
+    @include medium-screen-down
+      @include modal(100%, 100%)
+    .logo-container
+      position: absolute
+      width: 100%
+      img
+        width: 50px
+        height: auto
+        position: absolute
+        cursor: pointer
+        left: 0
+        top: 0
+        filter: invert(100%)
+      a
+        text-decoration: none
+        text-align: center
+        h1
+          display: block
+          margin: 0 auto
+          margin-top: 20px
+          color: white
+          text-align: center
+          font-family: SmallFontBold, 'Lato', sans-serif !important
+          font-size: 15px
+      .exit-collapsed-navbar
+        position: absolute
+        top: 10px
+        left: 10px
+        font-size: 60px
+        color: black
+    .top
+      background-size: cover
+      @include flex
+      justify-content: center
+      align-items: center
+      height: 40%
+      h1
+        opacity: 0
+        -webkit-transform: translate3d(-50px, 0, 0)
+        -moz-transform: translate3d(-50px, 0, 0)
+        -ms-transform: translate3d(-50px, 0, 0)
+        -o-transform: translate3d(-50px, 0, 0)
+        transform: translate3d(-50px, 0, 0)
+        font-size: 40px
+        color: white
+    .inner-nav-links
+      width: 100%
+      float: left
+      div
+        width: 100%
+        height: 60px
+        cursor: pointer
+        &:hover
+          background: rgb(245, 245, 255)
+      a
+        text-decoration: none
+        color: black
+        h1
+          display: inline-block
+          font-size: 16px
+          font-family: SmallFont, 'Lato', sans-serif
+          margin-top: 20px
+          font-weight: bold
+          margin-left: 20px
+          opacity: 0
+          -webkit-transform: translate3d(-50px, 0, 0)
+          -moz-transform: translate3d(-50px, 0, 0)
+          -ms-transform: translate3d(-50px, 0, 0)
+          -o-transform: translate3d(-50px, 0, 0)
+          transform: translate3d(-50px, 0, 0)
+  .menu-left
+    min-width: 115px
+    height: 70px
+    color: #202121
+    cursor: pointer
+    overflow: hidden
+  .menu-right
+    @include flex
+    height: 70px
+    .search-autocomplete
+      position: fixed
+      top: 70px
+      left: 0px
+      right: 0
+      margin: auto
+      width: 80%
+      background: white
+      @include create-quiz-modal-box-shadow
+      z-index: 9999999999999
+      min-height: 50px
+      overflow-y: auto
+      padding-bottom: 30px
+      @include medium-screen-down
+        width: 100%
+        margin-top: 0px
+        box-shadow: none
+      h1
+        font-size: 13px
+        color: rgb(90, 90, 95)
+        letter-spacing: 1px
+        margin-left: 23px
+        -webkit-transform: translateY(10px)
+        -moz-transform: translateY(10px)
+        -ms-transform: translateY(10px)
+        -o-transform: translateY(10px)
+        transform: translateY(10px)
+      .autocomplete-elem
+        position: relative
+        margin-left: 25px
+        cursor: pointer
+        -webkit-transform: translateY(15px)
+        -moz-transform: translateY(15px)
+        -ms-transform: translateY(15px)
+        -o-transform: translateY(15px)
+        transform: translateY(15px)
+        &:hover h1
+          color: #ec526d
+        img
+          width: 40px
+          height: 40px
+          position: absolute
+          background-size: cover
+          left: 0
+        h1
+          font-size: 14px
+          margin-left: 50px
+          -webkit-transform: translate(7px, 4.7px)
+          -moz-transform: translate(7px, 4.7px)
+          -ms-transform: translate(7px, 4.7px)
+          -o-transform: translate(7px, 4.7px)
+          transform: translate(7px, 4.7px)
+          width: 75%
+        p
+          font-family: SmallFont, sans-serif
+          font-size: 13px
+          margin-left: 50px
+          -webkit-transform: translate(7px, -6.7px)
+          -moz-transform: translate(7px, -6.7px)
+          -ms-transform: translate(7px, -6.7px)
+          -o-transform: translate(7px, -6.7px)
+          transform: translate(7px, -6.7px)
+    input
+      width: 80%
+      background: white
+      position: absolute
+      left: 175px
+      height: 68px
+      border: none
+      opacity: 0
+      -webkit-transform: translateX(30px)
+      -moz-transform: translateX(30px)
+      -ms-transform: translateX(30px)
+      -o-transform: translateX(30px)
+      transform: translateX(30px)
+      -webkit-transition: transform 300ms ease-in-out, opacity 300ms ease-in-out
+      -moz-transition: transform 300ms ease-in-out, opacity 300ms ease-in-out
+      -ms-transition: transform 300ms ease-in-out, opacity 300ms ease-in-out
+      -o-transition: transform 300ms ease-in-out, opacity 300ms ease-in-out
+      transition: transform 300ms ease-in-out, opacity 300ms ease-in-out
+      pointer-events: none
+      outline: none
+      font-size: 17px
+      color: rgb(60, 60, 65)
+      @include medium-screen-down
+        left: 60px
+    @include medium-screen-down
+      height: 40px
+    .menu-search
+      position: relative
+      display: inline-block
+      width: 80px
+      height: 69px
+      @include scale(0.6)
+      cursor: pointer
+      background: url('/static/images/icons/search-desktop.svg') center center no-repeat
+      background-size: cover
+      @include medium-screen-down
+        display: none
+    .logo
+      position: absolute
+      left: 50%
+      @include medium-screen-down
+        left: 0
+        top: 0px
+        margin: 0
+      .logo-svg
+        width: 60px
+        height: 70px
+        background: url('/static/images/icons/logo.svg') center center no-repeat
+        background-size: cover
+        display: block
+        margin: 0 auto
+        -webkit-transform: translateX(-60%)
+        -moz-transform: translateX(-60%)
+        -ms-transform: translateX(-60%)
+        -o-transform: translateX(-60%)
+        transform: translateX(-60%)
+        @include medium-screen-down
+          -webkit-transform: scale(0.6) translate(0, -20px)
+          -moz-transform: scale(0.6) translate(0, -20px)
+          -ms-transform: scale(0.6) translate(0, -20px)
+          -o-transform: scale(0.6) translate(0, -20px)
+          transform: scale(0.6) translate(0, -20px)
+  .mrn
+    width: auto
+    @include flex
+    justify-content: center
+    align-items: center
+    position: absolute
+    right: 30px
+    @include medium-screen-down
+      display: none
+    h1
+      color: rgb(200, 190, 190)
+      letter-spacing: 1px
+      font-size: 22px
+      font-family: SmallFontBold, sans-serif
+      margin-top: 27px
+      -webkit-transform: translate(45px, 3px)
+      -moz-transform: translate(45px, 3px)
+      -ms-transform: translate(45px, 3px)
+      -o-transform: translate(45px, 3px)
+      transform: translate(45px, 3px)
+    .navbar-points
+      -webkit-transition: transform 600ms ease-in-out, color 550ms ease-in-out
+      -moz-transition: transform 600ms ease-in-out, color 550ms ease-in-out
+      -ms-transition: transform 600ms ease-in-out, color 550ms ease-in-out
+      -o-transition: transform 600ms ease-in-out, color 550ms ease-in-out
+      transition: transform 600ms ease-in-out, color 550ms ease-in-out
+    .profile-img
+      width: 40px
+      height: 40px
+      margin-left: 50px
+      position: relative
+      -webkit-transform: translateY(0px)
+      -moz-transform: translateY(0px)
+      -ms-transform: translateY(0px)
+      -o-transform: translateY(0px)
+      transform: translateY(0px)
+      img
+        position: absolute
+        width: 100%
+        height: auto
+  .guest-links
+    position: absolute
+    right: 30px
+    margin-top: 25px
+    @include medium-screen-down
+      display: none
+    a
+      color: rgb(60, 60, 65)
+      letter-spacing: 1px
+      margin-left: 20px
+    .register-right-link
+      border: 3px solid #ec526d
+      padding: 12px 12px 10px 12px
+      -webkit-border-radius: .3em
+      -moz-border-radius: .3em
+      border-radius: .3em
+      color: #ec526d
+      &:hover
+        background: rgba(236,82,109, 0.1)
+        -webkit-transition: background 300ms ease-in-out
+        -moz-transition: background 300ms ease-in-out
+        -ms-transition: background 300ms ease-in-out
+        -o-transition: background 300ms ease-in-out
+        transition: background 300ms ease-in-out

@@ -1,7 +1,11 @@
 import React from 'react';
+import './explore.sass';
 import $ from 'jquery';
 import _ from 'lodash';
+import Link from 'next/link';
 import ReactGA from "react-ga";
+import Navbar from "../Navbar";
+import { Router } from '../../../routes';
 
 class Explore extends React.Component {
   constructor (props) {
@@ -17,16 +21,17 @@ class Explore extends React.Component {
       previousUserTags: [],
       skipIterator: 0,
       hideContentLoader: false,
-      personalityQuizzes: []
+      personalityQuizzes: [],
     }
   }
 
   async componentDidMount () {
+    const host = window.location.protocol + '//' + window.location.host;
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview('/explore');
     $(window).scrollTop(0);
 
-    fetch(`${window.location.host}/quizzes/featured?limit=5&skip=0`, {
+    fetch(`${host}/api/quizzes/featured?limit=5&skip=0`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json; charset=utf-8' }
     }).then((response) => {
@@ -37,7 +42,7 @@ class Explore extends React.Component {
       console.log(err);
     });
 
-    fetch(`${window.location.host}/quizzes/personality-quizzes`, {
+    fetch(`${host}/api/quizzes/personality-quizzes`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json; charset=utf-8' }
     }).then((response) => {
@@ -48,7 +53,7 @@ class Explore extends React.Component {
       console.log(err);
     });
 
-    fetch(`${window.location.host}/tags?limit=8&skipAmount=0`, {
+    fetch(`${host}/api/tags?limit=8&skipAmount=0`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json; charset=utf-8' }
     }).then((response) => {
@@ -66,7 +71,7 @@ class Explore extends React.Component {
           }, () => {
             for (let i = 0; i < this.state.previousUserTags.length; i++) {
               let stateKey = `topic${i + 1}Quizzes`;
-              fetch(`${window.location.host}/quizzes/quizzes-by-topic`, {
+              fetch(`${host}/api/quizzes/quizzes-by-topic`, {
                 method: 'POST',
                 body: JSON.stringify({ topic: shouldFetchUsersCustomizedExperience
                     ? this.state.previousUserTags[i]
@@ -95,23 +100,17 @@ class Explore extends React.Component {
     if (this.state[section].length >= 4) {
       return (
         <div className={`col large-one ${section}`}>
-          <Route render={({ history }) => (
-            <div onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI]._id, history )} style={{ background: `url(${this.state[section][quizI].quizImage}) center center no-repeat`, backgroundSize: 'cover' }} className="large-img" />
-          )} />
+          <div onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI]._id)} style={{ background: `url(${this.state[section][quizI].quizImage}) center center no-repeat`, backgroundSize: 'cover' }} className="large-img" />
+
           <div className="text-container">
             <div className="text-container">
-              <Route render={({ history }) => (
-                <h1 onClick={this.redirectToShowQuizPage.bind(this, this.state[section][quizI]._id, history)}>{ this.state[section][quizI].title }</h1>
-              )} />
+              <h1 onClick={this.redirectToShowQuizPage.bind(this, this.state[section][quizI]._id)}>{ this.state[section][quizI].title }</h1>
               <p>{ this.state[section][quizI].description }</p>
               <div className="tags">
                 <p className="user-name">
                   {this.state[section][quizI].tags.split(',').map((tag, i) => {
                     return (
-                      <Route render={({ history }) => (
-                        <span onClick={this.routeToTagPage.bind(this, tag, history)} key={i} className="span-color">{tag}</span>
-                      )}
-                      />
+                      <span onClick={this.routeToTagPage.bind(this, tag, history)} key={i} className="span-color">{tag}</span>
                     )
                   })}
                 </p>
@@ -128,56 +127,37 @@ class Explore extends React.Component {
       return (
         <div>
           <div className="item">
-            <Route render={({ history }) => (
-              <div onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI]._id, history )}
+              <div onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI]._id )}
                    style={{
                      background: `url(${ this.state[section][quizI].quizImage}) center center no-repeat`,
                      backgroundSize: 'cover'
                    }} className="side-img"/>
-            )} />
             <div className="text-container">
-              <Route render={({ history }) => (
-                <h1 onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI]._id, history)}>{this.state[section][quizI].title}</h1>
-              )} />
+              <h1 onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI]._id)}>{this.state[section][quizI].title}</h1>
+
               <p>{this.state[section][quizI].description}</p>
               <div className="tags">
-                <Route render={({ history }) => (
-                  <span onClick={ this.routeToTagPage.bind(this, this.state[section][quizI].tags.split(',')[0], history)} className="span-color">{this.state[section][quizI].tags.split(',')[0]}</span>
-                )}
-                />
+                <span onClick={ this.routeToTagPage.bind(this, this.state[section][quizI].tags.split(',')[0])} className="span-color">{this.state[section][quizI].tags.split(',')[0]}</span>
               </div>
             </div>
           </div>
           <div className="item">
-            <Route render={({ history }) => (
-              <div onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 1]._id, history )} style={{ background: `url(${this.state[section][quizI + 1].quizImage}) center center no-repeat`, backgroundSize: 'cover' }} className="side-img" />
-            )} />
+            <div onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 1]._id)} style={{ background: `url(${this.state[section][quizI + 1].quizImage}) center center no-repeat`, backgroundSize: 'cover' }} className="side-img" />
             <div className="text-container">
-              <Route render={({ history }) => (
-                <h1 onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 1]._id, history )}>{this.state[section][quizI + 1].title}</h1>
-              )} />
+              <h1 onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 1]._id )}>{this.state[section][quizI + 1].title}</h1>
               <p>{this.state[section][quizI + 1].description}</p>
               <div className="tags">
-                <Route render={({ history }) => (
-                  <span onClick={ this.routeToTagPage.bind(this, this.state[section][quizI + 1].tags.split(',')[0], history )} className="span-color">{this.state[section][quizI + 1].tags.split(',')[0]}</span>
-                )} />
+                <span onClick={ this.routeToTagPage.bind(this, this.state[section][quizI + 1].tags.split(',')[0] )} className="span-color">{this.state[section][quizI + 1].tags.split(',')[0]}</span>
               </div>
             </div>
           </div>
           <div className="item">
-            <Route render={({ history }) => (
-              <div onClick={this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 2]._id, history )} style={{background: `url(${this.state[section][quizI + 2].quizImage}) center center no-repeat`, backgroundSize: 'cover' }} className="side-img"/>
-            )} />
+            <div onClick={this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 2]._id )} style={{background: `url(${this.state[section][quizI + 2].quizImage}) center center no-repeat`, backgroundSize: 'cover' }} className="side-img"/>
             <div className="text-container">
-              <Route render={({ history }) => (
-                <h1 onClick={this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 2]._id, history )}>{this.state[section][quizI + 2].title}</h1>
-              )} />
+              <h1 onClick={this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 2]._id )}>{this.state[section][quizI + 2].title}</h1>
               <p>{this.state[section][quizI + 2].description}</p>
               <div className="tags">
-                <Route render={({ history }) => (
-                  <span onClick={this.routeToTagPage.bind(this, this.state[section][quizI + 2].tags.split(',')[0], history)} className="span-color">{this.state[section][quizI + 2].tags.split(',')[0]}</span>
-                )}
-                />
+                <span onClick={this.routeToTagPage.bind(this, this.state[section][quizI + 2].tags.split(',')[0])} className="span-color">{this.state[section][quizI + 2].tags.split(',')[0]}</span>
               </div>
             </div>
           </div>
@@ -190,17 +170,14 @@ class Explore extends React.Component {
     history.push(`/quiz/${quizId}`)
   }
 
-  routeToTagPage (tagName, history) {
-    history.push(`/tags/${tagName.toLowerCase()}`)
+  routeToTagPage (tagName) {
+    Router.pushRoute(`/category/${tagName}`)
   }
 
   renderTopTags () {
     if (this.state.topTags.length > 0) {
       return this.state.topTags.map(tag => (
-        <Route render={({ history }) => (
-          <p key={tag._id} onClick={this.routeToTagPage.bind(this, tag.name, history)}>{ tag.name }</p>
-        )}
-        />
+        <p key={tag._id} onClick={this.routeToTagPage.bind(this, _.kebabCase(tag.name))}>{ tag.name }</p>
       ))
     }
   }
@@ -214,9 +191,12 @@ class Explore extends React.Component {
             <img alt='underline' src="/static/images/icons/underline.svg" />
           </h1>
           <p>We offer the best quizzing experience there is! Sign Up Today!</p>
-          <NavLink to="/register">
-            <button>SIGN UP</button>
-          </NavLink>
+
+          <Link href="/register">
+            <a title="About Next Js">
+              <button>SIGN UP</button>
+            </a>
+          </Link>
         </div>
         <img alt='underline' className="underline underline2" src="/static/images/icons/squiggly.svg" />
       </div>
@@ -228,157 +208,108 @@ class Explore extends React.Component {
       return (
         <div className="featured-text-container">
           <div style={{ marginLeft: '0px' }} className="col featured-1">
-            <Route render={({ history }) => (
               <div onClick={
-                this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[0]._id, history )}
+                this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[0]._id )}
                    style={{
                      background: `url("${this.state.featuredQuizzes[0].quizImage}") center center no-repeat`,
                      backgroundSize: 'cover'
                    }} className="featured-1-img featured-img-1"/>
-            )}
-            />
             <div className="text-container">
-              <Route render={({ history }) => (
-                <h1 onClick={
-                  this.redirectToShowQuizPage.bind(
-                    this,
-                    this.state.featuredQuizzes[0]._id,
-                    history
-                  )}
-                >{this.state.featuredQuizzes[0].title}
-                </h1>
-              )}
-              />
+                <h1 onClick={this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[0]._id )}>{this.state.featuredQuizzes[0].title}</h1>
               <p>{this.state.featuredQuizzes[0].description}</p>
               <div className="tags">
                 {this.state.featuredQuizzes[0].tags.split(',').map((tag) => (
-                  <Route render={({ history }) => (
-                    <div>
-                      <img src="/static/images/icons/lightbulb.svg" />
-                      <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[0].tags, history)} className="span-color">
-                        {this.state.featuredQuizzes[0].tags}
-                      </span>
-                    </div>
-                  )}
-                  />
+                  <div>
+                    <img src="/static/images/icons/lightbulb.svg" />
+                    <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[0].tags)} className="span-color">
+                      {this.state.featuredQuizzes[0].tags}
+                    </span>
+                  </div>
                 ))}
               </div>
             </div>
           </div>
           <div className="col featured-2">
             <div className="featured-2-item">
-              <Route render={({ history }) => (
                 <div onClick={
-                  this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[1]._id, history )}
+                  this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[1]._id )}
                      style={{
                        background: `url("${this.state.featuredQuizzes[1].quizImage}") center center no-repeat`,
                        backgroundSize: 'cover'
                      }} className="side-img"/>
-              )}
-              />
               <div className="text-container">
-                <Route render={({ history }) => (
-                  <h1 onClick={
-                    this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[1]._id, history )}
-                  >{this.state.featuredQuizzes[1].title}</h1>
-                )}
-                />
+                <h1 onClick={
+                  this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[1]._id, history )}
+                >{this.state.featuredQuizzes[1].title}</h1>
                 <div className="tags">
-                  <Route render={({ history }) => (
-                    <div>
-                      <img src="/static/images/icons/lightbulb.svg" />
-                      <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[1].tags, history)} className="span-color">{this.state.featuredQuizzes[1].tags}</span>
-                    </div>
-                  )}
-                  />
+                  <div>
+                    <img src="/static/images/icons/lightbulb.svg" />
+                    <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[1].tags, history)} className="span-color">{this.state.featuredQuizzes[1].tags}</span>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="featured-2-item">
-              <Route render={({ history }) => (
-                <div onClick={
+              <div onClick={
+                this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[2]._id, history )}
+                   style={{
+                     background: `url("${this.state.featuredQuizzes[2].quizImage}") center center no-repeat`,
+                     backgroundSize: 'cover'
+                   }} className="side-img"/>
+
+              <div className="text-container">
+                <h1 onClick={
                   this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[2]._id, history )}
-                     style={{
-                       background: `url("${this.state.featuredQuizzes[2].quizImage}") center center no-repeat`,
-                       backgroundSize: 'cover'
-                     }} className="side-img"/>
-              )}
-              />
-              <div className="text-container">
-                <Route render={({ history }) => (
-                  <h1 onClick={
-                    this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[2]._id, history )}
-                  >{this.state.featuredQuizzes[2].title}</h1>
-                )}
-                />
+                >{this.state.featuredQuizzes[2].title}</h1>
                 <div className="tags">
-                  <Route render={({ history }) => (
-                    <div>
-                      <img src="/static/images/icons/lightbulb.svg" />
-                      <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[2].tags, history)} className="span-color">{this.state.featuredQuizzes[2].tags}</span>
-                    </div>
-                  )}
-                  />
+                  <div>
+                    <img src="/static/images/icons/lightbulb.svg" />
+                    <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[2].tags, history)} className="span-color">{this.state.featuredQuizzes[2].tags}</span>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="featured-2-item">
-              <Route render={({ history }) => (
-                <div onClick={
-                  this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[3]._id, history )}
-                     style={{
-                       background: `url("${this.state.featuredQuizzes[3].quizImage}") center center no-repeat`,
-                       backgroundSize: 'cover'
-                     }} className="side-img"/>
-              )}
-              />
+              <div onClick={
+                this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[3]._id, history )}
+                   style={{
+                     background: `url("${this.state.featuredQuizzes[3].quizImage}") center center no-repeat`,
+                     backgroundSize: 'cover'
+                   }} className="side-img"/>
+
               <div className="text-container">
-                <Route render={({ history }) => (
-                  <h1 onClick={
-                    this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[3]._id, history )}
-                  >{this.state.featuredQuizzes[3].title}</h1>
-                )}
-                />
+                <h1 onClick={
+                  this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[3]._id, history )}
+                >{this.state.featuredQuizzes[3].title}</h1>
+
                 <div className="tags">
-                  <Route render={({ history }) => (
-                    <div>
-                      <img src="/static/images/icons/lightbulb.svg" />
-                      <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[3].tags, history)} className="span-color">{this.state.featuredQuizzes[3].tags}</span>
-                    </div>
-                  )}
-                  />
+                  <div>
+                    <img src="/static/images/icons/lightbulb.svg" />
+                    <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[3].tags, history)} className="span-color">{this.state.featuredQuizzes[3].tags}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="col featured-1 featured-1-second">
-            <Route render={({ history }) => (
-              <div onClick={
-                this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[4]._id, history )}
-                   style={{
-                     background: `url("${this.state.featuredQuizzes[4].quizImage}") center center no-repeat`,
-                     backgroundSize: 'cover'
-                   }} className="featured-1-img"/>
-            )}
-            />
+            <div onClick={
+              this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[4]._id, history )}
+                 style={{
+                   background: `url("${this.state.featuredQuizzes[4].quizImage}") center center no-repeat`,
+                   backgroundSize: 'cover'
+                 }} className="featured-1-img"/>
             <div className="text-container featured-text-container-2">
-              <Route render={({ history }) => (
-                <h1 onClick={
-                  this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[4]._id, history )}
-                >{this.state.featuredQuizzes[4].title}
-                </h1>
-              )}
-              />
+              <h1 onClick={
+                this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[4]._id, history )}
+              >{this.state.featuredQuizzes[4].title}
+              </h1>
               <p>{this.state.featuredQuizzes[4].description}</p>
               <div className="tags">
                 {this.state.featuredQuizzes[4].tags.split(',').map((tag) => (
-                  <Route render={({ history }) => (
-                    <div>
-                      <img src="/static/images/icons/lightbulb.svg" />
-                      <span onClick={this.routeToTagPage.bind(this, tag, history)} className="span-color">{tag}</span>
-                    </div>
-                  )}
-                  />
+                  <div>
+                    <img src="/static/images/icons/lightbulb.svg" />
+                    <span onClick={this.routeToTagPage.bind(this, tag, history)} className="span-color">{tag}</span>
+                  </div>
                 ))}
               </div>
             </div>
@@ -416,12 +347,9 @@ class Explore extends React.Component {
       return Object.keys(recentlyPlayed).map(key =>
         <div>
           <div className="inside-slider">
-            <Route render={({ history }) => (
-              <div onClick={this.redirectToShowQuizPage.bind(this, recentlyPlayed[key]._id, history)}>
-                <h1>{recentlyPlayed[key].title}</h1>
-              </div>
-            )}
-            />
+            <div onClick={this.redirectToShowQuizPage.bind(this, recentlyPlayed[key]._id)}>
+              <h1>{recentlyPlayed[key].title}</h1>
+            </div>
           </div>
         </div>
       )
@@ -440,6 +368,7 @@ class Explore extends React.Component {
 
     return (
       <div>
+        <Navbar />
         <div id="explore">
           <div className="overlay">
             <img src="/static/images/icons/logo.svg" />
@@ -447,10 +376,7 @@ class Explore extends React.Component {
           <div className="upper-nav-tags">
             <div className="tags-container">
               { topTags }
-              <Route render={({ history }) => (
-                <p onClick={this.redirectToSeeMorePage.bind(this, history)}>MORE</p>
-              )}
-              />
+              <p onClick={this.redirectToSeeMorePage.bind(this)}>MORE</p>
             </div>
           </div>
 
@@ -469,11 +395,13 @@ class Explore extends React.Component {
               :
               contentLoader
             }
-            <NavLink to={`/tags/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[0].name === undefined ? this.state.previousUserTags[0] : this.state.previousUserTags[0].name : ''}`}>
-              <div className="see-all-links">
-                SEE ALL PERSONALITY QUIZZES
-              </div>
-            </NavLink>
+            <Link href={`/tags/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[0].name === undefined ? this.state.previousUserTags[0] : this.state.previousUserTags[0].name : ''}`}>
+              <a title="About Next Js">
+                <div className="see-all-links">
+                  SEE ALL PERSONALITY QUIZZES
+                </div>
+              </a>
+            </Link>
           </div>
 
           <img style={{ transform: 'translateY(-9px)' }} alt='underline' className="underline underline2 mobile-first-underline" src="/static/images/icons/squiggly.svg" />
@@ -484,16 +412,18 @@ class Explore extends React.Component {
               <img alt='featured image' src="/static/images/icons/star.svg" />
             </h1>
             {this.state.hideContentLoader ? featuredQuizzes : contentLoader}
-            <NavLink to={`/featured`}>
-              <div className="see-all-links">
-                SEE ALL
-              </div>
-            </NavLink>
+            <Link href={`/featured`}>
+              <a>
+                <div className="see-all-links">
+                  SEE ALL
+                </div>
+              </a>
+            </Link>
           </div>
 
           <img alt='underline' className="underline underline2 mobile-first-underline" src="/static/images/icons/squiggly.svg" />
 
-          { window.Auth.isAuthenticated ? null : signUpCTA }
+          { signUpCTA }
 
           <div className="tag-topic tag-topic1">
             <h1 className="tag-title">
@@ -514,12 +444,15 @@ class Explore extends React.Component {
               :
               contentLoader
             }
-            <NavLink to={`/tags/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[0].name === undefined ? this.state.previousUserTags[0] : this.state.previousUserTags[0].name : ''}`}>
-              <div className="see-all-links">
-                SEE ALL
-              </div>
-            </NavLink>
+            <Link href={`/tags/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[0].name === undefined ? this.state.previousUserTags[0] : this.state.previousUserTags[0].name : ''}`}>
+              <a>
+                <div className="see-all-links">
+                  SEE ALL
+                </div>
+              </a>
+            </Link>
           </div>
+
           <img alt='underline' className="underline underline2" src="/static/images/icons/squiggly.svg" />
 
           <div style={{ background: `url("/static/images/icons/likeusonfacebook.svg") center center no-repeat`, backgroundSize: 'cover', transform: 'translateY(10px)' }} className="sign-up-cta facebook-cta">
@@ -553,11 +486,13 @@ class Explore extends React.Component {
               :
               contentLoader
             }
-            <NavLink to={`/tags/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[1].name === undefined ? this.state.previousUserTags[1] : this.state.previousUserTags[1].name : ''}`}>
-              <div className="see-all-links">
-                SEE ALL
-              </div>
-            </NavLink>
+            <Link href={`/tags/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[1].name === undefined ? this.state.previousUserTags[1] : this.state.previousUserTags[1].name : ''}`}>
+              <a>
+                <div className="see-all-links">
+                  SEE ALL
+                </div>
+              </a>
+            </Link>
           </div>
 
           <img alt='underline' className="underline underline2" src="/static/images/icons/squiggly.svg" />
@@ -581,11 +516,13 @@ class Explore extends React.Component {
               :
               contentLoader
             }
-            <NavLink to={`/tags/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[2].name === undefined ? this.state.previousUserTags[2] : this.state.previousUserTags[2].name : ''}`}>
-              <div className="see-all-links">
-                SEE ALL
-              </div>
-            </NavLink>
+            <Link href={`/tags/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[2].name === undefined ? this.state.previousUserTags[2] : this.state.previousUserTags[2].name : ''}`}>
+              <a>
+                <div className="see-all-links">
+                  SEE ALL
+                </div>
+              </a>
+            </Link>
           </div>
 
           <img style={{ transform: 'translateY(15px)' }} alt='underline' className="underline underline2" src="/static/images/icons/squiggly.svg" />
@@ -596,9 +533,11 @@ class Explore extends React.Component {
               <img alt='underline' src="/static/images/icons/underline.svg" />
             </h1>
             <p>Want to create your own personalized quiz? Go for it!</p>
-            <NavLink to="/create-quiz">
-              <button>Create</button>
-            </NavLink>
+            <Link href="/create-quiz">
+              <a>
+                <button>Create</button>
+              </a>
+            </Link>
           </div>
 
 
@@ -623,11 +562,13 @@ class Explore extends React.Component {
               :
               contentLoader
             }
-            <NavLink to={`/tags/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[3].name === undefined ? this.state.previousUserTags[3] : this.state.previousUserTags[3].name : ''}`}>
-              <div className="see-all-links">
-                SEE ALL
-              </div>
-            </NavLink>
+            <Link href={`/tags/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[3].name === undefined ? this.state.previousUserTags[3] : this.state.previousUserTags[3].name : ''}`}>
+              <a>
+                <div className="see-all-links">
+                  SEE ALL
+                </div>
+              </a>
+            </Link>
           </div>
 
           <img alt='underline' className="underline underline2" src="/static/images/icons/squiggly.svg" />
@@ -652,11 +593,13 @@ class Explore extends React.Component {
               :
               contentLoader
             }
-            <NavLink to={`/tags/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[4].name === undefined ? this.state.previousUserTags[4] : this.state.previousUserTags[4].name : ''}`}>
-              <div className="see-all-links">
-                SEE ALL
-              </div>
-            </NavLink>
+            <Link to={`/tags/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[4].name === undefined ? this.state.previousUserTags[4] : this.state.previousUserTags[4].name : ''}`}>
+              <a>
+                <div className="see-all-links">
+                  SEE ALL
+                </div>
+              </a>
+            </Link>
           </div>
 
           <img alt='underline' className="underline underline2" src="/static/images/icons/squiggly.svg" />

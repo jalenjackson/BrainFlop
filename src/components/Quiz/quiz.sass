@@ -1,0 +1,179 @@
+@import ../../sass/mixins/material.sass
+@import ../../sass/mixins/breakpoints.sass
+
+#quiz-show-page
+  .card
+    width: 50%
+    height: 320px
+    -webkit-border-radius: .5em
+    -moz-border-radius: .5em
+    border-radius: .5em
+    @include medium-screen-down
+      -webkit-border-radius: 1.7em
+      -moz-border-radius: 1.7em
+      border-radius: 1.7em
+    @include create-quiz-modal-box-shadow
+    display: block
+    margin: 0 auto
+    -webkit-transform: translateY(-100px)
+    -moz-transform: translateY(-100px)
+    -ms-transform: translateY(-100px)
+    -o-transform: translateY(-100px)
+    transform: translateY(-100px)
+    margin-top: 20px
+    background: white
+    text-align: center
+    position: relative
+    border-top: 3px solid #ce344f
+    @include medium-screen-down
+      width: 85%
+    img
+      width: 120px
+      height: auto
+      margin-top: 30px
+    h1
+      letter-spacing: 1.3px
+      font-size: 15px
+      margin-top: 35px
+      line-height: 27px
+    button
+      @include button(200px, 50px, #ec526d)
+      @include medium-screen-down
+        @include mobile-button(70%, 45px, white, #ec526d)
+        font-size: 12px
+      &:after
+        @include button-after(#ce344f)
+        @include medium-screen-down
+          display: none
+    p
+      font-size: 14px
+      font-family: QuizOpFont, sans-serif
+      padding-left: 15px
+      padding-right: 15px
+  .card2
+    height: 375px
+  .quiz-data-container
+    margin-top: 70px
+    text-align: center
+    background: rgb(255, 240, 240)
+    height: 60vh
+    overflow: hidden
+    position: relative
+    .topic-loader
+      position: absolute
+      left: 0
+      top: 0
+      width: 100%
+      height: 100%
+      background: #f6f7f8
+      z-index: 0
+      .topic-header-img
+        width: 20%
+        display: block
+        position: absolute
+        left: 0
+        right: 0
+        bottom: 0
+        top: -50px
+        margin: auto
+    .header-img
+      width: 100%
+      height: auto
+      position: absolute
+      left: 0
+      top: 0
+      filter: blur(35px)
+      -webkit-transform: scale(1.1)
+      -moz-transform: scale(1.1)
+      -ms-transform: scale(1.1)
+      -o-transform: scale(1.1)
+      transform: scale(1.1)
+      display: block
+    .quiz-data
+      margin-top: 50px
+      height: 60vh
+      @include flex
+      position: absolute
+      left: 0
+      top: -70px
+      width: 100%
+      height: 100%
+      justify-content: center
+      align-items: center
+      flex-direction: column
+      h1
+        font-size: 33px
+        padding-left: 50px
+        padding-right: 50px
+        font-family: SmallFont, sans-serif
+        letter-spacing: 2px
+        overflow-wrap: break-word
+        word-wrap: break-word
+        -ms-word-break: break-all
+        color: white
+        word-break: break-word
+        -ms-hyphens: auto
+        -moz-hyphens: auto
+        -webkit-hyphens: auto
+        line-height: 40px
+        margin-top: -50px
+      p
+        margin-top: -20px
+  .not-signed-in-container
+    position: fixed
+    z-index: 999999999999
+    left: 0
+    top: 70px
+    width: 100%
+    height: 100vh
+    background: rgba(0, 0, 0, 0.5)
+    @include flex
+    opacity: 0
+    justify-content: center
+    align-items: center
+    transition: opacity 350ms ease-in-out
+    pointer-events: none
+    @include medium-screen-down
+      top: 100px
+    .not-signed-in-online-modal
+      transform: translate(0, -50px)
+      left: 0
+      right: 0
+      margin: auto
+      background: white
+      @include create-quiz-modal-box-shadow
+      width: 30%
+      height: 70vh
+      border-radius: .5em
+      position: relative
+      @include flex
+      justify-content: center
+      flex-direction: column
+      @include medium-screen-down
+        width: 90%
+      .top-header-img
+        width: 200px
+        display: block
+        margin: 0 auto
+      .close
+        position: absolute
+        right: 20px
+        top: -30px
+        width: 60px
+        height: auto
+        cursor: pointer
+      h1
+        width: 80%
+        display: block
+        margin: 0 auto
+        font-size: 15px
+        line-height: 33px
+        color: rgb(60, 60,65)
+        margin-top: 30px
+        font-family: SmallFont, sans-serif
+      button
+        display: block
+        margin: 0 auto
+        margin-top: 30px
+
+

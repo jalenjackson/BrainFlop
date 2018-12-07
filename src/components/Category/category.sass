@@ -1,0 +1,212 @@
+@import ../../sass/mixins/material
+@import ../../sass/mixins/breakpoints.sass
+
+#tags
+  width: 100%
+  display: block
+  margin: 0 auto
+  height: 100vh
+  margin-top: 70px
+  .all-tags-header
+    margin-top: 140px
+  .search-header
+    width: 100%
+    height: 100%
+    position: absolute
+    left: 0
+    top: 0
+    flex-wrap: wrap
+  .topic-header
+    width: 100%
+    height: 450px
+    background: url('/static/images/background-images/computer-desk.jpg') center center no-repeat
+    background-size: cover
+    margin-top: 71px
+    position: relative
+    @include flex
+    justify-content: center
+    align-items: center
+    @include small-screen
+      background: url('/static/images/background-images/green-blue-gradient.svg') center center no-repeat
+      background-size: cover
+    .topic-loader
+      width: 100%
+      height: 100%
+      position: absolute
+      left: 0
+      top: 0
+      background: #f6f7f8
+    .text-container
+      position: relative
+      h1
+        color: rgb(60, 60, 65)
+        font-size: 50px
+        text-align: center
+        margin-top: 0px
+        text-transform: uppercase
+        letter-spacing: 1.4px
+        position: relative
+        @include small-screen
+          font-size: 27px
+          color: white
+          width: 90%
+          display: block
+          margin: 0 auto
+          margin-top: 0px
+      .personality-h1
+        @include small-screen
+          color: black
+      img
+        position: relative
+        width: 100%
+        height: auto
+        display: block
+        margin: 0 auto
+        margin-top: -20px
+        @include small-screen
+          filter: invert(100%)
+      p
+        color: rgb(60, 60, 65)
+        font-size: 17px
+        font-family: SmallFont, sans-serif
+        margin-top: 0px
+        text-align: center
+        margin-top: -30px
+        @include small-screen
+          font-size: 16px
+          color: white
+          width: 90%
+          display: block
+          margin: 0 auto
+    button
+      @include button(200px, 50px, #2FDC7F)
+      display: block
+      margin: 0 auto
+      margin-top: 35px
+      &::after
+        @include button-after(rgba(117,290,197, 1))
+    img
+      position: absolute
+      left: 0
+      top: 0
+      height: 100%
+      width: auto
+  #quizzes
+    display: block
+    margin: 0 auto
+    width: 70%
+    @include medium-screen-down
+      width: 95%
+    .quizzes-header
+      font-size: 20px
+      -webkit-transform: translate(17px, 45px)
+      -moz-transform: translate(17px, 45px)
+      -ms-transform: translate(17px, 45px)
+      -o-transform: translate(17px, 45px)
+      transform: translate(17px, 45px)
+      color: rgb(72, 72, 72)
+      letter-spacing: 0.5px
+      @include small-screen
+        width: 90%
+        font-size: 17px
+        -webkit-transform: translate(4px, 5px)
+        -moz-transform: translate(4px, 5px)
+        -ms-transform: translate(4px, 5px)
+        -o-transform: translate(4px, 5px)
+        transform: translate(4px, 5px)
+    .quizzes
+      margin-top: 0
+      display: block
+      @include flex
+      flex-wrap: wrap
+      .col
+        width: 30.5%
+        -webkit-border-radius: .3em
+        -moz-border-radius: .3em
+        border-radius: .3em
+        margin-left: 20px
+        position: relative
+        margin-top: 25px
+        flex-direction: column
+        padding-bottom: 10px
+        -webkit-transform: translateY(30px)
+        -moz-transform: translateY(30px)
+        -ms-transform: translateY(30px)
+        -o-transform: translateY(30px)
+        transform: translateY(30px)
+        @include small-screen
+          margin-left: 0px
+          margin-top: 10px
+          width: 100%
+        .quiz-img
+          width: 100%
+          height: 150px
+          -webkit-border-radius: .2em
+          -moz-border-radius: .2em
+          border-radius: .2em
+          cursor: pointer
+        .text-container
+          margin-left: 1px
+          margin-top: 9px
+          h1
+            font-size: 18px
+            color: rgb(80, 80, 80)
+            cursor: pointer
+          p
+            font-size: 13px
+            margin-top: -5px
+            font-family: SmallFont, sans-serif
+  .pagination-loader
+    position: fixed
+    bottom: 10px
+    left: 0
+    right: 0
+    margin: auto
+    width: 30px
+    height: 30px
+    background: rgb(255, 200, 200)
+    -webkit-border-radius: 100%
+    -moz-border-radius: 100%
+    border-radius: 100%
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
+    -webkit-transform: translate3d(0, 200%, 0)
+    -moz-transform: translate3d(0, 200%, 0)
+    -ms-transform: translate3d(0, 200%, 0)
+    -o-transform: translate3d(0, 200%, 0)
+    transform: translate3d(0, 200%, 0)
+    img
+      width: 100%
+      height: 100%
+
+.tags
+  margin-left: -5px
+  width: 90%
+  margin-top: 15px
+  span
+    font-size: 11px
+    letter-spacing: .3px
+    background: rgb(240, 240, 240)
+    padding: 5px 7px 3px 7px
+    font-family: QuizOpFont, sans-serif
+    margin-left: 5px
+    -webkit-border-radius: .5em
+    -moz-border-radius: .5em
+    border-radius: .5em
+  .span-color
+    color: rgb(60, 60, 65)
+    cursor: pointer
+.see-all-link
+  color: #119DF9
+.all-tags-img
+  background: white
+  @include create-quiz-modal-box-shadow
+  @include flex
+  justify-content: center
+  align-items: center
+  -webkit-transition: background 350ms ease-in-out
+  -moz-transition: background 350ms ease-in-out
+  -ms-transition: background 350ms ease-in-out
+  -o-transition: background 350ms ease-in-out
+  transition: background 350ms ease-in-out
+  &:hover
+    background: rgb(255, 240, 240)

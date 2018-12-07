@@ -4,8 +4,8 @@ import Head from 'next/head';
 const Index = () => (
   <section>
     <Head>
-      <title>Index page!</title>
-      <meta name="description" content="This index page is awesome" />
+      <title>BrainFlop - Quizzes You Need And Love</title>
+      <meta name="description" content="" />
     </Head>
     <Explore />
   </section>

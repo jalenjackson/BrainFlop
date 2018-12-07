@@ -1,0 +1,44 @@
+@mixin ease-in-or-ease-out-effect
+  transition: opacity 200ms ease-in-out, transform 600ms cubic-bezier(.12,1,.8,.97)
+
+@mixin transition-delay($time)
+  -webkit-transition-delay: $time
+  -moz-transition-delay: $time
+  -ms-transition-delay: $time
+  -o-transition-delay: $time
+  transition-delay: $time
+
+@mixin translate3d($x, $y, $z)
+  -webkit-transform: translate3d($x, $y, $z)
+  -moz-transform: translate3d($x, $y, $z)
+  -ms-transform: translate3d($x, $y, $z)
+  -o-transform: translate3d($x, $y, $z)
+  transform: translate3d($x, $y, $z)
+
+@mixin translate($x, $y)
+  -webkit-transform: translate($x, $y)
+  -moz-transform: translate($x, $y)
+  -ms-transform: translate($x, $y)
+  -o-transform: translate($x, $y)
+  transform: translate($x, $y)
+
+@mixin scale($v)
+  -webkit-transform: scale($v)
+  -moz-transform: scale($v)
+  -ms-transform: scale($v)
+  -o-transform: scale($v)
+  transform: scale($v)
+
+@mixin transition($string)
+  -webkit-transition: $string
+  -moz-transition: $string
+  -ms-transition: $string
+  -o-transition: $string
+  transition: $string
+
+@mixin rotate($v)
+  -webkit-transform: rotate($v)
+  -moz-transform: rotate($v)
+  -ms-transform: rotate($v)
+  -o-transform: rotate($v)
+  transform: rotate($v)

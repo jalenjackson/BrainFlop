@@ -5,7 +5,7 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
-          <title>Next Js Awesome</title>
+          <title>BrainFlop - Quizzes You Need And Love</title>
         </Head>
         <body>
           <Main />

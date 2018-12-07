@@ -1,0 +1,23 @@
+@import ~sass-mq
+
+$mq-breakpoints: (small-mobile: 100px, mobile: 320px, tablet: 740px, desktop: 1034px, wide: 1300px)
+
+@mixin small-screen
+  @include mq($from: mobile, $until: tablet)
+    @content
+
+@mixin medium-screen
+  @include mq($from: tablet, $until: desktop)
+    @content
+
+@mixin large-screen
+  @include mq($from: desktop, $until: wide)
+    @content
+
+@mixin medium-screen-down
+  @include mq($from: mobile, $until: desktop)
+    @content
+
+@mixin large-screen-down
+  @include mq($from: mobile, $until: desktop)
+    @content

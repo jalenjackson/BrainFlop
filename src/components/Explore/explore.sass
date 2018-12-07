@@ -1,0 +1,913 @@
+@import ../../sass/mixins/material.sass
+@import ../../sass/mixins/animation.sass
+@import ../../sass/mixins/breakpoints.sass
+
+#explore
+  width: 75%
+  height: auto
+  display: block
+  margin: 0 auto
+  margin-top: 100px
+  @include medium-screen-down
+    width: 100%
+  .overlay
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: 999999999999
+    background: rgba(240, 200, 200, 0.5)
+    -webkit-transition: opacity 350ms ease-in-out
+    -moz-transition: opacity 350ms ease-in-out
+    -ms-transition: opacity 350ms ease-in-out
+    -o-transition: opacity 350ms ease-in-out
+    transition: opacity 350ms ease-in-out
+    @include flex
+    justify-content: center
+    align-items: center
+    img
+      width: 100px
+      height: auto
+      -webkit-animation: animateLogo 850ms ease-in-out forwards infinite
+      -o-animation: animateLogo 850ms ease-in-out forwards infinite
+      animation: animateLogo 850ms ease-in-out forwards infinite
+  #quiz-modal
+    @include modal(100%, calc(100% - 70px))
+    background: rgba(117,290,197, 0.9)
+    z-index: 9
+    top: 70px
+    .text-container
+      @include absolute(0, 0, 0, 0)
+      margin: auto
+      width: 30%
+      height: 70%
+      background: white
+      @include create-quiz-modal-box-shadow
+      @include flex
+      justify-content: center
+      align-items: center
+      flex-direction: column
+      .item
+        width: 80%
+        display: block
+        margin: auto
+        cursor: pointer
+        height: 40%
+        background: rgb(245, 245, 245)
+        @include flex
+        justify-content: center
+        align-items: center
+        h1
+          font-size: 27px
+          text-transform: uppercase
+          letter-spacing: 1.5px
+          color: rgb(80, 80, 85)
+  .underline
+    width: 30%
+    height: auto
+    display: block
+    margin: 0 auto
+    -webkit-transform: translateY(10px)
+    -moz-transform: translateY(10px)
+    -ms-transform: translateY(10px)
+    -o-transform: translateY(10px)
+    transform: translateY(10px)
+    @include medium-screen-down
+      display: none
+  .underline2
+    -webkit-transform: translateY(20px)
+    -moz-transform: translateY(20px)
+    -ms-transform: translateY(20px)
+    -o-transform: translateY(20px)
+    transform: translateY(20px)
+    @include medium-screen-down
+      -webkit-transform: translateY(-10px)
+      -moz-transform: translateY(-10px)
+      -ms-transform: translateY(-10px)
+      -o-transform: translateY(-10px)
+      transform: translateY(-10px)
+  .mobile-first-underline
+    @include medium-screen-down
+      -webkit-transform: translateY(30px)
+      -moz-transform: translateY(30px)
+      -ms-transform: translateY(30px)
+      -o-transform: translateY(30px)
+      transform: translateY(30px)
+  .upper-nav-tags
+    position: relative
+    width: 100%
+    height: 50px
+    -webkit-transform: translateY(10px)
+    -moz-transform: translateY(10px)
+    -ms-transform: translateY(10px)
+    -o-transform: translateY(10px)
+    transform: translateY(10px)
+    @include medium-screen-down
+      display: block
+      margin-top: -9px
+    .tags-container
+      height: 50px
+      @include flex
+      justify-content: center
+      align-items: center
+      @include medium-screen-down
+        display: block
+        background: rgb(255, 245, 245)
+        white-space: nowrap
+        overflow-x: scroll
+      @include small-screen
+        background: white
+      p
+        margin-left: 30px
+        display: inline-block
+        font-family: QuizOpFont, sans-serif
+        font-size: 13px
+        cursor: pointer
+        position: relative
+        border-bottom: 3px solid transparent
+        color: rgb(60, 60, 65)
+        -webkit-transition: border 300ms ease-in-out
+        -moz-transition: border 300ms ease-in-out
+        -ms-transition: border 300ms ease-in-out
+        -o-transition: border 300ms ease-in-out
+        transition: border 300ms ease-in-out
+        text-transform: uppercase
+        letter-spacing: 1.5px
+        @include medium-screen-down
+          -webkit-transform: translateY(5px)
+          -moz-transform: translateY(5px)
+          -ms-transform: translateY(5px)
+          -o-transform: translateY(5px)
+          transform: translateY(5px)
+          padding-right: 10px
+        span
+          position: absolute
+          bottom: -12px
+          left: 0
+          font-size: 11px
+          color: black
+          font-family: SmallFont, sans-serif
+  .featured
+    position: relative
+    width: 95%
+    display: block
+    margin: 0 auto
+    background: white
+    min-height: 300px
+    @include create-quiz-modal-box-shadow
+    -webkit-border-radius: .3em
+    -moz-border-radius: .3em
+    border-radius: .3em
+    .see-all-links
+      margin-top: -10px
+    @include medium-screen-down
+      margin-top: 0px
+      width: 100%
+      box-shadow: none
+    @include small-screen
+      margin-top: -7px
+      width: 100%
+    .featured-title
+      font-size: 24px
+      color: rgb(60, 60, 65)
+      margin-left: 25px
+      -webkit-transform: translateY(13px)
+      -moz-transform: translateY(13px)
+      -ms-transform: translateY(13px)
+      -o-transform: translateY(13px)
+      transform: translateY(13px)
+      font-family: QuizOpFont, sans-serif
+      text-transform: uppercase
+      letter-spacing: 1.3px
+      @include small-screen
+        margin-left: 20px
+        color: rgb(100, 100, 100)
+        font-size: 20px
+      @include medium-screen
+        margin-left: 69px
+      img
+        width: 30px
+        height: auto
+        -webkit-transform: translate(5px, 5px)
+        -moz-transform: translate(5px, 5px)
+        -ms-transform: translate(5px, 5px)
+        -o-transform: translate(5px, 5px)
+        transform: translate(5px, 5px)
+        @include small-screen
+          width: 22px
+          -webkit-transform: translate(5px, 2.5px)
+          -moz-transform: translate(5px, 2.5px)
+          -ms-transform: translate(5px, 2.5px)
+          -o-transform: translate(5px, 2.5px)
+          transform: translate(5px, 2.5px)
+  .featured-text-container
+    position: relative
+    width: 95%
+    display: block
+    margin: 0 auto
+    height: 400px
+    @include flex
+    margin: 0 auto
+    margin-top: 30px
+    justify-content: space-between
+    padding-right: -20px
+    @include medium-screen-down
+      display: block
+      width: 95%
+      height: auto
+      margin-top: -20px
+    @include small-screen
+      width: 90%
+    .col
+      flex: 1
+      height: 100%
+      margin-left: 20px
+      @include small-screen
+        flex: none
+        width: 100%
+        display: block
+        margin: 0 auto
+    .featured-1
+      position: relative
+      @include medium-screen
+        padding-bottom: 40px
+        padding-top: 40px
+      @include small-screen
+        background: white
+        -webkit-border-radius: .2em
+        -moz-border-radius: .2em
+        border-radius: .2em
+        width: 100%
+        display: block
+        margin: 0 auto
+        margin-top: 50px
+        padding-bottom: 10px
+        padding-top: 40px
+        @include create-quiz-modal-box-shadow
+      .featured-text-container-2
+        @include medium-screen
+          margin-left: 7px !important
+          text-align: left
+      .featured-1-img
+        width: 100%
+        height: 200px
+        cursor: pointer
+        -webkit-border-radius: .3em
+        -moz-border-radius: .3em
+        border-radius: .3em
+        @include medium-screen
+          border-radius: 0
+        @include small-screen
+          width: 100%
+          display: block
+          margin: 0 auto
+          height: 200px
+          margin-top: -40px
+          -webkit-border-radius: 0
+          -moz-border-radius: 0
+          border-radius: 0
+          border-top-right-radius: .2em
+          border-top-left-radius: .2em
+        @include medium-screen
+          width: 50%
+          margin-left: 5px
+      .featured-img-1
+        @include medium-screen
+          margin-left: 48px
+      .text-container
+        margin-left: 2px
+        margin-top: 15px
+        @include small-screen
+          margin-left: 0px
+        @include medium-screen
+          margin-left: 50px
+        h1
+          text-transform: capitalize
+          font-size: 20px
+          color: rgb(60, 60, 65)
+          cursor: pointer
+          @include small-screen
+            margin-left: 20px
+            margin-top: 20px
+            width: 80%
+            color: rgb(80, 80, 80)
+            font-size: 17px
+            line-height: 27px
+          img
+            width: 20px
+            -webkit-transform: translate(5px, 6px)
+            -moz-transform: translate(5px, 6px)
+            -ms-transform: translate(5px, 6px)
+            -o-transform: translate(5px, 6px)
+            transform: translate(5px, 6px)
+            height: auto
+        p
+          font-family: SmallFont, sans-serif
+          font-size: 14px
+          margin-top: -5px
+          margin-right: 20px
+          @include small-screen
+            margin-left: 20px
+            width: 80%
+        .user-name
+          font-family: QuizOpFont, sans-serif
+          color: rgb(100, 100, 100)
+          margin-top: 30px
+          font-size: 14px
+        .tags
+          margin-left: -5px
+          @include small-screen
+            margin-left: 15px
+          @include medium-screen
+            margin-left: 0px
+    .featured-1-second
+      @include medium-screen
+        margin-left: 40px !important
+      @include small-screen
+        margin-top: 0px !important
+    .featured-2
+      box-shadow: none
+      @include medium-screen-down
+      .featured-2-item
+        height: 103px
+        -webkit-transform: translateY(-11px)
+        -moz-transform: translateY(-11px)
+        -ms-transform: translateY(-11px)
+        -o-transform: translateY(-11px)
+        transform: translateY(-11px)
+        position: relative
+        @include medium-screen-down
+          -webkit-transform: translate(0, 0)
+          -moz-transform: translate(0, 0)
+          -ms-transform: translate(0, 0)
+          -o-transform: translate(0, 0)
+          transform: translate(0, 0)
+          display: block
+          margin: 0 auto
+          width: 94%
+          margin-bottom: 20px
+        @include small-screen
+          @include create-quiz-modal-box-shadow
+          background: white
+          margin-top: 20px
+          width: 100%
+          -webkit-border-radius: .2em
+          -moz-border-radius: .2em
+          border-radius: .2em
+        .side-img
+          position: absolute
+          height: 100%
+          width: 30%
+          -webkit-border-radius: .3em
+          -moz-border-radius: .3em
+          border-radius: .3em
+          cursor: pointer
+          @include medium-screen-down
+            -webkit-border-radius: 0
+            -moz-border-radius: 0
+            border-radius: 0
+          @include small-screen
+            border-top-left-radius: .2em
+            border-bottom-left-radius: .2em
+        .text-container
+          margin-left: 36.5%
+          -webkit-transform: translateY(22px)
+          -moz-transform: translateY(22px)
+          -ms-transform: translateY(22px)
+          -o-transform: translateY(22px)
+          transform: translateY(22px)
+          .tags
+            margin-left: -5px
+          h1
+            font-size: 15px
+            cursor: pointer
+            color: rgb(60,60,65)
+            @include small-screen
+              color: rgb(80, 80, 80)
+              font-size: 13px
+              width: 90%
+              letter-spacing: .4px
+          p
+            font-size: 13px
+  .tag-topic
+    width: 95%
+    display: block
+    margin: 0 auto
+    background: white
+    border-radius: .5em
+    margin-top: 50px
+    padding-top: 6px
+    min-height: 300px
+    position: relative
+    overflow: hidden
+    @include create-quiz-modal-box-shadow
+    @include small-screen
+      box-shadow: none
+      width: 90%
+      margin-top: 30px
+      height: auto
+      padding-bottom: 120px
+      background: none
+    @include medium-screen
+      margin-left: 0
+      box-shadow: none
+      background: none
+    .see-all-links
+      @include small-screen
+        width: 95%
+    .slick-list
+      width: 90%
+      display: block
+      margin: 0 auto
+      position: relative
+      margin-top: 40px
+      img
+        -webkit-border-radius: .5em
+        -moz-border-radius: .5em
+        border-radius: .5em
+      .slick-prev
+        position: absolute
+        left: -100px
+        width: 60px
+        z-index: 999999
+        height: 60px
+        background: green
+      .slick-slide, .slick-slide *
+        outline: none !important
+      .slick-slide
+        width: 20%
+        cursor: pointer
+        height: 180px
+        -webkit-transform: translateY(-20px)
+        -moz-transform: translateY(-20px)
+        -ms-transform: translateY(-20px)
+        -o-transform: translateY(-20px)
+        transform: translateY(-20px)
+        position: relative
+        .inside-slider
+          width: 70%
+          position: absolute
+          height: 100%
+          left: 0
+          top: 0
+          right: 0
+          bottom: 0
+          margin: auto
+          background: rgb(255, 245, 245)
+          @include flex
+          justify-content: center
+          align-items: center
+          @include create-quiz-modal-box-shadow
+        .recently-played-header-image
+          -webkit-border-radius: .5em
+          -moz-border-radius: .5em
+          border-radius: .5em
+          height: 20vh
+          width: 90%
+          cursor: pointer
+        h1
+          font-size: 17px
+          color: rgb(90, 90, 95)
+          text-align: center
+          letter-spacing: 1px
+          width: 85%
+          display: block
+          margin: 0 auto
+    .tag-title
+      font-size: 24px
+      color: rgb(60, 60, 65)
+      margin-left: 50px
+      -webkit-transform: translateY(13px)
+      -moz-transform: translateY(13px)
+      -ms-transform: translateY(13px)
+      -o-transform: translateY(13px)
+      transform: translateY(13px)
+      font-family: QuizOpFont, sans-serif
+      text-transform: uppercase
+      letter-spacing: 1.3px
+      @include small-screen
+        margin-left: 7px
+        margin-top: 0px
+        color: rgb(100, 100, 100)
+        font-size: 20px
+      @include medium-screen
+        margin-left: 72px
+      img
+        width: 30px
+        height: auto
+        -webkit-transform: translate(5px, 5px)
+        -moz-transform: translate(5px, 5px)
+        -ms-transform: translate(5px, 5px)
+        -o-transform: translate(5px, 5px)
+        transform: translate(5px, 5px)
+    .tag-topic-text-container
+      position: relative
+      width: 95%
+      display: block
+      margin: 0 auto
+      height: 400px
+      @include flex
+      margin: 0 auto
+      margin-top: 30px
+      justify-content: space-between
+      padding-right: -20px
+      @include medium-screen-down
+        display: block
+        width: 100%
+        height: auto
+      .col
+        height: 100%
+        margin-left: 25px
+        @include medium-screen-down
+          flex: none
+          width: 92%
+          display: block
+          margin: 0 auto
+      .large-one
+        flex: 3
+        height: 100%
+        @include small-screen
+          background: white
+          -webkit-border-radius: .2em
+          -moz-border-radius: .2em
+          border-radius: .2em
+          @include create-quiz-modal-box-shadow
+          width: 97%
+        .large-img
+          width: 100%
+          height: 200px
+          cursor: pointer
+          -webkit-border-radius: .3em
+          -moz-border-radius: .3em
+          border-radius: .3em
+          @include medium-screen
+            width: 50%
+            margin-left: 35px
+            -webkit-border-radius: 0
+            -moz-border-radius: 0
+            border-radius: 0
+          @include small-screen
+            -webkit-border-radius: 0
+            -moz-border-radius: 0
+            border-radius: 0
+            border-top-right-radius: .2em
+            border-top-left-radius: .2em
+        .text-container
+          margin-left: 2px
+          margin-top: 25px
+          @include small-screen
+            margin-left: 10px
+          h1
+            text-transform: capitalize
+            font-size: 20px
+            color: rgb(90,90,90)
+            cursor: pointer
+            @include medium-screen
+              margin-left: 30px
+            @include small-screen
+              width: 80%
+              color: rgb(80, 80, 80)
+              font-size: 17px
+              line-height: 27px
+          p
+            font-family: SmallFont, sans-serif
+            font-size: 15px
+            margin-right: 20px
+            margin-top: -5px
+            @include medium-screen
+              margin-left: 30px
+          .user-name
+            margin-top: 5px
+            margin-left: 0px
+            @include small-screen
+              margin-left: 0px
+            @include medium-screen
+              margin-left: 30px
+      .topic2Quizzes, .topic4Quizzes
+        @include medium-screen-down
+          margin-top: 40px
+
+      .small-multiple
+        width: 30%
+        flex: 2
+        height: 100%
+        @include medium-screen-down
+          width: 92%
+        @include small-screen
+          width: 97%
+          -webkit-border-radius: .6em
+          -moz-border-radius: .6em
+          border-radius: .6em
+        .item
+          height: 125.7px
+          -webkit-transform: translateY(-11px)
+          -moz-transform: translateY(-11px)
+          -ms-transform: translateY(-11px)
+          -o-transform: translateY(-11px)
+          transform: translateY(-11px)
+          position: relative
+          @include medium-screen-down
+            -webkit-transform: translate(0, 0)
+            -moz-transform: translate(0, 0)
+            -ms-transform: translate(0, 0)
+            -o-transform: translate(0, 0)
+            transform: translate(0, 0)
+            margin-left: 35px
+            padding-bottom: 40px
+          @include small-screen
+            background: white
+            -webkit-border-radius: .2em
+            -moz-border-radius: .2em
+            border-radius: .2em
+            @include create-quiz-modal-box-shadow
+            margin-top: 20px !important
+          @include small-screen
+            margin: 0
+            height: 60px
+          .side-img
+            position: absolute
+            height: 100%
+            width: 30%
+            -webkit-border-radius: .2em
+            -moz-border-radius: .2em
+            border-radius: .2em
+            cursor: pointer
+            @include medium-screen
+              -webkit-border-radius: 0
+              -moz-border-radius: 0
+              border-radius: 0
+            @include small-screen
+              -webkit-border-radius: 0
+              -moz-border-radius: 0
+              border-radius: 0
+              border-bottom-left-radius: .2em
+              border-top-left-radius: .2em
+        .text-container
+          margin-left: 36.5%
+          -webkit-transform: translateY(19px)
+          -moz-transform: translateY(19px)
+          -ms-transform: translateY(19px)
+          -o-transform: translateY(19px)
+          transform: translateY(19px)
+          h1
+            font-size: 17px
+            color: rgb(90,90,90)
+            cursor: pointer
+            @include small-screen
+              width: 80%
+              font-size: 13px
+          p
+            font-size: 13px
+            margin-top: -4px
+            font-family: SmallFont, sans-serif
+            @include small-screen
+              display: none
+          .tags
+            @include small-screen
+              margin-top: 10px
+  .personality-quizzes
+    @include medium-screen-down
+      transform: translateY(10px)
+  .tag-topic2
+    @include small-screen
+      margin-top: -50px
+    @include medium-screen
+      margin-top: -30px
+  .tag-topic1
+    @include medium-screen
+      margin-top: -10px
+    @include small-screen
+      margin-top: 70px
+  .sign-up-cta
+    width: 95%
+    height: 320px
+    display: block
+    background: url('/static/images/cta/welcome-cta.svg') center center no-repeat
+    background-size: cover
+    position: relative
+    text-align: center
+    color: black
+    -webkit-border-radius: .5em
+    -moz-border-radius: .5em
+    border-radius: .5em
+    cursor: pointer
+    margin: 0 auto
+    @include small-screen
+      width: 90%
+      margin-top: -50px
+    @include medium-screen
+      width: 100%
+      margin: 0
+      height: 350px
+      -webkit-border-radius: 0
+      -moz-border-radius: 0
+      border-radius: 0
+    h1
+      text-align: center
+      font-size: 40px
+      font-family: SmallFont, sans-serif
+      -webkit-transform: translateY(65px)
+      -moz-transform: translateY(65px)
+      -ms-transform: translateY(65px)
+      -o-transform: translateY(65px)
+      transform: translateY(65px)
+      color: white
+      @include medium-screen-down
+        font-size: 30px
+        width: 80%
+        display: block
+        margin: 0 auto
+      img
+        display: block
+        margin: 0 auto
+        width: 100%
+        margin-top: 37px
+        filter: invert(100%)
+        @include medium-screen-down
+          display: none
+    p
+      width: 40%
+      font-family: SmallFont, sans-serif
+      line-height: 25px
+      -webkit-transform: translateY(80px)
+      -moz-transform: translateY(80px)
+      -ms-transform: translateY(80px)
+      -o-transform: translateY(80px)
+      transform: translateY(80px)
+      color: white
+      display: block
+      margin: 0 auto
+      @include small-screen
+        font-size: 14px
+        width: 80%
+        display: block
+        margin: 0 auto
+      @include medium-screen
+        margin-top: 30px
+    img
+      position: absolute
+      top: 0
+      left: 0
+      height: 100%
+      width: auto
+    button
+      -webkit-transform: translateY(100px)
+      -moz-transform: translateY(100px)
+      -ms-transform: translateY(100px)
+      -o-transform: translateY(100px)
+      transform: translateY(100px)
+      @include button(200px, 50px, #ec526d)
+      @include medium-screen-down
+        @include mobile-button(170px, 40px, white, #ec526d)
+        text-transform: uppercase
+        letter-spacing: 1px
+      &:after
+        @include button-after(white)
+        @include medium-screen-down
+          display: none
+  .facebook-cta
+    @include medium-screen
+      margin-bottom: 20px
+      transform: translateY(0px) !important
+    @include small-screen
+      margin-top: -40px
+      margin-bottom: 40px
+      transform: translateY(0px) !important
+  .create-quiz-cta
+    margin-top: 30px
+    background: rgb(30, 30, 30) url('/static/images/cta/create-quiz-cta.svg') center center no-repeat
+    background-size: 100% 862px
+    background-position: 0 0
+    height: 720px
+    @include medium-screen-down
+      height: 350px
+    @include small-screen
+      margin-top: -20px
+    button
+      -webkit-transform: translateY(93px)
+      -moz-transform: translateY(93px)
+      -ms-transform: translateY(93px)
+      -o-transform: translateY(93px)
+      transform: translateY(93px)
+    h1
+      @include medium-screen-down
+        width: 80%
+        display: block
+        margin: 0 auto
+        padding-bottom: 25px
+.tags
+  width: 90%
+  span
+    font-size: 12px
+    letter-spacing: 1px
+    background: rgb(255, 245, 245)
+    text-transform: capitalize
+    padding: 6px 7px 3px 7px
+    font-family: QuizOpFont, sans-serif
+    margin-left: 0px
+    border-radius: .5em
+    display: inline-block
+    -webkit-transform: translate(-2px, -6.5px)
+    -moz-transform: translate(-2px, -6.5px)
+    -ms-transform: translate(-2px, -6.5px)
+    -o-transform: translate(-2px, -6.5px)
+    transform: translate(-2px, -6.5px)
+    @include medium-screen
+      margin-left: 0px
+  img
+    width: 15px
+    height: auto
+    -webkit-transform: translate(-3px, -1px)
+    -moz-transform: translate(-3px, -1px)
+    -ms-transform: translate(-3px, -1px)
+    -o-transform: translate(-3px, -1px)
+    transform: translate(-3px, -1px)
+    margin-left: 7px
+    @include medium-screen
+      margin-left: 5px
+  .span-color
+    color: rgb(60, 60, 65)
+    cursor: pointer
+
+.see-all-links
+  width: 100%
+  height: 50px
+  background: rgb(255,245,245)
+  margin-top: 30px
+  border-bottom-left-radius: .5em
+  border-bottom-right-radius: .5em
+  color: rgb(90, 90, 95) !important
+  @include flex
+  justify-content: center
+  align-items: center
+  display: none
+  @include small-screen
+    color: white !important
+  @include small-screen
+    width: 90%
+    display: block
+    margin: 0 auto
+    transform: translateY(40px)
+    background: #EA4B6C
+    -webkit-border-radius: .3em
+    -moz-border-radius: .3em
+    border-radius: .3em
+    box-shadow: 0px 5px 15px 5px rgba(234,75,108, .5)
+  @include medium-screen
+    margin-left: 70px
+    width: 200px
+    margin-bottom: 30px
+    -webkit-border-radius: .6em
+    -moz-border-radius: .6em
+    border-radius: .6em
+  a
+    font-size: 20px
+    letter-spacing: 1.4px
+    -webkit-transform: translateY(1.5px)
+    -moz-transform: translateY(1.5px)
+    -ms-transform: translateY(1.5px)
+    -o-transform: translateY(1.5px)
+    transform: translateY(1.5px)
+    @include small-screen
+      color: white
+      font-size: 15px
+      letter-spacing: .6px
+.explore-footer
+  position: relative
+  width: 100%
+  height: 100px
+  margin-top: 70px
+  background: rgb(255, 230, 230)
+  display: flex
+  justify-content: center
+  align-items: center
+  h1
+    font-size: 15px
+    letter-spacing: 1px
+    color: white
+    font-family: SmallFont, sans-serif
+    width: 80%
+    display: block
+    margin: 0 auto
+    line-height: 25px
+
+@keyframes animateLogo
+  0%
+    -webkit-transform: scale(1)
+    -moz-transform: scale(1)
+    -ms-transform: scale(1)
+    -o-transform: scale(1)
+    transform: scale(1)
+  50%
+    -webkit-transform: scale(1.2)
+    -moz-transform: scale(1.2)
+    -ms-transform: scale(1.2)
+    -o-transform: scale(1.2)
+    transform: scale(1.2)
+  100%
+    -webkit-transform: scale(1)
+    -moz-transform: scale(1)
+    -ms-transform: scale(1)
+    -o-transform: scale(1)
+    transform: scale(1)
