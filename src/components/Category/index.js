@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {Power3, TweenMax} from "gsap/all";
-import Navbar from "../Navbar";
 import $ from 'jquery';
+import { Router } from '../../../routes';
 import ReactGA from "react-ga";
 let host =  '';
-import './category.sass';
+import _ from 'lodash';
+let category = null;
 
 export default class CategoryComponent extends Component {
 
@@ -15,6 +16,7 @@ export default class CategoryComponent extends Component {
       skipIterator: 0,
       tagsRendered: false
     };
+    category = this.toTitleCase(this.props.router.query.slug.split('-').join(' '));
   }
 
   toTitleCase(str) {
@@ -30,11 +32,10 @@ export default class CategoryComponent extends Component {
     host = window.location.protocol + '//' + window.location.host;
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview(`/tags/general knowledge`);
-    $(window).scrollTop(0);
     document.addEventListener('scroll', this.trackScrolling);
     fetch(`${host}/api/quizzes/quizzes-by-topic`, {
       method: 'POST',
-      body: JSON.stringify({ topic: 'general knowledge', skipIterator: this.state.skipIterator }),
+      body: JSON.stringify({ topic: category, skipIterator: this.state.skipIterator }),
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
       },
@@ -67,12 +68,12 @@ export default class CategoryComponent extends Component {
   };
 
   async fetchMoreQuizzes() {
-    await this.setState({ skipIterator: this.state.skipIterator + 8 });
+    await this.setState({ skipIterator: this.state.skipIterator + 9 });
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
     fetch(`${host}/api/quizzes/quizzes-by-topic`, {
       method: 'POST',
       body: JSON.stringify({
-        topic: 'general knowledge',
+        topic: category,
         skipIterator: this.state.skipIterator,
       }),
       headers: {
@@ -95,31 +96,27 @@ export default class CategoryComponent extends Component {
     })
   }
 
-  navigateToTagPage (tagName, history) {
-    $(window).scrollTop(0);
-    history.push(`/tags/${tagName}`)
-  }
-
-  navigateToQuizPage (quizId, history, personalityResults) {
+  navigateToQuizPage (quizTitle, quizId, history, personalityResults) {
     if (personalityResults && personalityResults.length > 0) {
-      return history.push(`/quizzes/personality-quiz/${quizId}`)
+      $("html, body").animate({ scrollTop: 0 }, 350);
+      return Router.pushRoute(`/quiz/${this.spinalCase(quizTitle)}/${quizId}`)
     }
-    $(window).scrollTop(0);
-    history.push(`/quiz/${quizId}`)
+    $("html, body").animate({ scrollTop: 0 }, 350);
+    Router.pushRoute(`/quiz/${_.kebabCase(quizTitle)}/${quizId}`)
   }
 
   renderQuizzes() {
     if (this.state.quizzes.length > 0) {
       return this.state.quizzes.map((quiz) => (
           <div className="col">
-            <div onClick={this.navigateToQuizPage.bind(this, quiz._id, history, quiz.personalityResults)} className="quiz-img" style={{ background: `url(${quiz.quizImage}) center center no-repeat`, backgroundSize: 'cover' }} />
+            <div onClick={this.navigateToQuizPage.bind(this, quiz.title, quiz._id, history, quiz.personalityResults)} className="quiz-img" style={{ background: `url(${quiz.quizImage}) center center no-repeat`, backgroundSize: 'cover' }} />
             <div className="text-container">
-              <h1 onClick={this.navigateToQuizPage.bind(this, quiz._id, history, quiz.personalityResults)}>{ quiz.title }</h1>
+              <h1 onClick={this.navigateToQuizPage.bind(this, quiz.title, quiz._id, history, quiz.personalityResults)}>{ quiz.title }</h1>
               <p>{ quiz.description }</p>
               <div className="tags">
                 <p className="user-name">
                   { quiz.tags.split(',').map((tag) => (
-                      <span onClick={this.navigateToTagPage.bind(this, tag, history)} className="span-color">{tag}</span>
+                      <span onClick={this.navigateToQuizPage.bind(this, quiz.title, quiz._id, history, quiz.personalityResults)} className="span-color">{tag}</span>
                   )) }
                 </p>
               </div>
@@ -129,8 +126,9 @@ export default class CategoryComponent extends Component {
     }
   }
 
-  redirectToBuildQuizPage (history) {
-    history.push(`/create-quiz`)
+  redirectToBuildQuizPage () {
+    $("html, body").animate({ scrollTop: 0 }, 350);
+    Router.pushRoute(`/create-quiz`)
   }
 
   renderContentLoader () {
@@ -161,24 +159,23 @@ export default class CategoryComponent extends Component {
     const contentLoader = this.renderContentLoader();
 
     return (
-        <div id="tags">
-          <Navbar />
+        <div style={{ marginTop: '-20px' }} id="tags">
           <div className="topic-header">
             { this.state.quizzes.length > 0
                 ?
                 <div className="text-container">
-                  <h1>General Knowledge
+                  <h1>{category}
                     <img src='/static/images/icons/underline.svg' />
                   </h1>
-                  <p>All of the best General Knowledge quizzes</p>
-                  <button onClick={this.redirectToBuildQuizPage.bind(this, history)}>Build your own quiz</button>
+                  <p>All Of The Best {category} Quizzes</p>
+                  <button onClick={this.redirectToBuildQuizPage.bind(this)}>Build Your Own Quiz</button>
                 </div>
                 :
                 <div className='topic-loader' />
             }
           </div>
           <div id="quizzes">
-            <h1 className="quizzes-header">All <span style={{ color: '#17CF86' }}>{this.toTitleCase('General Knowledge')}</span> Quizzes</h1>
+            <h1 className="quizzes-header">All <span style={{ color: '#17CF86' }}>{category}</span> Quizzes</h1>
             {
               this.state.tagsRendered ?
                   <div className='quizzes'>

@@ -2,8 +2,12 @@ import Head from 'next/head';
 import fetch from 'isomorphic-unfetch';
 import { withRouter } from 'next/router';
 import QuizShowPage from '../src/components/Quiz'
+import Navbar from '../src/components/Navbar';
+import {checkAuthentication} from "../checkAuthentication";
+import _ from 'lodash';
+import React from "react";
 
-const Quiz = ({quiz, isPersonalityQuiz, router, pathName}) => (
+const Quiz = ({quiz, isPersonalityQuiz, router, pathName, userObject}) => (
     <section>
       <Head>
         <title>{toTitleCase(router.query.quizName.split('-').join(' '))} - BrainFlop</title>
@@ -29,15 +33,34 @@ const Quiz = ({quiz, isPersonalityQuiz, router, pathName}) => (
         <meta property="og:image" content={quiz.quizImage} />
         <link href={pathName} rel="canonical" />
       </Head>
-      <QuizShowPage />
+      <Navbar userObject={userObject ? userObject.userObject : null} isAuthenticated={userObject ? userObject.isAuthenticated : null} />
+      <QuizShowPage userObject={userObject ? userObject.userObject : null} isAuthenticated={userObject ? userObject.isAuthenticated : null} />
     </section>
 );
 
-Quiz.getInitialProps  = async ({ req }) => {
-  const res = await fetch(`http://localhost:3000/api/quizzes/${req.params[0].split('/')[3]}`);
+Quiz.getInitialProps  = async (req) => {
+  const isClient = typeof document !== 'undefined';
+
+  const getQuizId = isClient
+    ? req.query.quizId
+    : req.req.params[0].split('/')[3];
+
+  console.log(getQuizId);
+
+  const res = await fetch(`http://localhost:3000/api/quizzes/${getQuizId}`);
   const json = await res.json();
-  const pathName = `http://localhost:3000${req.params[0]}`;
-  return { quiz: json.quiz, isPersonalityQuiz: json.quiz.personalityResults.length > 0, pathName }
+  const pathName = isClient
+    ? window.location.href
+    : `http://localhost:3000${req.req.params[0]}`;
+
+  let resultObj = {};
+  if(!isClient) {
+    resultObj = checkAuthentication(req.req.headers.cookie);
+  }
+  resultObj.quiz = json.quiz;
+  resultObj.isPersonalityQuiz = json.quiz.personalityResults.length > 0;
+  resultObj.pathname = pathName;
+  return resultObj;
 };
 
 function toTitleCase(str) {

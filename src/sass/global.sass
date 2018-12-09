@@ -1,0 +1,51 @@
+@import ./mixins/material.sass
+@import ./mixins/breakpoints.sass
+
+
+@font-face
+  font-family: QuizOpFont
+  src: url("/static/fonts/QuizOpFont/quizOpFont.otf") format("opentype")
+@font-face
+  font-family: SmallFont
+  src: url("/static/fonts/QuizOpFont/smallFont.otf") format("opentype")
+@font-face
+  font-family: SmallFontBold
+  src: url("/static/fonts/QuizOpFont/smallFontBold.otf") format("opentype")
+
+html, body
+  margin: 0
+  padding: 0
+  -webkit-overflow-scrolling: touch
+  -ms-touch-action: manipulation
+  touch-action: manipulation
+html
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+.loader
+  @include modal(100%, 100%)
+  pointer-events: none
+  opacity: 0
+  background: rgba(0,0,0,0.3)
+
+h1, h2, h3, h4, h5, h6, a, li
+  font-family: QuizOpFont, sans-serif
+p, input, span
+  font-family: SmallFont, sans-serif
+a
+  text-decoration: none
+button
+  outline: none
+
+.fade-exit
+  display: none
+.fade-enter.fade-enter-active
+  opacity: 0
+.fade-enter-done
+  opacity: 1
+  -webkit-transition: opacity 300ms ease-in-out
+  -moz-transition: opacity 300ms ease-in-out
+  -ms-transition: opacity 300ms ease-in-out
+  -o-transition: opacity 300ms ease-in-out
+  transition: opacity 300ms ease-in-out
+.active-icon
+  filter: invert(100%)
+

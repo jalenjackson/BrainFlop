@@ -3,10 +3,11 @@ import $ from 'jquery';
 import TimelineMax from 'gsap/TimelineMax';
 import TweenMax, {Power4} from 'gsap/TweenMaxBase';
 import ReactGA from 'react-ga';
-import './quiz.sass';
-import Navbar from '../Navbar'
+import {Router} from "../../../routes";
+import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
 let quizId = null;
 let SplitText = null;
+let userData = {};
 
 export default class QuizShowPage extends React.Component {
   constructor (props) {
@@ -17,6 +18,8 @@ export default class QuizShowPage extends React.Component {
       userThatCreateTheQuiz: null,
       questionLength: 0
     };
+
+    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
   }
 
   componentDidMount () {
@@ -91,6 +94,7 @@ export default class QuizShowPage extends React.Component {
   }
 
   navigateToTagPage (tagName, history) {
+    Router.pushRoute(`/quiz/${tagName}`)
     history.push(`/tags/${tagName}`)
   }
 
@@ -104,17 +108,18 @@ export default class QuizShowPage extends React.Component {
     }
   }
 
-  redirect (location, history, quizData) {
+  redirect (location, quizData) {
     if (this.state.questionLength === 0) {
       alert(`${this.state.userThatCreateTheQuiz ? this.state.userThatCreateTheQuiz.name : ''} is still working on this quiz. Come back later when ${this.state.userThatCreateTheQuiz ? this.state.userThatCreateTheQuiz.name : ''} is finished.`)
     } else {
-      if ((location === 'online' || location === 'invite') && !window.Auth.isAuthenticated) {
+      if ((location === 'online' || location === 'invite') && !userData.isAuthenticated) {
         $('.not-signed-in-container').css({opacity: 1, pointerEvents: 'auto'});
         return this.renderNotSignedInOnlineModal()
       }
-      if (location === 'online') history.push(`/quizzes/traditional/${quizId}?quizTitle=${quizData.title}&quizDescription=${quizData.description}`)
-      if (location === 'alone') history.push(`/quizzes/play/${quizId}?quizTitle=${quizData.title}&quizDescription=${quizData.description}`)
-      if (location === 'invite') history.push(`/quizzes/traditional/${quizId}/${window.Auth.userObject.userId}?quizTitle=${quizData.title}&quizDescription=${quizData.description}`)
+      $("html, body").animate({ scrollTop: 0 }, 350);
+      if (location === 'online') Router.pushRoute(`/online/answer-choice/${_.kebabCase(quizData.title)}/${userData.userObject.userId}`);
+      if (location === 'alone') Router.pushRoute(`/single-player/answer-choice/${_.kebabCase(quizData.title)}/${quizId}`);
+      if (location === 'invite') Router.pushRoute(`/invite-friend/answer-choice/${_.kebabCase(quizData.title)}/${quizId}/${userData.userObject.userId}`);
     }
   }
 
@@ -136,7 +141,8 @@ export default class QuizShowPage extends React.Component {
   }
 
   redirectToUserProfile (history) {
-    history.push(`/profile/${this.state.userThatCreateTheQuiz._id}`)
+    $("html, body").animate({ scrollTop: 0 }, 350);
+    Router.pushRoute(`/profile/${_.kebabCase(this.state.userThatCreateTheQuiz.name)}/${this.state.userThatCreateTheQuiz._id}`)
   }
 
   render () {
@@ -145,7 +151,6 @@ export default class QuizShowPage extends React.Component {
 
     return (
         <div id="quiz-show-page">
-          <Navbar />
           {notSignedInOnlineModal}
           <div className="quiz-data-container">
             <img className="header-img" src={this.state.quizData ? this.state.quizData.quiz.quizImage : null} />

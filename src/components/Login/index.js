@@ -4,7 +4,8 @@ import FaceBookAuthentication from '../facebook-login';
 import Link from 'next/link';
 import $ from 'jquery';
 let SplitText = null;
-import './login.sass';
+import {Router} from '../../../routes';
+import Cookies from 'universal-cookie';
 let host = null;
 import ReactGA from 'react-ga';
 
@@ -27,7 +28,6 @@ class LoginComponent extends React.Component {
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview('/login');
     SplitText = require('../../gsap/SplitText').SplitText;
-    $(window).scrollTop(0);
     LoginComponent.init();
     host = window.location.protocol + '//' + window.location.host;
   }
@@ -54,13 +54,20 @@ class LoginComponent extends React.Component {
           dataType: 'json',
           success: (response) => {
             this.setState({ errorMessage: '' });
-            
+
+            const userObject = {
+              isAuthenticated: true,
+              userObject: response
+            };
+
+            const cookies = new Cookies();
+            cookies.set('userObject', userObject, { path: '/' });
+
             ReactGA.event({
               category: 'User',
               action: `${response.name} successfully logged in`
             });
-            console.log('logged in');
-            //history.push('/explore')
+            Router.pushRoute('/')
           },
           error: () => {
             ReactGA.event({
@@ -190,24 +197,6 @@ class LoginComponent extends React.Component {
         },
         0.03, '+=0')
   }
-}
-
-function mapDispatchToProps (dispatch) {
-  return {
-    loginUser: (userObject) => {
-      const action = {
-        type: LOGIN_USER,
-        userObject
-      }
-      dispatch(action)
-    }
-  }
-}
-
-function mapStateToProps (state) {
-  return {
-    auth: state.auth
-  };
 }
 
 export default LoginComponent

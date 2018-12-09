@@ -3,12 +3,14 @@ import $ from 'jquery'
 import TweenMax, {Power4} from 'gsap/TweenMaxBase';
 import TimelineMax from 'gsap/TimelineMax';
 import ReactGA from 'react-ga';
-import '../../sass/sharedQuizGame.sass'
-import Navbar from '../Navbar';
+import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
 let SplitText = null;
 let quizId = null;
 let myName = '';
 let host = '';
+import { Router } from '../../../routes';
+import Cookies from "universal-cookie";
+let userData = {};
 
 class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
   constructor (props) {
@@ -35,6 +37,8 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
       allAnswered: [],
       allAnswerCompare: [],
     };
+    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
+    console.log(userData)
   }
 
   tick () {
@@ -99,7 +103,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
     SplitText = require('../../gsap/SplitText').SplitText;
     ReactGA.initialize('UA-129744457-1')
     ReactGA.pageview(`/quizzes/play/${quizId}`);
-    myName = window.Auth.isAuthenticated ? window.Auth.userObject.name : 'Me';
+    myName = userData.isAuthenticated ? userData.userObject.name : 'Me';
     $('body').css({
       background: 'linear-gradient(rgb(255,245,245), rgb(200, 150, 150))',
       backgroundRepeat: 'no-repeat',
@@ -113,8 +117,8 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
       response.json().then((body) => {
         this.setState({ quizData: body.quiz }, () => {
           let event = `Anonymous is playing ${this.state.quizData.title}`
-          if (window.Auth.isAuthenticated) {
-            event = `${window.Auth.userObject.name} is playing ${this.state.quizData.title}`
+          if (userData.isAuthenticated) {
+            event = `${userData.userObject.name} is playing ${this.state.quizData.title}`
           }
           ReactGA.event({
             category: 'Answer Choice Quiz',
@@ -218,24 +222,27 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
                 const score = correctAnswers + '/' + totalQuestions;
                 const points = this.state.yourScore;
 
-                if (window.Auth.isAuthenticated) {
+                if (userData.isAuthenticated) {
                   fetch(`${host}/api/users/analytics`, {
                     method: 'POST',
                     headers: {
-                      'Authorization': `Bearer ${window.Auth.userObject.token}`,
+                      'Authorization': `Bearer ${userData.userObject.token}`,
                       'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                      userId: window.Auth.userObject.userId,
+                      userId: userData.userObject.userId,
                       score,
                       points
                     })
                   }).then((response) => {
                     response.json().then((body) => {
-                      localStorage.setItem('Token', body.token);
-                      window.Auth.userObject.token = body.token;
-                      window.Auth.userObject.overallScore = body.user.overallScore;
-                      window.Auth.userObject.points = body.user.points;
+                      const newCookie = {
+                        isAuthenticated: true,
+                        userObject: body.user
+                      };
+                      newCookie.userObject.token = body.token;
+                      const cookies = new Cookies();
+                      cookies.set('userObject', newCookie, { path: '/' });
                       if (this.state.yourScore > 0) {
                         $('.navbar-points').html(numberWithCommas(body.user.points)).css({ transform: 'translate(45px, 3px) scale(1.5)', color: '#2FDC7F' })
                         setTimeout(() => {
@@ -248,18 +255,18 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
                         fetch(`${host}/api/users/analytics`, {
                           method: 'POST',
                           headers: {
-                            'Authorization': `Bearer ${window.Auth.userObject.token}`,
+                            'Authorization': `Bearer ${userData.userObject.token}`,
                             'Content-Type': 'application/json'
                           },
                           body: JSON.stringify({
-                            userId: window.Auth.userObject.userId,
+                            userId: userData.userObject.userId,
                             isPerfectScore: true
                           })
                         }).then((response) => {
                           response.json().then((body) => {
                             localStorage.setItem('Token', body.token);
-                            window.Auth.userObject.token = body.token;
-                            window.Auth.userObject.numberOfPerfectScores = body.user.numberOfPerfectScores;
+                            userData.userObject.token = body.token;
+                            userData.userObject.numberOfPerfectScores = body.user.numberOfPerfectScores;
                           })
                         }).catch((err) => {
                           console.log(err)
@@ -431,7 +438,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
   redirectToAction (action, history) {
     action === 'again'
         ? window.location.reload()
-        : history.push('/explore')
+        : Router.pushRoute('/')
   }
 
   renderEndGameResults () {
@@ -450,7 +457,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
               <h1 className="grade"><span>{this.state.grade}</span></h1>
               <h1><img src='/static/images/icons/diamond.svg' />{this.state.yourScore} points</h1>
 
-              { !window.Auth.isAuthenticated ?
+              { !userData.isAuthenticated ?
                   <h2>
                     <span onClick={this.redirectToSignUp.bind(this)}>Sign Up</span>
                     to save your score and compete against others!

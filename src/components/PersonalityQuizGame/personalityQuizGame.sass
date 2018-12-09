@@ -1,0 +1,171 @@
+@import ../../sass/mixins/material.sass
+@import ../../sass/mixins/breakpoints.sass
+#personality-quiz-game
+  .results-modal-container
+    position: fixed
+    top: 71px
+    left: 76px
+    background: radial-gradient(rgb(238,88,103), #89216b)
+    z-index: 99
+    width: 100%
+    height: 100%
+    opacity: 0
+    pointer-events: none
+    transition: opacity 350ms ease-in-out
+    @include medium-screen-down
+      left: 0
+      top: 100px
+    .results-modal
+      position: fixed
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      margin: auto
+      background: white
+      @include create-quiz-modal-box-shadow
+      width: 30%
+      height: 40vh
+      z-index: 99
+      border-radius: .5em
+      @include medium-screen
+        width: 80%
+        height: 60vh
+      @include small-screen
+        width: 90%
+      .modal-header
+        text-align: center
+        margin-top: 10px
+        letter-spacing: 10px
+        text-transform: uppercase
+        color: rgb(100, 100, 100)
+        font-size: 17px
+        font-family: SmallFont, sans-serif
+      h2
+        text-align: center
+        color: rgb(80,80,80)
+        letter-spacing: 1px
+        width: 90%
+        display: block
+        margin: 0 auto
+        margin-top: 50px
+        @include small-screen
+          font-size: 17px
+          margin-top: 20px
+  #personality-quiz-play
+    width: 60%
+    height: auto
+    display: block
+    margin: 0 auto
+    margin-top: 130px
+    @include medium-screen
+      width: 85%
+    @include small-screen
+      width: 90%
+    .question-container
+      position: relative
+      margin-top: 70px
+    button
+      @include button(100.5%, 60px, linear-gradient(to right, #da4453, #89216b))
+      margin: 0
+      transform: translate(0)
+      margin-bottom: 50px
+      margin-top: 50px
+      font-size: 17px
+      letter-spacing: 1px
+      padding-top: 6px
+      font-family: SmallFont, sans-serif
+      border-radius: .5em
+      padding-left: 30px
+      padding-right: 30px
+      @include small-screen
+        font-size: 13px
+        margin-top: 20px
+    .title
+      background: linear-gradient(to right, #da4453, #89216b)
+      @include create-quiz-modal-box-shadow
+      letter-spacing: 1px
+      padding-top: 11px
+      padding-bottom: 11px
+      border-radius: .5em
+      h1
+        color: white
+        text-align: center
+        font-family: SmallFont, sans-serif
+        @include small-screen
+          font-size: 20px
+    .question-main-container
+      @include small-screen
+        transform: translateY(-20px)
+      .underline
+        width: 50%
+        transform: translateY(31px)
+        height: auto
+        display: block
+        margin: 0 auto
+        opacity: 0.5
+        @include small-screen
+          width: 100%
+      .question-container
+        background: white
+        padding-bottom: 30px
+        padding-left: 15px
+        padding-right: 15px
+        padding-top: 30px
+        @include create-quiz-modal-box-shadow
+        border-top: 5px solid #ec526d
+        border-radius: .5em
+        .question-image
+          width: auto
+          height: auto
+          max-width: 80%
+          max-height: 500px
+          display: block
+          margin: 0 auto
+          border-radius: .5em
+        h1
+          margin-top: 50px
+          margin-left: 10px
+          color: rgb(100, 100, 100)
+          font-size: 24px
+          letter-spacing: .5px
+          @include small-screen
+            font-size: 17px
+        .answer
+          background: white
+          @include create-quiz-modal-box-shadow
+          margin-left: 10px
+          margin-right: 10px
+          padding: 11px 5px 5px 5px
+          padding-left: 30px
+          margin-top: 10px
+          cursor: pointer
+          letter-spacing: 1px
+          @include small-screen
+            padding-left: 12px
+          p
+            font-size: 17px
+            color: rgb(150, 150, 150)
+            text-transform: capitalize
+            font-family: QuizOpFont, sans-serif
+            @include small-screen
+              font-size: 13px
+
+.selected-answer
+  animation: selectedAnswer 550ms ease-in-out forwards 1
+
+@keyframes selectedAnswer
+  0%
+    transform: scale(1)
+  50%
+    transform: scale(1.05)
+  70%
+    transform: scale(1)
+  90%
+    transform: scale(1.03)
+  95%
+    transform: scale(1.01)
+  100%
+    transform: scale(1)
+    background: #33DC65
+    color: white

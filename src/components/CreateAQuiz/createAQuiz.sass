@@ -1,0 +1,361 @@
+@import ../../sass/mixins/material.sass
+@import ../../sass/mixins/animation.sass
+@import ../../sass/mixins/breakpoints.sass
+
+#create-quiz
+  .bottom-background
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100vh
+    background: #ec526d
+    @include medium-screen-down
+      top: 0
+  .section
+    position: absolute
+    top: 70px
+    width: 100%
+    height: calc(100% - 70px)
+    display: block
+    .form
+      @include absolute(70px, 0, inherit, 0)
+      width: 70%
+      min-height: 50%
+      height: auto
+      background: white
+      margin: 0 auto
+      -webkit-border-radius: .3em
+      -moz-border-radius: .3em
+      border-radius: .3em
+      @include create-quiz-modal-box-shadow
+      @include medium-screen-down
+        width: 90%
+        min-height: 65%
+      .back-form
+        display: block
+        margin-top: 10px
+      .progress-bar
+        position: absolute
+        top: 0
+        left: 0
+        width: 25%
+        height: 6px
+        background: #ec526d
+      button
+        left: 50%
+        bottom: 14px
+        outline: none
+        -webkit-transform: translateX(-50%)
+        -moz-transform: translateX(-50%)
+        -ms-transform: translateX(-50%)
+        -o-transform: translateX(-50%)
+        transform: translateX(-50%)
+        @include button(200px, 50px, #ec526d)
+        margin: 0
+        margin-top: 50px
+        @include medium-screen-down
+          @include button(84%, 50px, #ec526d)
+          margin: 0
+          margin-top: 50px
+        &::after
+          @include button-after(rgb(90, 90, 90))
+      h1
+        font-size: 20px
+        margin-top: 33px
+        text-align: center
+        color: rgb(100, 100, 100)
+        @include medium-screen-down
+          font-size: 18px
+          width: 80%
+          display: block
+          margin: 0 auto
+          margin-top: 45px
+          line-height: 25px
+          margin-left: 26px
+          text-align: left
+      input
+        width: 30%
+        border: none
+        display: block
+        margin: 0 auto
+        outline: none
+        color: rgb(90, 90, 90)
+        font-size: 17px
+        margin-top: 6%
+        border-bottom: 5px solid rgb(235,235,235)
+        @include mq($from: mobile, $until: desktop)
+          width: 80%
+          border: 2px solid #ec526d
+          -webkit-border-radius: 8em
+          -moz-border-radius: 8em
+          border-radius: 8em
+          padding: 10px 5px 10px 20px
+    .form1, .form2, .form3, .form4
+      position: absolute
+      width: 100%
+      height: 100%
+    .form2, .form3, .form4
+      opacity: 0
+      -webkit-transform: translate3d(30px, 0, 0)
+      -moz-transform: translate3d(30px, 0, 0)
+      -ms-transform: translate3d(30px, 0, 0)
+      -o-transform: translate3d(30px, 0, 0)
+      transform: translate3d(30px, 0, 0)
+      pointer-events: none
+    .form3
+      background: white
+      height: auto
+      .tags-autocomplete
+        width: 30%
+        background: white
+        @include modal-box-shadow
+        display: block
+        margin: 0 auto
+        @include medium-screen-down
+          width: 86%
+        .tag
+          padding: 15px 10px 10px 10px
+          span
+            display: block
+            font-family: QuizOpFont, sans-serif !important
+            color: rgb(100,100,100)
+            margin-left: 3px
+            font-size: 13px
+            cursor: pointer
+          &:hover
+            background: rgb(245,245,255)
+      .tags-container
+        @include absolute(0, 0, inherit, inherit)
+        width: 30%
+        height: 100%
+        @include medium-screen-down
+          width: 100%
+          background: white
+          @include create-quiz-modal-box-shadow
+          top: 100%
+        .tags
+          margin-top: 28px
+          margin-left: 35px
+          @include medium-screen-down
+            margin-left: 17px
+          .tag
+            margin-top: 20px
+            @include medium-screen-down
+              margin-top: 25px
+              display: inline-block
+              margin-left: 5px
+            span
+              list-style-type: none
+              background: rgb(245,245,245)
+              -webkit-border-radius: .2em
+              -moz-border-radius: .2em
+              border-radius: .2em
+              padding-left: 10px
+              padding-right: 10px
+              padding-bottom: 8px
+              padding-top: 8px
+              font-size: 13px
+              color: rgb(100, 100, 100)
+              cursor: pointer
+              @include medium-screen-down
+                font-size: 15px
+                letter-spacing: 1px
+                @include create-quiz-modal-box-shadow
+                background: white
+    .form4
+      .back-form
+        margin-top: 50px
+      .file-upload-wrapper
+        position: relative
+        width: 40%
+        height: 60px
+        overflow: hidden
+        display: block
+        margin: 0 auto
+        margin-top: 30px
+        font-family: SmallFont, sans-serif
+        @include create-quiz-modal-box-shadow
+        @include medium-screen-down
+          width: 84%
+        &:after
+          content: attr(data-text)
+          font-size: 16px
+          position: absolute
+          top: 0
+          left: 0
+          background: white
+          padding: 10px 15px
+          display: block
+          width: calc(100% - 40px)
+          pointer-events: none
+          z-index: 20
+          height: 40px
+          line-height: 40px
+          color: #999
+          font-weight: 300
+        &:before
+          content: 'Upload'
+          position: absolute
+          top: 0
+          right: 0
+          display: inline-block
+          height: 60px
+          background: #ec526d
+          color: #fff
+          font-weight: 700
+          z-index: 25
+          font-size: 14px
+          line-height: 60px
+          padding: 0 15px
+          text-transform: uppercase
+          pointer-events: none
+        input
+          opacity: 0
+          position: absolute
+          top: 0
+          right: 0
+          bottom: 0
+          left: 0
+          z-index: 99
+          height: 40px
+          margin: 0
+          padding: 0
+          display: block
+          cursor: pointer
+          width: 100%
+  .preview-img-modal
+    @include transition((opacity 300ms ease-in-out))
+    position: absolute
+    width: 100%
+    top: 70px
+    z-index: 99999999999
+    background: rgba(224,245,250,0.9)
+    height: calc(100% - 70px)
+    @include medium-screen-down
+      background: rgba(224,245,250,0.95)
+      top: 100px
+    @include flex
+    justify-content: center
+    align-items: center
+    display: none
+    .inner-img
+      width: 30%
+      height: auto
+      max-height: 84%
+      position: relative
+      background: white
+      overflow: hidden
+      display: block
+      margin: 0 auto
+      margin-top: 40px
+      @include modal-box-shadow
+      @include medium-screen-down
+        width: 90%
+      img
+        width: 100%
+        height: auto
+      .bottom-buttons
+        position: absolute
+        bottom: 0px
+        width: 100%
+        height: 80px
+        background: white
+        button
+          display: inline-block
+          @include button(40%, 60px, #ec526d)
+          transform: translateX(15%)
+          @include small-screen
+            font-size: 11px
+          &:after
+            @include button-after(rgb(90, 90, 90))
+
+.create-quiz-overlay-modal
+  position: fixed
+  top: 0
+  left: 0
+  width: calc(100% - 75px)
+  margin-left: 75px
+  height: 100%
+  background: rgba(0, 0, 0, 0.5)
+  z-index: 99999
+  @include medium-screen-down
+    width: 100%
+    margin-left: 0
+  .cannot-create-quiz-modal2
+    width: 85%
+    height: 90vh
+    background: white url('/static/images/background-images/people-around-table.svg') center center no-repeat
+    background-size: cover
+    border-radius: .4em
+    top: 50px
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
+    text-align: center
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    margin: auto
+    @include medium-screen-down
+      width: 80%
+      height: 70vh
+    .text-container
+      position: absolute
+      width: 100%
+      text-align: center
+      margin-top: 50px
+
+    h1
+      width: 60%
+      display: block
+      margin: 0 auto
+      font-size: 30px
+      margin-top: 50px
+      font-family: SmallFont, sans-serif
+      color: #08217e
+      @include small-screen
+        font-size: 24px
+        width: 85%
+    p
+      width: 80%
+      display: block
+      margin: 0 auto
+      margin-top: 10px
+      font-size: 19px
+      margin-bottom: 10px
+      color: #00b1ff
+      margin-top: 20px
+    .main-icon
+      width: 100px
+      height: auto
+      display: block
+      margin: 0 auto
+    button
+      margin-top: 10px
+.loader
+  width: 100%
+  height: 100%
+  background: rgba(245,245,255, 0.95)
+  position: fixed
+  z-index: 9999999999999
+  opacity: 0
+  top: 70px
+  -webkit-transition: opacity 300ms ease-in-out
+  -moz-transition: opacity 300ms ease-in-out
+  -ms-transition: opacity 300ms ease-in-out
+  -o-transition: opacity 300ms ease-in-out
+  transition: opacity 300ms ease-in-out
+  left: 0
+  @include flex
+  justify-content: center
+  align-items: center
+  img
+    width: 200px
+    height: 200px
+    filter: invert(20%)
+    margin-top: -100px
+
+
+
+

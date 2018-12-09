@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-var nodemailer = require('nodemailer');
 const User = require('../../models/user');
 
 exports.signup = (req, res) => {
@@ -56,25 +55,6 @@ exports.signup = (req, res) => {
               points: user.points,
               token,
             });
-
-            var smtpTransport = nodemailer.createTransport({
-              service: 'Gmail',
-              auth: {
-                user: 'brainflop@brainflop.com',
-                pass: 'Bigship1!'
-              }
-            });
-            var mailOptions = {
-              to: user.email,
-              from: 'brainflop@brainflop.com',
-              subject: 'Thanks for joining BrainFlop!',
-              text: `Hey ${user.name} thanks for joining BrainFlop! BrainFlop offers the best quizzing experience there is. Have fun quizzing! \n https://www.brainflop.com`
-            };
-            smtpTransport.sendMail(mailOptions, function(err) {
-              return res.status(200).json({
-                message: 'email has been successfully sent!'
-              })
-            })
           })
           .catch((err) => {
             res.status(500).json({

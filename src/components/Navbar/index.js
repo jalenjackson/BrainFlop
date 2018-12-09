@@ -3,9 +3,11 @@ import MenuLeft from './partials/menuLeft';
 import MenuRightLinks from './partials/menuRightLinks'
 import CollapsedNavbar from './partials/collapsedNavbar'
 import './navbar.sass';
+import {Router} from '../../../routes';
 import Link from 'next/link';
 import $ from 'jquery'
-let auth = {};
+import _ from 'lodash';
+let host = null;
 
 class Navbar extends React.Component {
 
@@ -15,18 +17,19 @@ class Navbar extends React.Component {
     this.state = {
       searchAutocomplete: [],
       searchTerm: '',
-    }
+    };
   }
 
   componentDidMount() {
-    auth = window.Auth
+    host = window.location.protocol + '//' + window.location.host;
   }
 
-  redirectToSearchPage (searchTerm, history) {
+
+  redirectToSearchPage (searchTerm) {
     if (window.location.pathname.split('/')[1] === 'search') {
       return window.location.href = `/search/${searchTerm}`
     }
-    history.push(`/search/${searchTerm}`);
+    Router.pushRoute(`/search/${_.kebabCase(searchTerm)}`);
     document.activeElement.blur();
     $("input").blur();
     this.setState({ searchAutocomplete: false }, () => {
@@ -49,7 +52,7 @@ class Navbar extends React.Component {
   updateSearchTern (e) {
     this.setState({ searchTerm: e.target.value }, () => {
       if (this.state.searchTerm) {
-        fetch(`${QuizOpDomain.host}/search/quizzes?term=${encodeURIComponent(this.state.searchTerm)}&skipIterator=0`, {
+        fetch(`${host}/api/search/quizzes?term=${encodeURIComponent(this.state.searchTerm)}&skipIterator=0`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'
@@ -73,13 +76,13 @@ class Navbar extends React.Component {
     $('.mobile-quick-links').css({ opacity: 0, pointerEvents: 'none' });
   }
 
-  handleEnter (history, e) {
+  handleEnter (e) {
     if (this.state.searchTerm) {
       if (e.key === 'Enter') {
         if (window.location.pathname.split('/')[1] === 'search') {
           return window.location.href = `/search/${this.state.searchTerm}`;
         }
-        history.push(`/search/${this.state.searchTerm}`);
+        Router.pushRoute(`/search/${_.kebabCase(this.state.searchTerm)}`);
         this.setState({ searchAutocomplete: [], searchTerm: '' });
         $('.quiz-search-input').blur();
         this.hideSearchResults();
@@ -106,7 +109,9 @@ class Navbar extends React.Component {
             <div onClick={this.showSearchInput.bind(this)} className="menu-search" />
             <div className="logo">
               <Link href="/">
-                <div className="logo-svg" />
+                <a title='Go Back Home'>
+                  <div className="logo-svg" />
+                </a>
               </Link>
             </div>
             <input className="quiz-search-input" value={this.state.searchTerm} onKeyPress={this.handleEnter.bind(this)} onChange={this.updateSearchTern.bind(this)} type="text" placeholder="Search" />
@@ -121,12 +126,14 @@ class Navbar extends React.Component {
                 null
             }
           </div>
-          <MenuRightLinks />
+          <MenuRightLinks userObject={this.props.userObject} isAuthenticated={this.props.isAuthenticated} />
           <div className="mobile-quick-links">
-            <Link href={ auth.isAuthenticated ? '/explore' : '/' }>
-              <div className="icon-container home-icon">
-                <img className="icon-img" style={{ transform: 'scale(1.1)' }} src='/static/images/icons/home.svg' />
-              </div>
+            <Link href={ '/explore' }>
+              <a>
+                <div className="icon-container home-icon">
+                  <img className="icon-img" style={{ transform: 'scale(1.1)' }} src='/static/images/icons/home.svg' />
+                </div>
+              </a>
             </Link>
             <a href="#">
               <div className="icon-container">
@@ -134,19 +141,23 @@ class Navbar extends React.Component {
               </div>
             </a>
             <Link href="/create-quiz">
-              <div className="icon-container">
-                <img className="icon-img"  style={{ transform: 'scale(1.65) translateY(2px)' }} src='/static/images/icons/build.svg' />
-              </div>
+              <a>
+                <div className="icon-container">
+                  <img className="icon-img"  style={{ transform: 'scale(1.65) translateY(2px)' }} src='/static/images/icons/build.svg' />
+                </div>
+              </a>
             </Link>
-            <Link href={ auth.isAuthenticated ? '/profile' : '/register' }>
-              <div className="icon-container">
-                <img className="icon-img"  style={{ transform: 'scale(1.1) translateY(-4px)' }} src='/static/images/icons/profile.svg' />
-              </div>
+            <Link href={ '/register' }>
+              <a>
+                <div className="icon-container">
+                  <img className="icon-img"  style={{ transform: 'scale(1.1) translateY(-4px)' }} src='/static/images/icons/profile.svg' />
+                </div>
+              </a>
             </Link>
           </div>
           <div className="side-bar">
             <div className="quick-links">
-              <Link href={ auth.isAuthenticated ? '/explore' : '/' }>
+              <Link href={ '/explore' }>
                 <a title="A Revolutionary Quizzing Experience | BrainFlop">
                   <div className="icon-container home-icon">
                     <img className="icon-img" style={{ transform: 'scale(1.1)' }} src='/static/images/icons/home.svg' />
@@ -167,7 +178,7 @@ class Navbar extends React.Component {
                   </div>
                 </a>
               </Link>
-              <Link href={ auth.isAuthenticated ? '/profile' : '/register' }>
+              <Link href={ '/profile' }>
                 <a title="Register | BrainFlop">
                   <div style={{ paddingBottom: '0px' }} className="icon-container">
                     <img className="icon-img"  style={{ transform: 'scale(1.1) translateY(-4px)' }} src='/static/images/icons/profile.svg' />

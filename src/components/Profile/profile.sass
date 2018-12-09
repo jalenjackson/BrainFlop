@@ -1,0 +1,313 @@
+@import ../../sass/mixins/material.sass
+@import ../../sass/mixins/breakpoints.sass
+
+.profile-container
+  .edit-profile-modal-container
+    position: fixed
+    top: 70px
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: 9999999999
+    opacity: 0
+    pointer-events: none
+    background: rgba(0, 0, 0, 0.5)
+    -webkit-transition: opacity 300ms ease-in-out
+    -moz-transition: opacity 300ms ease-in-out
+    -ms-transition: opacity 300ms ease-in-out
+    -o-transition: opacity 300ms ease-in-out
+    transition: opacity 300ms ease-in-out
+    @include flex
+    justify-items: center
+    justify-content: center
+    @include medium-screen-down
+      top: 100px
+    .edit-profile-modal
+      background: white
+      @include create-quiz-modal-box-shadow
+      width: 50%
+      height: 500px
+      overflow-y: auto
+      -webkit-transform: scale(0.85)
+      -moz-transform: scale(0.85)
+      -ms-transform: scale(0.85)
+      -o-transform: scale(0.85)
+      transform: scale(0.85)
+      -webkit-border-radius: .5em
+      -moz-border-radius: .5em
+      border-radius: .5em
+      margin-top: 60px
+      @include medium-screen-down
+        width: 90%
+      .close-modal
+        position: absolute
+        right: 20px
+        top: 10px
+        width: 60px
+        height: auto
+        cursor: pointer
+      h1
+        font-size: 30px
+        letter-spacing: 1px
+        color: rgb(80, 80, 80)
+        margin-top: 35px
+        text-align: center
+        font-family: SmallFont, sans-serif
+      p
+        width: 80%
+        display: block
+        margin: 0 auto
+        font-size: 17px
+      input
+        @include input-field(80%, 30px)
+        display: block
+        margin: 0 auto
+        margin-top: 15px
+        font-size: 15px
+      button
+        @include button(83%, 50px, #2FDC7F)
+        display: block
+        margin: 0 auto
+        margin-top: 30px
+        font-size: 15px
+        text-transform: uppercase
+        &:after
+          @include button-after(rgba(117,290,197, 1))
+          @include small-screen
+            display: none
+  #quizzes
+    display: block
+    margin: 0 auto
+    width: 50%
+    background: white
+    margin-top: 100px
+    padding-right: 20px
+    -webkit-border-radius: .5em
+    -moz-border-radius: .5em
+    border-radius: .5em
+    border-top: 2px solid #ce344f
+    padding-bottom: 30px
+    @include create-quiz-modal-box-shadow
+    h3
+      font-size: 24px
+      -webkit-transform: translate(20px, 20px)
+      -moz-transform: translate(20px, 20px)
+      -ms-transform: translate(20px, 20px)
+      -o-transform: translate(20px, 20px)
+      transform: translate(20px, 20px)
+      color: rgb(60, 60, 65)
+      letter-spacing: 1px
+      @include medium-screen-down
+        -webkit-transform: translate(15px, 20px)
+        -moz-transform: translate(15px, 20px)
+        -ms-transform: translate(15px, 20px)
+        -o-transform: translate(15px, 20px)
+        transform: translate(15px, 20px)
+        width: 70%
+    @include medium-screen-down
+      width: 85%
+      padding: 0
+    .quizzes-header
+      font-size: 20px
+      -webkit-transform: translate(17px, 45px)
+      -moz-transform: translate(17px, 45px)
+      -ms-transform: translate(17px, 45px)
+      -o-transform: translate(17px, 45px)
+      transform: translate(17px, 45px)
+      color: rgb(72, 72, 72)
+      letter-spacing: 0.5px
+      @include small-screen
+        width: 90%
+        font-size: 17px
+        -webkit-transform: translate(4px, 5px)
+        -moz-transform: translate(4px, 5px)
+        -ms-transform: translate(4px, 5px)
+        -o-transform: translate(4px, 5px)
+        transform: translate(4px, 5px)
+    .quizzes
+      margin-top: 0
+      display: block
+      @include flex
+      flex-wrap: wrap
+      .col
+        width: 30.5%
+        border-radius: .3em
+        margin-left: 20px
+        position: relative
+        margin-top: 15px
+        flex-direction: column
+        padding-bottom: 10px
+        -webkit-transform: translateY(30px)
+        -moz-transform: translateY(30px)
+        -ms-transform: translateY(30px)
+        -o-transform: translateY(30px)
+        transform: translateY(30px)
+        @include small-screen
+          margin-left: 0px
+          margin-top: 10px
+          width: 100%
+        .quiz-img
+          width: 100%
+          height: 150px
+          -webkit-border-radius: .2em
+          -moz-border-radius: .2em
+          border-radius: .2em
+          cursor: pointer
+          @include flex
+          justify-content: center
+          align-items: center
+          @include medium-screen-down
+            -webkit-border-radius: 0
+            -moz-border-radius: 0
+            border-radius: 0
+            width: 90%
+            display: block
+            margin: 0 auto
+        .text-container
+          margin-left: 1px
+          margin-top: 9px
+          @include medium-screen-down
+            margin-left: 17px
+          h1
+            font-size: 18px
+            color: rgb(80, 80, 80)
+            cursor: pointer
+          p
+            font-size: 13px
+            margin-top: -5px
+            font-family: SmallFont, sans-serif
+#profile
+  .top-header
+    width: 100%
+    text-align: center
+    height: 60vh
+    background: linear-gradient(rgb(246,92,119), rgb(196,42,69))
+    @include medium-screen-down
+      height: 70vh
+  .text-container
+    position: absolute
+    top: 150px
+    width: 100%
+    @include flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+    @include medium-screen-down
+      -webkit-transform: translateY(30px)
+      -moz-transform: translateY(30px)
+      -ms-transform: translateY(30px)
+      -o-transform: translateY(30px)
+      transform: translateY(30px)
+    h1
+      font-size: 30px
+      padding-left: 50px
+      padding-right: 50px
+      font-family: SmallFont, sans-serif
+      letter-spacing: 2px
+      overflow-wrap: break-word
+      word-wrap: break-word
+      -ms-word-break: break-all
+      color: white
+      word-break: break-word
+      -ms-hyphens: auto
+      -moz-hyphens: auto
+      -webkit-hyphens: auto
+      line-height: 40px
+      margin-top: -50px
+    p
+      padding-bottom: 50px
+      color: white
+      margin-top: -0px
+      letter-spacing: 1px
+    button
+      @include button(200px, 50px, white)
+      color: rgb(80, 80, 85)
+      margin-top: -30px
+      margin-bottom: 40px
+      @include medium-screen-down
+        @include mobile-button(60%, 40px, rgb(80, 80, 85), white)
+        margin-top: -50px
+        margin-bottom: 70px
+        font-size: 12px
+      &:after
+        @include button-after(rgb(200, 200, 200))
+        @include medium-screen-down
+          display: none
+  .card
+    background: white
+    position: relative
+    padding-top: 30px
+    padding-bottom: 30px
+    display: block
+    margin: 0 auto
+    margin-top: 20px
+    -webkit-border-radius: .8em
+    -moz-border-radius: .8em
+    border-radius: .8em
+    width: 50%
+    border-top: 2px solid #ce344f
+    margin-bottom: 30px
+    -webkit-transform: translateY(40px)
+    -moz-transform: translateY(40px)
+    -ms-transform: translateY(40px)
+    -o-transform: translateY(40px)
+    transform: translateY(40px)
+    @include modal-box-shadow
+    text-align: center
+    @include medium-screen-down
+      width: 85%
+    h1
+      letter-spacing: 1.3px
+      font-size: 15px
+      margin-top: 15px
+      line-height: 27px
+    img
+      width: 100px
+      height: auto
+    .underline
+      margin-top: -23px
+
+  .tags
+    margin-left: -5px
+    width: 90%
+    margin-top: 15px
+    span
+      font-size: 11px
+      letter-spacing: .3px
+      background: rgb(240, 240, 240)
+      padding: 5px 7px 3px 7px
+      font-family: QuizOpFont, sans-serif
+      margin-left: 5px
+      -webkit-border-radius: .5em
+      -moz-border-radius: .5em
+      border-radius: .5em
+    .span-color
+      color: rgb(60, 60, 65)
+      cursor: pointer
+  .see-all-link
+    color: #119DF9
+
+.pagination-loader
+  position: fixed
+  bottom: 10px
+  left: 0
+  right: 0
+  margin: auto
+  width: 30px
+  height: 30px
+  background: rgb(255, 200, 200)
+  -webkit-border-radius: 100%
+  -moz-border-radius: 100%
+  border-radius: 100%
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
+  -webkit-transform: translate3d(0, 200%, 0)
+  -moz-transform: translate3d(0, 200%, 0)
+  -ms-transform: translate3d(0, 200%, 0)
+  -o-transform: translate3d(0, 200%, 0)
+  transform: translate3d(0, 200%, 0)
+  img
+    width: 100%
+    height: 100%
+
+
+

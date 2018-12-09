@@ -1,0 +1,118 @@
+@import ../../sass/mixins/material.sass
+@import ../../sass/mixins/breakpoints.sass
+
+#register
+  width: 100%
+  height: 100vh
+  background: url('/static/images/background-images/signup.svg')
+  background-size: cover
+  @include medium-screen-down
+    @include flex
+    background: #ec526d
+    justify-content: center
+    align-items: center
+  .register-form
+    overflow: hidden
+    position: relative
+    width: 40%
+    height: auto
+    -webkit-transform-origin: translate(40px, 120px)
+    -moz-transform-origin: translate(40px, 120px)
+    -ms-transform-origin: translate(40px, 120px)
+    -o-transform-origin: translate(40px, 120px)
+    transform-origin: translate(40px, 120px)
+    -webkit-border-radius: .3em
+    -moz-border-radius: .3em
+    border-radius: .3em
+    transform: translateY(160px)
+    @include medium-screen-down
+      width: 80%
+      background: white
+      padding-bottom: 30px
+      margin-bottom: 30px
+      @include modal-box-shadow
+      -webkit-transform: translate(0, 0px)
+      -moz-transform: translate(0, 0px)
+      -ms-transform: translate(0, 0px)
+      -o-transform: translate(0, 0px)
+      transform: translate(0, 0px)
+    @include small-screen
+      margin-top: 130px
+    .loading
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      opacity: 0
+      -webkit-transform: translate3d(100px, 0, 0)
+      -moz-transform: translate3d(100px, 0, 0)
+      -ms-transform: translate3d(100px, 0, 0)
+      -o-transform: translate3d(100px, 0, 0)
+      transform: translate3d(100px, 0, 0)
+      pointer-events: none
+      background: black url('/static/images/icons/underline.svg') center center no-repeat
+      background-size: 50% 50%
+      filter: invert(100%)
+    h1
+      text-align: center
+      margin-top: 50px
+      font-size: 30px
+      color: rgb(70,70,75)
+      @include small-screen
+        font-size: 24px
+        font-family: Helvetica, sans-serif
+        color: rgb(60, 60, 65)
+        letter-spacing: 1.1px
+        margin-top: 30px
+    p
+      color: crimson
+      text-align: center
+    form
+      input
+        @include input-field(50%, 30px)
+        display: block
+        margin: 0 auto
+        margin-top: 10px
+        -webkit-appearance: none
+        @include small-screen
+          width: 80%
+      .register-button
+        @include button(52.5%, 50px, #2FDC7F)
+        display: block
+        margin: 0 auto
+        margin-top: 10px
+        @include small-screen
+          @include mobile-button(60%, 40px, white, #ec526d)
+          font-size: 13px
+          margin-top: 20px
+        &:after
+          @include button-after(rgba(117,290,197, 1))
+          @include small-screen
+            display: none
+      .kep-login-facebook
+        @include small-screen
+          width: 60%
+          font-size: 13px
+      button
+        position: relative
+        display: block
+        margin: 0 auto
+        width: 52.5%
+        margin-top: 10px
+      p
+        text-align: center
+        color: rgb(150,150,150)
+        margin-top: 20px
+        font-size: 11px
+        cursor: pointer
+        a
+          color: #96DBFC
+        @include small-screen
+          width: 85%
+          display: block
+          margin: 0 auto
+          margin-top: 20px
+          line-height: 20px
+        span
+          color: #96DBFC

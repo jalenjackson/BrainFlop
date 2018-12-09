@@ -1,0 +1,523 @@
+@import ../../sass/mixins/material.sass
+@import ../../sass/mixins/breakpoints.sass
+
+.edit-quiz-background
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  z-index: -1
+  background: url('/static/images/icons/create-question.svg') center center no-repeat
+  background-size: cover
+.loader
+  width: 100%
+  height: 100%
+  background: rgba(245,245,255, 0.95)
+  position: fixed
+  z-index: 9999999999999
+  opacity: 0
+  top: 70px
+  -webkit-transition: opacity 300ms ease-in-out
+  -moz-transition: opacity 300ms ease-in-out
+  -ms-transition: opacity 300ms ease-in-out
+  -o-transition: opacity 300ms ease-in-out
+  transition: opacity 300ms ease-in-out
+  left: 0
+  @include flex
+  justify-content: center
+  align-items: center
+  img
+    width: 200px
+    height: 200px
+    filter: invert(20%)
+    margin-top: -100px
+#edit-quiz
+  position: absolute
+  width: 70%
+  display: block
+  left: 0
+  right: 0
+  margin: auto
+  margin-top: 125px
+  @include medium-screen-down
+    width: 90%
+  .edit-quiz-overlay-modal
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: rgba(0, 0, 0, 0.5)
+    z-index: 999999999
+    .edit-quiz-modal
+      position: fixed
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      margin: auto
+      background: white
+      border-radius: .5em
+      @include create-quiz-modal-box-shadow
+      width: 73%
+      height: 46vh
+      @include flex
+      justify-content: center
+      align-items: center
+      h1
+        text-align: center
+        width: 70%
+        display: block
+        margin: 0 auto
+        color: rgb(90, 90, 90)
+        @include medium-screen-down
+          font-size: 17px
+          width: 90%
+      p
+        text-align: center
+        width: 70%
+        display: block
+        margin: 0 auto
+        margin-top: 20px
+        @include medium-screen-down
+          width: 90%
+      a
+        width: 70%
+        display: block
+        margin: 0 auto
+        text-align: center
+        color: #00b1ff
+        margin-top: 20px
+      button
+        @include button(200px, 50px, #2FDC7F)
+        display: block
+        margin: 0 auto
+        margin-top: 30px
+        @include small-screen
+          @include mobile-button(60%, 40px, white, #ec526d)
+          font-size: 13px
+          margin-top: 20px
+        &:after
+          @include button-after(rgba(117,290,197, 1))
+          @include small-screen
+            display: none
+  .add-question-modal
+    position: fixed
+    top: 70px
+    left: 0
+    min-height: calc(100% - 70px)
+    width: 100%
+    background: rgba(224,245,250,0.9)
+    @include flex
+    justify-content: center
+    align-items: center
+    opacity: 0
+    pointer-events: none
+    z-index: 99999999999
+    @include small-screen
+      top: 100px
+    .add-question-autocomplete
+      padding: 0
+      margin-left: 50px
+      margin-right: 50px
+      @include create-quiz-modal-box-shadow
+      li
+        list-style-type: none
+        cursor: pointer
+        padding: 10px 10px 10px 10px
+        margin: 0
+        display: block
+        color: rgb(80, 80, 85)
+        &:hover
+          background: rgb(245, 245, 255)
+    .show-added-image-container
+      position: relative
+      .overlay
+        width: 50%
+        height: 100%
+        position: absolute
+        background: rgb(60, 60, 60)
+        cursor: pointer
+        left: 0
+        right: 0
+        opacity: 0
+        -webkit-transition: opacity 200ms ease-in-out
+        -moz-transition: opacity 200ms ease-in-out
+        -ms-transition: opacity 200ms ease-in-out
+        -o-transition: opacity 200ms ease-in-out
+        transition: opacity 200ms ease-in-out
+        top: 0
+        margin: auto
+        z-index: 9
+        @include flex
+        justify-content: center
+        align-items: center
+        &:hover
+          opacity: 1
+        h1
+          font-size: 14px
+          margin: 0
+          color: white
+          letter-spacing: 1.5px
+          text-transform: uppercase
+      .show-added-image
+        position: relative
+        width: 50%
+        height: auto
+        display: block
+        margin: 0 auto
+        margin-top: 20px
+    .add-question
+      width: 30%
+      height: 70vh
+      background: white
+      position: relative
+      @include modal-box-shadow
+      -webkit-border-radius: .2em
+      -moz-border-radius: .2em
+      border-radius: .2em
+      overflow-y: scroll
+      @include medium-screen-down
+        width: 90%
+      .close-add-question
+        position: absolute
+        right: 10px
+        top: 5px
+        width: 50px
+        height: auto
+        cursor: pointer
+      h1
+        color: rgb(100, 100, 100)
+        font-size: 14px
+        margin-top: 25px
+        margin-left: 30px
+      input
+        width: 75%
+        height: 40px
+        -webkit-border-radius: .5em
+        -moz-border-radius: .5em
+        border-radius: .5em
+        background: rgb(240,240,240)
+        padding-left: 15px
+        display: block
+        margin: 0 auto
+        margin-top: 15px
+        border: none
+        outline: none
+        font-size: 13px
+      .question
+        background: none
+        border-bottom: 2px solid black
+        -webkit-border-radius: 0
+        -moz-border-radius: 0
+        border-radius: 0
+        height: auto
+        font-size: 18px
+        font-family: SmallFont, sans-serif
+        margin-top: 25px
+        padding: 0
+      .correct-answer
+        margin-top: 30px
+        background: #2FDC7F
+        color: white
+      button
+        @include button(200px, 50px, #2FDC7F)
+        display: block
+        margin: 0 auto
+        margin-top: 40px
+        margin-bottom: 30px
+        &::after
+          @include button-after(rgba(117,290,197, 1))
+    .file-upload-wrapper
+      position: relative
+      width: 78%
+      height: 40px
+      overflow: hidden
+      display: block
+      margin: 0 auto
+      margin-top: 15px
+      -webkit-border-radius: .5em
+      -moz-border-radius: .5em
+      border-radius: .5em
+      font-family: SmallFont, sans-serif
+      @include create-quiz-modal-box-shadow
+      @include small-screen
+        width: 80%
+      &:after
+        content: attr(data-text)
+        font-size: 12px
+        position: absolute
+        top: -9px
+        left: 0
+        background: white
+        padding: 10px 15px
+        display: block
+        width: calc(100% - 40px)
+        pointer-events: none
+        z-index: 20
+        height: 40px
+        line-height: 40px
+        color: #999
+        font-weight: 300
+      &:before
+        content: 'Upload'
+        position: absolute
+        top: -9px
+        right: 0
+        display: inline-block
+        height: 60px
+        background: #2FDC7F
+        color: #fff
+        font-weight: 700
+        z-index: 25
+        font-size: 14px
+        line-height: 60px
+        padding: 0 15px
+        text-transform: uppercase
+        pointer-events: none
+      input
+        opacity: 0
+        position: absolute
+        top: 0
+        right: 0
+        bottom: 0
+        left: 0
+        z-index: 99
+        height: 40px
+        margin: 0
+        padding: 0
+        display: block
+        cursor: pointer
+        width: 100%
+  .quiz-header
+    .edit-tag
+      .edit-tag-span
+        background: rgb(245,245,245)
+        font-size: 16px
+        border-radius: 8em
+    h1
+      color: rgb(70, 70, 70)
+      position: relative
+    p
+      color: rgb(150, 150, 150)
+      font-family: SmallFont, sans-serif
+      line-height: 25px
+      margin-left: 4px
+    .question-amount
+      font-size: 12px
+      font-family: SmallFontBold, sans-serif
+    .edit-field
+      position: relative
+      img
+        position: absolute
+        right: -43px
+        top: -10px
+        cursor: pointer
+        width: 40px
+        height: auto
+  .questions-container
+    .added-questions
+      .question
+        position: relative
+        border: 2px solid transparent
+        -webkit-transition: border 400ms ease-in-out
+        -moz-transition: border 400ms ease-in-out
+        -ms-transition: border 400ms ease-in-out
+        -o-transition: border 400ms ease-in-out
+        transition: border 400ms ease-in-out
+        cursor: pointer
+        @include medium-screen-down
+          height: 100px
+        &:hover
+          border: 2px solid #2FDC7F
+        .inner-text
+          position: absolute
+          top: 10px
+          left: 20px
+          width: 100%
+          height: 100%
+          @include medium-screen-down
+            top: 30%
+            left: 5px
+            height: auto
+          h1
+            font-size: 16px
+            color: rgb(100, 100, 100)
+            display: block
+            margin-left: 14.5px
+            width: 80%
+            line-height: 26px
+      .answers
+        width: 90%
+        padding-bottom: 30px
+        position: relative
+        .added-answers
+          display: inline-block
+          margin-left: 7px
+          background: rgba(221,40,45, 0.7)
+          color: white
+          -webkit-border-radius: .2em
+          -moz-border-radius: .2em
+          border-radius: .2em
+          padding-left: 10px
+          padding-right: 10px
+          padding-top: 7px
+          font-family: SmallFont, sans-serif
+          margin-top: 15px
+          padding-bottom: 5px
+          font-size: 13px
+          @include medium-screen-down
+            display: none
+        .correct-added-question
+          background: #2FDC7F
+    .card
+      @include create-quiz-modal-box-shadow
+      width: 100%
+      background: white
+      display: block
+      position: relative
+      margin: 0 auto
+      margin-top: 23px
+      -webkit-border-radius: .2em
+      -moz-border-radius: .2em
+      border-radius: .2em
+      min-height: 140px
+      height: auto
+      overflow-y: auto
+      padding-bottom: 10px
+    .question
+      &::after
+        content: ''
+        display: block
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        background: none
+        border: 1px solid #2FDC7F
+        opacity: 0
+        -webkit-transition: opacity 300ms ease-in-out
+        -moz-transition: opacity 300ms ease-in-out
+        transition: opacity 300ms ease-in-out
+      .trashcan
+        width: 60px
+        height: auto
+        position: absolute
+        right: 20px
+        top: 0
+        bottom: 4px
+        margin: auto
+        z-index: 2
+        -webkit-transition: background 200ms ease-in-out
+        -moz-transition: background 200ms ease-in-out
+        -ms-transition: background 200ms ease-in-out
+        -o-transition: background 200ms ease-in-out
+        transition: background 200ms ease-in-out
+        -webkit-border-radius: 100%
+        -moz-border-radius: 100%
+        border-radius: 100%
+        @include medium-screen-down
+          top: -20px
+          width: 40px
+          right: 10px
+        &:hover
+          background: rgba(221,40,45, 0.3)
+    .add-new-question
+      margin-bottom: 15px
+      @include modal-box-shadow
+      background: #304EFE
+      height: 245px
+      overflow: hidden
+      position: relative
+      cursor: pointer
+      -webkit-transition: background 300ms ease-in-out
+      -moz-transition: background 300ms ease-in-out
+      -ms-transition: background 300ms ease-in-out
+      -o-transition: background 300ms ease-in-out
+      transition: background 300ms ease-in-out
+      box-shadow: 0px 5px 15px 5px rgba(48,78,254, .5)
+      &:hover
+        background: rgb(68,98,274)
+      h1
+        text-align: center
+        color: white
+        font-family: SmallFont, sans-serif
+        font-size: 30px
+        -webkit-transform: translateY(86px)
+        -moz-transform: translateY(86px)
+        -ms-transform: translateY(86px)
+        -o-transform: translateY(86px)
+        transform: translateY(86px)
+        @include medium-screen-down
+          width: 80%
+          display: block
+          margin: 0 auto
+      img
+        position: absolute
+        left: 0
+        bottom: -28px
+        width: 300px
+        height: auto
+        @include medium-screen-down
+          display: none
+
+.add-question::-webkit-scrollbar
+  -webkit-appearance: none
+  -moz-appearance: none
+
+.add-question::-webkit-scrollbar:vertical
+  width: 11px
+
+.add-question::-webkit-scrollbar:horizontal
+  height: 11px
+
+.add-question::-webkit-scrollbar-thumb
+  -webkit-border-radius: 8px
+  -moz-border-radius: 8px
+  border-radius: 8px
+  border: 2px solid white /* should match background, can't be transparent */
+  background-color: rgba(0, 0, 0, .2)
+
+.add-question::-webkit-scrollbar-track
+  background-color: #fff
+
+.edit-field-container
+  width: 210px
+  input
+    @include input-field(150px, 20px)
+  button
+    display: block
+    @include button(160px, 40px, #2FDC7F)
+    &:after
+      @include button-after(rgba(117,290,197, 1))
+  img
+    display: inline-block
+    width: 30px
+    height: auto
+    float: right
+    -webkit-transform: translateY(-35px)
+    -moz-transform: translateY(-35px)
+    -ms-transform: translateY(-35px)
+    -o-transform: translateY(-35px)
+    transform: translateY(-35px)
+    cursor: pointer
+.question-container-with-icon
+  position: relative
+  img
+    width: 20px
+    height: auto
+    position: absolute
+    right: 4%
+    top: -1.5px
+    cursor: pointer
+    @include small-screen
+      right: 2%
+.question-container-with-icon2
+  img
+    top: 8px
+
+
+
+
