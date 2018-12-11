@@ -843,7 +843,7 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
               <img className='sun' src='/static/images/icons/sun.svg' />
               <h2>Send This Link To Your Friend</h2>
               <div className="link-container">
-                <p>{`https://www.brainflop.com${this.props.router.asPath}`}</p>
+                <p>{`https://brainflop.com${this.props.router.asPath}`}</p>
               </div>
             </div>
           </div>
