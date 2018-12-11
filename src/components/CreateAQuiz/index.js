@@ -1,15 +1,16 @@
 import React from 'react';
-import { Power4, TimelineMax, TweenMax } from 'gsap/all';
+import TweenMax from 'gsap/TweenMax'
+import TimelineMax from 'gsap/TimelineMax'
+import {Power4} from 'gsap/all'
 import $ from 'jquery';
 import ReactGA from "react-ga";
 import FaceBookAuthentication from "../facebook-login";
 import { Router } from '../../../routes';
-import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
+let SplitText = null;
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
-let host = null;
 
-let userData = {};
+const myPlugins = [Power4, TimelineMax, TweenMax]; //<-- HARD REFERENCE IN YOUR CODE
 
 class CreateAQuizComponent extends React.Component {
   constructor (props) {
@@ -27,14 +28,13 @@ class CreateAQuizComponent extends React.Component {
       tagsAutocompleteResults: [],
       showModalCannotCreateQuiz: false,
     };
-    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
   }
 
   componentDidMount () {
-    host = window.location.protocol + '//' + window.location.host;
+
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview('/create-quiz');
-    SplitText = require('../../gsap/SplitText').SplitText;
+    SplitText = require('../../gsap/SplitText');
 
     const T1Split = new SplitText('.form1 h1', { type: 'words' });
     const T1Animation = new TimelineMax();TweenMax.set('#split', { opacity: 1 });
@@ -65,6 +65,7 @@ class CreateAQuizComponent extends React.Component {
       const transform = !isBack ? 'translate3d(-10px, 0, 0)' : 'translate3d(10px, 0, 0)';
       const T1Split = new SplitText(`${to} h1`, { type: 'words' });
       const T1Animation = new TimelineMax();
+      console.log(T1Animation)
       TweenMax.set('#split', { opacity: 1 });
       T1Animation.staggerFrom(T1Split.words, 0.7, {y: 10, opacity: 0, ease: Power4.easeOut, delay: 0.40}, 0.02, '+=0');
       TweenMax.to(from, 0.2, {opacity: 0, transform, pointerEvents: 'none', ease: Power4.easeOut });
@@ -86,16 +87,16 @@ class CreateAQuizComponent extends React.Component {
   }
 
   createQuiz () {
-    const token = userData.userObject.token;
+    const token = this.props.userObject.token;
     const data = new FormData;
     data.append('title', this.state.title);
     data.append('description', this.state.description);
     data.append('tags', this.state.category.toLowerCase());
-    data.append('userId', userData.userObject.userId);
+    data.append('userId', this.props.userObject.userId);
     data.append('quizImage', $('.file-upload-field')[0].files[0]);
     $('.loader').css({ opacity: 1 });
 
-    fetch(`${host}/quizzes`, {
+    fetch(`https://api.quizop.com/quizzes`, {
       method: 'POST',
       body: data,
       headers: {
@@ -103,17 +104,19 @@ class CreateAQuizComponent extends React.Component {
       }
     }).then((response) => {
       response.json().then((body) => {
-        this.setState({ createdQuiz: body.createdQuiz });
         ReactGA.event({
           category: 'User',
-          action: `${userData.userObject.name} successfully created a quiz named ${body.createdQuiz.title}`
+          action: `${this.props.userObject.name} successfully created a quiz named ${body.createdQuiz.title}`
         });
-        $('.loader').css({ opacity: 0 })
+        Router.pushRoute(`/create-quiz/${body.createdQuiz._id}`);
+        setTimeout(() => {
+          $('.loader').css({ opacity: 0 });
+        }, 500)
       })
     }).catch((err) => {
       ReactGA.event({
         category: 'User',
-        action: `an error occured while ${userData.userObject.name} tried to create a quiz`
+        action: `an error occurred while ${this.props.userObject.name} tried to create a quiz`
       });
       console.log(err);
     })
@@ -122,7 +125,7 @@ class CreateAQuizComponent extends React.Component {
   tagAutocomplete (e) {
     this.setState({category: e.target.value, renderAutoCompleteResults: true }, () => {
       if (this.state.category !== '') {
-        fetch(`${host}/api/search/tags?term=${encodeURIComponent(this.state.category)}`, {
+        fetch(`https://api.quizop.com/search/tags?term=${encodeURIComponent(this.state.category)}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'
@@ -176,7 +179,7 @@ class CreateAQuizComponent extends React.Component {
             <div className="progress-bar"/>
             <div className="form1">
               <h1>What do you want to call your quiz?</h1>
-              <input maxLength='45' value={this.state.title} onKeyPress={this.handleEnter.bind(this, '.form1', '.form2', '.input1')} onChange={this.setInputValue.bind(this, 'title')} className="input1" type="text" placeholder="Enter text here"/>
+              <input maxLength='45' value={this.state.title} onKeyPress={this.handleEnter.bind(this, '.form1', '.form2', '.input1')} onChange={this.setInputValue.bind(this, 'title')} className="input1" type="text" placeholder="Enter text here" />
               <button onClick={this.nextForm.bind(this, '.form1', '.form2', false, '.input1', false)}>NEXT</button>
             </div>
             <div className="form2">
@@ -210,11 +213,11 @@ class CreateAQuizComponent extends React.Component {
             </div>
           </div>
         </div>
-        { !userData.isAuthenticated
+        { !this.props.isAuthenticated
           ? <div className="create-quiz-overlay-modal">
             <div className="cannot-create-quiz-modal2">
               <div className="tesxt-container">
-                <h1>We Give Away $200 To Whoever Creates The Best Quiz Every Month!</h1>
+                <h1>We Give Away $100 To Whoever Creates The Best Quiz Every Month!</h1>
                 <p>We cant wait to see what you create!</p>
                 <FaceBookAuthentication redirect={'createQuiz'} redirectUrl={'/create-quiz'} />
               </div>
@@ -230,6 +233,7 @@ class CreateAQuizComponent extends React.Component {
   }
 
   render () {
+    console.log(this.state);
     const createQuizPrompts = this.createQuizPrompts();
     return (
       <div id="create-quiz">

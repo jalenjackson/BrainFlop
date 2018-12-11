@@ -1,8 +1,5 @@
 import React from 'react'
 import $ from 'jquery'
-import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
-let userData = {};
-let host = null;
 import _ from 'lodash';
 let quizId = null;
 
@@ -20,7 +17,6 @@ export default class PersonalityQuizGameComponent extends React.Component {
       resultButtonText: 'SEE RESULTS'
     };
     quizId = this.props.router.query.quizId;
-    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
   }
 
   renderContentLoader () {
@@ -55,8 +51,7 @@ export default class PersonalityQuizGameComponent extends React.Component {
   }
 
   componentDidMount () {
-    host = window.location.protocol + '//' + window.location.host;
-    fetch(`${host}/api/quizzes/${quizId}`, {
+    fetch(`https://api.quizop.com/quizzes/${quizId}`, {
       method: 'GET'
     }).then((response) => {
       response.json().then((body) => {
@@ -66,7 +61,7 @@ export default class PersonalityQuizGameComponent extends React.Component {
       console.log(err)
     });
 
-    fetch(`${host}/api/questions/get-personality-quiz-questions`, {
+    fetch(`https://api.quizop.com/questions/get-personality-quiz-questions`, {
       method: 'POST',
       body: JSON.stringify({ quizId: quizId }),
       headers: {
@@ -74,7 +69,6 @@ export default class PersonalityQuizGameComponent extends React.Component {
       }
     }).then((response) => {
       response.json().then((body) => {
-        console.log(body)
         this.setState({ questions: body.questions }, () => {
           this.setState({ questionsRendered: true })
         })

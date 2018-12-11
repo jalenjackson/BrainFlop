@@ -4,25 +4,36 @@ import { withRouter } from 'next/router'
 import React from 'react';
 import InviteAFriendAnswerChoiceQuizGameComponent from '../src/components/InviteAFriendAnswerChoiceQuizGame';
 import { checkAuthentication } from "../checkAuthentication";
+import Cookies from "universal-cookie";
+import Router from "next/router";
 
-const InviteAFriendAnswerChoiceQuizGame = ({ userObject, router }) => (
+const InviteAFriendAnswerChoiceQuizGame = (Data) => (
     <div>
       <section>
         <Head>
-          <title>BrainFlop - Quizzes You Need And Love</title>
-          <meta name="description" content="" />
+          <title>Invite A Friend - BrainFlop</title>
+          <meta name="description" content='Invite A Friend To Play Along With You On This Quiz!' />
+          <meta name="robots" content="noindex, nofollow" />
         </Head>
-        <Navbar />
-        <InviteAFriendAnswerChoiceQuizGameComponent userObject={userObject ? userObject.userObject : null} isAuthenticated={userObject ? userObject.isAuthenticated : null} router={router} />
+        <Navbar userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
+        <InviteAFriendAnswerChoiceQuizGameComponent userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} router={Data.router} />
       </section>
     </div>
 );
 
-InviteAFriendAnswerChoiceQuizGame.getInitialProps = async ({ req }) => {
+InviteAFriendAnswerChoiceQuizGame.getInitialProps = async (req) => {
   const isClient = typeof document !== 'undefined';
-  if(!isClient) {
-    return checkAuthentication(req.headers.cookie);
+  const cookies = isClient ? new Cookies() : new Cookies(req.req.headers.cookie);
+  if (!cookies.get('userObject')) {
+    if(typeof window === 'undefined'){
+      req.res.redirect('/');
+      req.res.end();
+      return {}
+    }
+    Router.push('/');
+    return {}
   }
+  return checkAuthentication(req);
 };
 
 export default withRouter(InviteAFriendAnswerChoiceQuizGame);

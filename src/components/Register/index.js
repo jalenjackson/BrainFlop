@@ -5,9 +5,7 @@ import FaceBookAuthentication from "../facebook-login";
 import ReactGA from "react-ga";
 import {Router, Link} from '../../../routes';
 let SplitText = null;
-import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
 import Cookies from "universal-cookie";
-let userData = {};
 let host = null;
 
 class Register extends React.Component {
@@ -22,12 +20,11 @@ class Register extends React.Component {
       errorMessage: '',
       userWithEmailFailure: false
     };
-    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
   }
 
   componentDidMount () {
     host = window.location.protocol + '//' + window.location.host;
-    SplitText = require('../../gsap/SplitText').SplitText;
+    SplitText = require('../../gsap/SplitText');
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview(`/register`);
     Register.init()
@@ -57,7 +54,7 @@ class Register extends React.Component {
         })
         $.ajax({
           type: 'POST',
-          url: `${host}/api/users/signup`,
+          url: `https://api.quizop.com/users/signup`,
           data,
           contentType: 'application/json; charset=utf-8',
           dataType: 'json',

@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import PubNubReact from 'pubnub-react';
-import {TimelineMax, TweenMax, Power4} from 'gsap/all';
+import {Power4} from 'gsap/all';
+import {Router} from '../../../routes';
+import TimelineMax from 'gsap/TimelineMax';
+import TweenMax from 'gsap/TweenMax';
 import SearchingLoader from '../searchingLoader';
 import $ from 'jquery';
+import Cookies from 'universal-cookie';
 import ReactGA from "react-ga";
-import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
-let host = null;
+let SplitText = null;
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 
 let uuid = null;
 let quizId = null;
 let channel = null;
-let userData = {};
 
 class QuizRealTimeTraditional extends Component {
   constructor(props) {
@@ -55,9 +59,7 @@ class QuizRealTimeTraditional extends Component {
       yourTimerHit0: false
     };
 
-    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
-
-    uuid = userData.isAuthenticated ? userData.userObject.userId : null;
+    uuid = this.props.isAuthenticated ? this.props.userObject.userId : null;
     quizId = this.props.router.query.quizId;
     channel = this.props.router.query.quizId;
 
@@ -72,7 +74,7 @@ class QuizRealTimeTraditional extends Component {
         state: {
           busy: false,
           answeredQuestion: false,
-          screenName: userData.userObject.name
+          screenName: this.props.userObject.name
         },
         uuid,
         channels: [channel],
@@ -239,7 +241,7 @@ class QuizRealTimeTraditional extends Component {
                       payload: {
                         uuid,
                         questions: this.state.quizQuestions,
-                        opponentName: userData.userObject.name,
+                        opponentName: this.props.userObject.name,
                         target: randomUser.uuid
                       }
                     },
@@ -415,6 +417,11 @@ class QuizRealTimeTraditional extends Component {
     });
   }
 
+  numberWithCommas (x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+
   componentDidUpdate() {
     if (!this.state.gameOver) {
       if (this.state.youAnswered && this.state.opponentAnswered && !this.state.questionAboutToTransition) {
@@ -435,7 +442,7 @@ class QuizRealTimeTraditional extends Component {
 
           this.setState({grade});
 
-          fetch(`${QuizOpDomain.host}/quizzes/analytics/${quizId}`, {
+          fetch(`https://api.quizop.com/quizzes/analytics/${quizId}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json'
@@ -449,48 +456,55 @@ class QuizRealTimeTraditional extends Component {
               const totalQuestions = String(this.state.quizQuestions.length);
               const score = correctAnswers + '/' + totalQuestions;
               const points = this.state.yourScore;
-              if (userData.isAuthenticated) {
-                fetch(`${QuizOpDomain.host}/users/analytics`, {
+              if (this.props.isAuthenticated) {
+                fetch(`https://api.quizop.com/users/analytics`, {
                   method: 'POST',
                   headers: {
-                    'Authorization': `Bearer ${userData.userObject.token}`,
+                    'Authorization': `Bearer ${this.props.userObject.token}`,
                     'Content-Type': 'application/json'
                   },
                   body: JSON.stringify({
-                    userId: userData.userObject.userId,
+                    userId: this.props.userObject.userId,
                     score,
                     points
                   })
                 }).then((response) => {
                   response.json().then((body) => {
-                    localStorage.setItem('Token', body.token);
-                    userData.userObject.token = body.token;
-                    userData.userObject.overallScore = body.user.overallScore;
-                    userData.userObject.points = body.user.points;
+                    const newCookie = {
+                      isAuthenticated: true,
+                      userObject: body.user
+                    };
+                    newCookie.userObject.token = body.token;
+                    const cookies = new Cookies();
+                    cookies.set('userObject', newCookie, { path: '/' });
                     if (this.state.yourScore > 0) {
-                      $('.navbar-points').html(body.user.points).css({ transform: 'translate(45px, 3px) scale(1.5)', color: '#2FDC7F' })
+                      $('.navbar-points').html(this.numberWithCommas(body.user.points)).css({ transform: 'translate(45px, 3px) scale(1.5)', color: '#2FDC7F' })
                       setTimeout(() => {
-                        $('.navbar-points').html(body.user.points).css({ transform: 'translate(45px, 3px) scale(1)', color: 'rgb(200, 190, 190)' })
+                        $('.navbar-points').html(this.numberWithCommas(body.user.points)).css({ transform: 'translate(45px, 3px) scale(1)', color: 'rgb(200, 190, 190)' })
                       }, 600)
                     }
 
                     if (correctAnswers === totalQuestions) {
                       this.setState({wasFlawless: true, grade: 'A+'});
-                      fetch(`${QuizOpDomain.host}/users/analytics`, {
+                      fetch(`https://api.quizop.com/users/analytics`, {
                         method: 'POST',
                         headers: {
-                          'Authorization': `Bearer ${userData.userObject.token}`,
+                          'Authorization': `Bearer ${this.props.userObject.token}`,
                           'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                          userId: userData.userObject.userId,
+                          userId: this.props.userObject.userId,
                           isPerfectScore: true
                         })
                       }).then((response) => {
                         response.json().then((body) => {
-                          localStorage.setItem('Token', body.token);
-                          userData.userObject.token = body.token;
-                          userData.userObject.numberOfPerfectScores = body.user.numberOfPerfectScores;
+                          const newCookie = {
+                            isAuthenticated: true,
+                            userObject: body.user
+                          };
+                          newCookie.userObject.token = body.token;
+                          const cookies = new Cookies();
+                          cookies.set('userObject', newCookie, { path: '/' });
                         })
                       }).catch(() => {
                         window.location.href = '/error'
@@ -542,15 +556,13 @@ class QuizRealTimeTraditional extends Component {
   }
 
   componentDidMount() {
-    host = window.location.protocol + '//' + window.location.host;
-    SplitText = require("../../gsap/SplitText").SplitText;
+    SplitText = require("../../gsap/SplitText");
     ReactGA.initialize('UA-129744457-1')
     ReactGA.pageview(`/quizzes/traditional/${this.props.router.query.quizId}`);
     this.interval = setInterval(() => this.updateTimer(), 1000);
-
     window.addEventListener('beforeunload', this.leaveQuizGame);
 
-    fetch(`${host}/api/questions/get-quiz-questions`, {
+    fetch(`https://api.quizop.com/questions/get-quiz-questions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -719,7 +731,7 @@ class QuizRealTimeTraditional extends Component {
     return (
       <div>
         <div className="user">
-          <h1>{userData.userObject.name}</h1>
+          <h1>{this.props.userObject.name}</h1>
           <p>{this.state.yourScore} points</p>
         </div>
         <div className="opponent">
@@ -737,10 +749,11 @@ class QuizRealTimeTraditional extends Component {
     history.push('/register')
   }
 
-  redirectToAction (action, history) {
+  redirectToAction (action) {
+    $("html, body").animate({ scrollTop: 0 }, 350);
     action === 'again'
       ? window.location.reload()
-      : history.push('/explore')
+      : Router.pushRoute('/')
   }
 
   renderEndGameResults() {
@@ -795,14 +808,8 @@ class QuizRealTimeTraditional extends Component {
                 </div>
               ))}
             </div>
-            <Route render={({ history }) => (
-              <button onClick={this.redirectToAction.bind(this, 'again', history)}>Play Again</button>
-            )}
-            />
-            <Route render={({ history }) => (
-              <button onClick={this.redirectToAction.bind(this, 'explore', history)}>Explore</button>
-            )}
-            />
+            <button onClick={this.redirectToAction.bind(this, 'again')}>Play Again</button>
+            <button onClick={this.redirectToAction.bind(this, 'explore')}>Explore</button>
           </div>
         </div>
       )
@@ -837,7 +844,7 @@ class QuizRealTimeTraditional extends Component {
 
     return (
       <div id="quiz-real-time-traditional">
-        { !userData.isAuthenticated ? <Redirect to="/explore" /> : null }
+        { !this.props.isAuthenticated ? <Redirect to="/explore" /> : null }
         { this.state.isAnimating || !this.state.opponentFound ? <SearchingLoader countdown={this.state.countDownTimer} opponentFound={this.state.opponentFound} isInvite={false} /> : renderQuizSection }
       </div>
     );

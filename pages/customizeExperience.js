@@ -1,27 +1,39 @@
-import Explore from '../src/components/Explore';
 import Head from 'next/head';
 import { withRouter } from 'next/router'
 import CustomizeExperienceComponent from '../src/components/CustomizeExperience';
 import { checkAuthentication } from '../checkAuthentication';
 import Navbar from '../src/components/Navbar';
 import React from 'react';
+import Cookies from "universal-cookie";
+import Router from "next/router";
 
-const CustomizeExperience = ({ userObject, router }) => (
+const CustomizeExperience = (Data) => (
   <section>
     <Head>
-      <title>BrainFlop - Quizzes You Need And Love</title>
-      <meta name="description" content="" />
+      <title>Customize Experience - BrainFlop</title>
+      <meta name="description" content='Customize Your Experience Here At BrainFlop' />
+      <meta name="robots" content="noindex, nofollow" />
     </Head>
-    <Navbar userObject={userObject ? userObject.userObject : null} isAuthenticated={userObject ? userObject.isAuthenticated : null} />
-    <CustomizeExperienceComponent userObject={userObject ? userObject.userObject : null} isAuthenticated={userObject ? userObject.isAuthenticated : null}  />
+    <Navbar userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
+    <CustomizeExperienceComponent userObject={Data.userObject} isAuthenticated={Data.isAuthenticated}  />
   </section>
 );
 
-CustomizeExperience.getInitialProps = async ({ req }) => {
+CustomizeExperience.getInitialProps = async (req) => {
   const isClient = typeof document !== 'undefined';
-  if(!isClient) {
-    return checkAuthentication(req.headers.cookie);
+
+  const cookies = isClient ? new Cookies() : new Cookies(req.req.headers.cookie);
+
+  if (!cookies.get('userObject')) {
+    if(typeof window === 'undefined'){
+      req.res.redirect('/');
+      req.res.end();
+      return {}
+    }
+    Router.push('/');
+    return {}
   }
+  return checkAuthentication(req);
 };
 
 export default withRouter(CustomizeExperience);

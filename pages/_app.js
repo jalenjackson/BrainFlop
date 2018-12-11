@@ -28,7 +28,7 @@ Router.events.on('routeChangeStart', (url) => {
 Router.events.on('routeChangeComplete', () => {
   setTimeout(() => {
     NProgress.done()
-  }, 500)
+  }, 300)
 });
 Router.events.on('routeChangeError', () => NProgress.done())
 

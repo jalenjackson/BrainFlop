@@ -6,9 +6,6 @@ import Cookies from "universal-cookie";
 import TweenMax, {Power3} from "gsap/TweenMaxBase";
 import ReactGA from "react-ga";
 import { Router } from '../../../routes';
-import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
-let host = null;
-let userData = {};
 
 ReactChartkick.addAdapter(Chart);
 
@@ -27,21 +24,19 @@ export default class ProfileComponent extends React.Component {
       percentageOfQuestionsCorrectMessage: '',
       editErrorMessage: ''
     };
-    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
   }
 
   componentDidMount () {
-    host = window.location.protocol + '//' + window.location.host;
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview(`/profile`);
     document.addEventListener('scroll', this.trackScrolling);
 
-    fetch(`${host}/api/quizzes/user-quizzes`, {
+    fetch(`https://api.quizop.com/quizzes/user-quizzes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
       },
-      body: JSON.stringify({ userId: userData.userObject.userId, skipIterator: this.state.skipIterator })
+      body: JSON.stringify({ userId: this.props.userObject.userId, skipIterator: this.state.skipIterator })
     }).then((response) => {
       response.json().then((body) => {
         this.setState({ quizzes: body.quizzes }, () => {
@@ -54,13 +49,13 @@ export default class ProfileComponent extends React.Component {
       console.log(err);
     });
 
-    let currentUserScore = userData.userObject.points;
+    let currentUserScore = this.props.userObject.points;
     if (currentUserScore < 500) this.setState({ userTitle: 'BrainFlop Rookie' })
     if (currentUserScore < 2000 && currentUserScore > 500) this.setState({ userTitle: 'BrainFlop Beginner' })
     if (currentUserScore < 5000 && currentUserScore > 2000) this.setState({ userTitle: 'BrainFlop Pro' })
     if (currentUserScore < 10000 && currentUserScore > 5000) this.setState({ userTitle: 'BrainFlop Master' })
     if (currentUserScore > 10000) this.setState({ userTitle: 'BrainFlop Ninja' })
-    let percentageOfQuestionsCorrect = (Number(userData.userObject.overallScore.split('/')[0]) / Number(userData.userObject.overallScore.split('/')[1])).toFixed(2);
+    let percentageOfQuestionsCorrect = (Number(this.props.userObject.overallScore.split('/')[0]) / Number(this.props.userObject.overallScore.split('/')[1])).toFixed(2);
     isNaN(percentageOfQuestionsCorrect)
       ? this.setState({ percentageOfQuestionsCorrectMessage: "Your data will appear here once you've taken some quizzes" })
       : this.setState({ percentageOfQuestionsCorrectMessage: `${String(percentageOfQuestionsCorrect).split('.')[1]}% of the questions you've answered were correct` })
@@ -85,10 +80,10 @@ export default class ProfileComponent extends React.Component {
   async fetchMoreQuizzes() {
     await this.setState({ skipIterator: this.state.skipIterator + 8 });
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
-    fetch(`${host}/api/quizzes/user-quizzes`, {
+    fetch(`https://api.quizop.com/quizzes/user-quizzes`, {
       method: 'POST',
       body: JSON.stringify({
-        userId: userData.userObject.userId,
+        userId: this.props.userObject.userId,
         skipIterator: this.state.skipIterator,
       }),
       headers: {
@@ -181,22 +176,23 @@ export default class ProfileComponent extends React.Component {
         return this.setState({ editErrorMessage: 'Email is not valid' })
       }
     }
-    fetch(`${host}/api/users/edit`, {
+    fetch(`https://api.quizop.com/users/edit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': `Bearer ${userData.userObject.token}`
+        'Authorization': `Bearer ${this.props.userObject.token}`
       },
       body: JSON.stringify({
-        userId: userData.userObject.userId,
+        userId: this.props.userObject.userId,
         name: data.name,
         email: data.email,
         password: data.password
       })
     }).then((response) => {
       response.json().then((body) => {
+        console.log(body)
         if (body.message) {
-          return console.log('show error message');
+          return this.setState({ editErrorMessage: 'You cannot change your email to that' })
         }
         data.name ? $('.top-header h1').html(data.name) : null;
         $('.edit-name').val('')
@@ -205,7 +201,7 @@ export default class ProfileComponent extends React.Component {
         $(".edit-profile-modal-container, .edit-profile-modal").css({ opacity: 0, pointerEvents: 'none' });
         const newCookie = {
           isAuthenticated: true,
-          userObject: body.userObject
+          userObject: body.user
         };
         newCookie.userObject.token = body.token;
         const cookies = new Cookies();
@@ -232,7 +228,7 @@ export default class ProfileComponent extends React.Component {
     return (
       <div className="edit-profile-modal-container">
         <div className="edit-profile-modal">
-          <img onClick={this.hideEditProfileModal.bind(this)} className="close-modal" src='/static/images/icons/close.svg' />
+          <img onClick={this.hideEditProfileModal.bind(this)} className="close-modal" src='/static/images/icons/close.png' />
           <h1>Edit Profile</h1>
           <p>Leave the field blank if you do not want to change it</p>
           <p style={{ color: '#ec526d', marginTop: '15px' }}>{this.state.editErrorMessage}</p>
@@ -275,7 +271,7 @@ export default class ProfileComponent extends React.Component {
         <div id="profile">
           <div className="top-header">
             <div className="text-container">
-              <h1>{userData.userObject.name}</h1>
+              <h1>{this.props.userObject.name}</h1>
               <p>{this.state.userTitle}</p>
               <button onClick={this.showEditProfileModal.bind(this)}>EDIT PROFILE</button>
               <button onClick={this.redirectToCustomizeExperience.bind(this)}>CUSTOMIZE EXPERIENCE</button>
@@ -287,7 +283,7 @@ export default class ProfileComponent extends React.Component {
               this.state.contentRendered ?
                 <div>
                   <img src='/static/images/icons/lightning.svg' />
-                  <h1>You've earned {userData.userObject.points} points</h1>
+                  <h1>You've earned {this.props.userObject.points} points</h1>
                   <img className="underline" src='/static/images/icons/underline.svg' />
                 </div>
                 :
@@ -299,7 +295,7 @@ export default class ProfileComponent extends React.Component {
               this.state.contentRendered ?
                 <div>
                   <h1>Question Right To Wrong Ratio</h1>
-                  <PieChart colors={["#2FDC7F", "rgb(246,92,119)"]} donut={true} width="150" height="200px" data={[["Questions Answered Correctly", userData.userObject.overallScore.split('/')[0]], ["Questions Answered Wrong", Number(userData.userObject.overallScore.split('/')[1]) - Number(userData.userObject.overallScore.split('/')[0]) ]]} />
+                  <PieChart colors={["#2FDC7F", "rgb(246,92,119)"]} donut={true} width="150" height="200px" data={[["Questions Answered Correctly", this.props.userObject.overallScore.split('/')[0]], ["Questions Answered Wrong", Number(this.props.userObject.overallScore.split('/')[1]) - Number(this.props.userObject.overallScore.split('/')[0]) ]]} />
                   <h1>{this.state.percentageOfQuestionsCorrectMessage}</h1>
                 </div>
                 :
@@ -310,7 +306,7 @@ export default class ProfileComponent extends React.Component {
             {
               this.state.contentRendered ?
                 <div>
-                  <h1>Your <span style={{ color: '#ec526d', fontFamily: 'QuizOpFont, sans-serif' }}>FLAWLESS</span> score is {userData.userObject.numberOfPerfectScores}</h1>
+                  <h1>Your <span style={{ color: '#ec526d', fontFamily: 'QuizOpFont, sans-serif' }}>FLAWLESS</span> score is {this.props.userObject.numberOfPerfectScores}</h1>
                   <p style={{ width: '80%', display: 'inline-block' }}>Your <span style={{ color: '#ec526d', fontFamily: 'QuizOpFont, sans-serif' }}>FLAWLESS</span> score represent the amount of times you scored a perfect score on a quiz</p>
                 </div>
                 :

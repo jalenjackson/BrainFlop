@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import PubNubReact from 'pubnub-react';
-import {TimelineMax, TweenMax, Power4} from 'gsap/all';
+import TimelineMax from 'gsap/TimelineMax';
+import TweenMax from 'gsap/TweenMax';
+import {Power4} from 'gsap/all';
+import {Router} from '../../../routes';
 import SearchingLoader from '../searchingLoader';
 import '../../sass/sharedQuizGame.sass';
 import $ from 'jquery';
-let host = null;
 import ReactGA from "react-ga";
-import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
+import Cookies from "universal-cookie";
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+
 let SplitText = null;
-let userData = {};
 
 let uuid = null;
 let quizId = null;
@@ -57,9 +61,8 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
       yourTimerHit0: false
     };
 
-    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
 
-    uuid = userData.isAuthenticated ? userData.userObject.userId : null;
+    uuid = this.props.isAuthenticated ? this.props.userObject.userId : null;
     quizId = this.props.router.query.quizId;
     channel = quizId + this.props.router.query.userId;
 
@@ -74,7 +77,7 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
         state: {
           busy: false,
           answeredQuestion: false,
-          screenName: userData.userObject.name
+          screenName: this.props.userObject.name
         },
         uuid,
         channels: [channel],
@@ -241,7 +244,7 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
                       payload: {
                         uuid,
                         questions: this.state.quizQuestions,
-                        opponentName: userData.userObject.name,
+                        opponentName: this.props.userObject.name,
                         target: randomUser.uuid
                       }
                     },
@@ -436,7 +439,7 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
 
           this.setState({grade});
 
-          fetch(`${host}/api/quizzes/analytics/${quizId}`, {
+          fetch(`https://api.quizop.com/quizzes/analytics/${quizId}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json'
@@ -450,24 +453,27 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
               const totalQuestions = String(this.state.quizQuestions.length);
               const score = correctAnswers + '/' + totalQuestions;
               const points = this.state.yourScore;
-              if (userData.isAuthenticated) {
-                fetch(`${host}/api/users/analytics`, {
+              if (this.props.isAuthenticated) {
+                fetch(`https://api.quizop.com/users/analytics`, {
                   method: 'POST',
                   headers: {
-                    'Authorization': `Bearer ${userData.userObject.token}`,
+                    'Authorization': `Bearer ${this.props.userObject.token}`,
                     'Content-Type': 'application/json'
                   },
                   body: JSON.stringify({
-                    userId: userData.userObject.userId,
+                    userId: this.props.userObject.userId,
                     score,
                     points
                   })
                 }).then((response) => {
                   response.json().then((body) => {
-                    localStorage.setItem('Token', body.token);
-                    userData.userObject.token = body.token;
-                    userData.userObject.overallScore = body.user.overallScore;
-                    userData.userObject.points = body.user.points;
+                    const newCookie = {
+                      isAuthenticated: true,
+                      userObject: body.user
+                    };
+                    newCookie.userObject.token = body.token;
+                    const cookies = new Cookies();
+                    cookies.set('userObject', newCookie, { path: '/' });
                     if (this.state.yourScore > 0) {
                       $('.navbar-points').html(body.user.points).css({ transform: 'translate(45px, 3px) scale(1.5)', color: '#2FDC7F' })
                       setTimeout(() => {
@@ -477,21 +483,25 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
 
                     if (correctAnswers === totalQuestions) {
                       this.setState({wasFlawless: true, grade: 'A+'});
-                      fetch(`${host}/api/users/analytics`, {
+                      fetch(`https://api.quizop.com/users/analytics`, {
                         method: 'POST',
                         headers: {
-                          'Authorization': `Bearer ${userData.userObject.token}`,
+                          'Authorization': `Bearer ${this.props.userObject.token}`,
                           'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                          userId: userData.userObject.userId,
+                          userId: this.props.userObject.userId,
                           isPerfectScore: true
                         })
                       }).then((response) => {
                         response.json().then((body) => {
-                          localStorage.setItem('Token', body.token);
-                          userData.userObject.token = body.token;
-                          userData.userObject.numberOfPerfectScores = body.user.numberOfPerfectScores;
+                          const newCookie = {
+                            isAuthenticated: true,
+                            userObject: body.user
+                          };
+                          newCookie.userObject.token = body.token;
+                          const cookies = new Cookies();
+                          cookies.set('userObject', newCookie, { path: '/' });
                         })
                       }).catch((err) => {
                         console.log(err)
@@ -543,14 +553,13 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
   }
 
   componentDidMount() {
-    host = window.location.protocol + '//' + window.location.host;
-    SplitText = require('../../gsap/SplitText').SplitText;
+    SplitText = require('../../gsap/SplitText');
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview(`/quizzes/traditional/${this.props.router.query.quizId}/${this.props.router.query.userId}`);
     this.interval = setInterval(() => this.updateTimer(), 1000);
     window.addEventListener('beforeunload', this.leaveQuizGame);
 
-    fetch(`${host}/api/questions/get-quiz-questions`, {
+    fetch(`https://api.quizop.com/questions/get-quiz-questions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -720,7 +729,7 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
     return (
       <div>
         <div className="user">
-          <h1>{userData.userObject.name}</h1>
+          <h1>{this.props.userObject.name}</h1>
           <p>{this.state.yourScore} points</p>
         </div>
         <div className="opponent">
@@ -734,12 +743,11 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
     )
   }
 
-  redirectToSignUp (history) {
-    history.push('/register')
-  }
-
-  redirectToAction (action, history) {
-
+  redirectToAction (action) {
+    $("html, body").animate({ scrollTop: 0 }, 350);
+    action === 'again'
+      ? window.location.reload()
+      : Router.pushRoute('/')
   }
 
   renderEndGameResults() {
@@ -829,13 +837,13 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
     const renderQuizSection = this.renderQuizSection();
     return (
       <div id="quiz-real-time-traditional">
-        { userData.userObject.userId === this.props.router.query.userId && this.state.status !== 'busy' ?
+        { this.props.userObject.userId === this.props.router.query.userId && this.state.status !== 'busy' ?
           <div className="invite-friend-modal">
             <div className="text-container">
               <img className='sun' src='/static/images/icons/sun.svg' />
               <h2>Send This Link To Your Friend</h2>
               <div className="link-container">
-                <p>{/*current url*/}</p>
+                <p>{`https://www.brainflop.com${this.props.router.asPath}`}</p>
               </div>
             </div>
           </div>

@@ -1,13 +1,17 @@
 import React from 'react';
-import { TweenMax, TimelineMax, Power4 } from 'gsap/all'
+import { Power4 } from 'gsap/all';
+import TweenMax from 'gsap/TweenMax';
+import TimelineMax from 'gsap/TimelineMax';
 import FaceBookAuthentication from '../facebook-login';
 import Link from 'next/link';
 import $ from 'jquery';
-let SplitText = null;
 import {Router} from '../../../routes';
 import Cookies from 'universal-cookie';
+let SplitText = null;
 let host = null;
 import ReactGA from 'react-ga';
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 
 class LoginComponent extends React.Component {
   constructor (props) {
@@ -24,10 +28,10 @@ class LoginComponent extends React.Component {
     }
   }
 
-  componentDidMount () {
+  async componentDidMount () {
+    SplitText = require('../../gsap/SplitText');
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview('/login');
-    SplitText = require('../../gsap/SplitText').SplitText;
     LoginComponent.init();
     host = window.location.protocol + '//' + window.location.host;
   }
@@ -48,7 +52,7 @@ class LoginComponent extends React.Component {
         this.setState({ errorMessage: '' });
         $.ajax({
           type: 'POST',
-          url: `${host}/api/users/login`,
+          url: `https://api.quizop.com/users/login`,
           data: JSON.stringify(data),
           contentType: 'application/json; charset=utf-8',
           dataType: 'json',
@@ -100,7 +104,7 @@ class LoginComponent extends React.Component {
       $('.forgot-password-text').css({ filter: 'grayscale(100%)' });
       $.ajax({
         type: 'POST',
-        url: `${host}/api/users/forgot`,
+        url: `https://api.quizop.com/users/forgot`,
         data: JSON.stringify({ email: this.state.forgotPasswordEmail }),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',

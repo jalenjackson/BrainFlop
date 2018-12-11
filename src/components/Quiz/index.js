@@ -3,34 +3,28 @@ import $ from 'jquery';
 import TimelineMax from 'gsap/TimelineMax';
 import TweenMax, {Power4} from 'gsap/TweenMaxBase';
 import ReactGA from 'react-ga';
-import {Router} from "../../../routes";
-import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
+import {Router, Link} from "../../../routes";
 let quizId = null;
 let SplitText = null;
-let userData = {};
 
 export default class QuizShowPage extends React.Component {
   constructor (props) {
     super(props);
-
     this.state = {
       quizData: null,
       userThatCreateTheQuiz: null,
       questionLength: 0
     };
-
-    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
   }
 
   componentDidMount () {
     quizId = window.location.pathname.split('/')[3];
-    SplitText = require('../../gsap/SplitText').SplitText;
-    const host = window.location.protocol + '//' + window.location.host;
+    SplitText = require('../../gsap/SplitText');
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview(`/quiz/${quizId}`);
     $(window).scrollTop(0);
 
-    fetch(`${host}/api/questions/get-quiz-questions`, {
+    fetch(`https://api.quizop.com/questions/get-quiz-questions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -47,12 +41,12 @@ export default class QuizShowPage extends React.Component {
       console.log(err)
     });
 
-    fetch(`${host}/api/quizzes/${quizId}`, {
+    fetch(`https://api.quizop.com/quizzes/${quizId}`, {
       method: 'GET'
     }).then((response) => {
       response.json().then((body) => {
         this.setState({ quizData: body }, () => {
-          fetch(`${host}/api/users/get-user`, {
+          fetch(`https://api.quizop.com/users/get-user`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json; charset=utf-8'
@@ -93,11 +87,6 @@ export default class QuizShowPage extends React.Component {
     })
   }
 
-  navigateToTagPage (tagName, history) {
-    Router.pushRoute(`/quiz/${tagName}`)
-    history.push(`/tags/${tagName}`)
-  }
-
   renderQuizData () {
     if (this.state.quizData) {
       return (
@@ -112,14 +101,14 @@ export default class QuizShowPage extends React.Component {
     if (this.state.questionLength === 0) {
       alert(`${this.state.userThatCreateTheQuiz ? this.state.userThatCreateTheQuiz.name : ''} is still working on this quiz. Come back later when ${this.state.userThatCreateTheQuiz ? this.state.userThatCreateTheQuiz.name : ''} is finished.`)
     } else {
-      if ((location === 'online' || location === 'invite') && !userData.isAuthenticated) {
+      if ((location === 'online' || location === 'invite') && !this.props.isAuthenticated) {
         $('.not-signed-in-container').css({opacity: 1, pointerEvents: 'auto'});
         return this.renderNotSignedInOnlineModal()
       }
       $("html, body").animate({ scrollTop: 0 }, 350);
-      if (location === 'online') Router.pushRoute(`/online/answer-choice/${_.kebabCase(quizData.title)}/${userData.userObject.userId}`);
+      if (location === 'online') Router.pushRoute(`/online/answer-choice/${_.kebabCase(quizData.title)}/${quizData._id}`);
       if (location === 'alone') Router.pushRoute(`/single-player/answer-choice/${_.kebabCase(quizData.title)}/${quizId}`);
-      if (location === 'invite') Router.pushRoute(`/invite-friend/answer-choice/${_.kebabCase(quizData.title)}/${quizId}/${userData.userObject.userId}`);
+      if (location === 'invite') Router.pushRoute(`/invite-friend/answer-choice/${_.kebabCase(quizData.title)}/${quizId}/${this.props.userObject.userId}`);
     }
   }
 

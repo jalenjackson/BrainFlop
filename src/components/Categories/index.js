@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {Power3, TweenMax} from "gsap/all";
 import $ from 'jquery';
-import { Router } from '../../../routes.js'
+import { Router, Link } from '../../../routes.js'
 import ReactGA from "react-ga";
-import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
-let userData = {};
 import _ from 'lodash';
-let host = null;
+import pluralize from "pluralize";
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 
 export default class TagPage extends Component {
 
@@ -17,16 +17,13 @@ export default class TagPage extends Component {
       skipIterator: 0,
       tagsRendered: false
     };
-    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
-
   }
 
   componentDidMount() {
-    host = window.location.protocol + '//' + window.location.host;
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview('/categories');
     document.addEventListener('scroll', this.trackScrolling);
-    fetch(`${host}/api/tags?limit=9&skipAmount=0`, {
+    fetch(`https://api.quizop.com/tags?limit=9&skipAmount=0`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -57,7 +54,7 @@ export default class TagPage extends Component {
   }
 
   isBottom(el) {
-    return $(window).scrollTop() == ($(document).height() - $(window).height())
+    return $(window).scrollTop() > ($(document).height() / 2) - ($(window).height() / 2)
   }
 
   trackScrolling = () => {
@@ -68,10 +65,16 @@ export default class TagPage extends Component {
     }
   };
 
+  pluralizeTopic(topic) {
+    return pluralize.isPlural(topic)
+      ? pluralize.singular(topic)
+      : topic;
+  }
+
   async fetchMoreQuizzes() {
     await this.setState({ skipIterator: this.state.skipIterator + 9 });
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
-    fetch(`${host}/api/tags?limit=9&skipAmount=${this.state.skipIterator}`, {
+    fetch(`https://api.quizop.com/tags?limit=9&skipAmount=${this.state.skipIterator}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -92,20 +95,19 @@ export default class TagPage extends Component {
     })
   }
 
-  navigateToTagPage (tagName) {
-    $("html, body").animate({ scrollTop: 0 }, 350);
-    Router.pushRoute(`/category/${_.kebabCase(tagName)}`)
-  }
-
   renderQuizzes() {
     if (this.state.tags.length > 0) {
       return this.state.tags.map((tag) => (
         <div className="col">
-          <div onClick={this.navigateToTagPage.bind(this, this.toTitleCase(tag.name))} className="quiz-img all-tags-img">
-            <div className="text-container">
-              <h1 onClick={this.navigateToTagPage.bind(this, this.toTitleCase(tag.name))}>{ this.toTitleCase(tag.name) }</h1>
-            </div>
-          </div>
+          <Link route={`/category/${_.kebabCase(tag.name)}`} >
+            <a title={`${this.toTitleCase(this.pluralizeTopic(tag.name))} Quizzes`}>
+              <div className="quiz-img all-tags-img">
+                <div className="text-container">
+                  <h1>{ this.toTitleCase(tag.name) }</h1>
+                </div>
+              </div>
+            </a>
+          </Link>
         </div>
       ))
     }

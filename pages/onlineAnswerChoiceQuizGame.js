@@ -2,30 +2,39 @@ import Head from 'next/head';
 import Navbar from '../src/components/Navbar';
 import { withRouter } from 'next/router'
 import React from 'react';
-import InviteAFriendAnswerChoiceQuizGameComponent from '../src/components/InviteAFriendAnswerChoiceQuizGame';
 import { checkAuthentication } from "../checkAuthentication";
 import OnlineAnswerChoiceQuizGameComponent from '../src/components/OnlineAnswerChoiceQuizGame';
-import Index from "./index";
+import Cookies from "universal-cookie";
+import Router from "next/router";
 
-const OnlineAnswerChoiceQuizGame = ({ userObject, router }) => (
+const OnlineAnswerChoiceQuizGame = (Data) => (
   <div>
-    {console.log(userObject)}
     <section>
       <Head>
-        <title>BrainFlop - Quizzes You Need And Love</title>
-        <meta name="description" content="" />
+        <title>Online Multiplayer - BrainFlop</title>
+        <meta name="description" content='Play Your Favorite Quiz Online!' />
+        <meta name="robots" content="noindex, nofollow" />
       </Head>
-      <Navbar userObject={userObject ? userObject.userObject : null} isAuthenticated={userObject ? userObject.isAuthenticated : null} />
-      <OnlineAnswerChoiceQuizGameComponent userObject={userObject ? userObject.userObject : null} isAuthenticated={userObject ? userObject.isAuthenticated : null} router={router} />
+      <Navbar userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
+      <OnlineAnswerChoiceQuizGameComponent userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} router={Data.router} />
     </section>
   </div>
 );
 
-OnlineAnswerChoiceQuizGame.getInitialProps = async ({ req }) => {
+OnlineAnswerChoiceQuizGame.getInitialProps = async (req) => {
   const isClient = typeof document !== 'undefined';
-  if(!isClient) {
-    return checkAuthentication(req.headers.cookie);
+  const cookies = isClient ? new Cookies() : new Cookies(req.req.headers.cookie);
+
+  if (!cookies.get('userObject')) {
+    if(typeof window === 'undefined'){
+      req.res.redirect('/');
+      req.res.end();
+      return {}
+    }
+    Router.push('/');
+    return {}
   }
+  return checkAuthentication(req);
 };
 
 export default withRouter(OnlineAnswerChoiceQuizGame);

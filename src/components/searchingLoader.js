@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TimelineMax from "gsap/TimelineMax";
-import TweenMax, {Power4} from "gsap/TweenMaxBase";
+import TweenMax from 'gsap/TweenMax';
+import {Power4} from 'gsap/all';
 import $ from 'jquery';
 let SplitText = null;
 export default class SearchingLoader extends Component {
@@ -15,7 +16,7 @@ export default class SearchingLoader extends Component {
     };
   }
   componentDidMount() {
-    SplitText = require('../gsap/SplitText').SplitText;
+    SplitText = require('../gsap/SplitText');
     if (this.props.isInvite) {
       this.setState({ startingText: `` })
     } else {

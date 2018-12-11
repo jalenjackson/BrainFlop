@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
-import {Power3, TweenMax} from "gsap/all";
+import TweenMax from 'gsap/TweenMax';
+import {Power3} from "gsap/all";
 import $ from "jquery";
 import { Router } from '../../../routes';
 import ReactGA from "react-ga";
-import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
 import Cookies from "universal-cookie";
-let userData = {};
 let host = null;
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 
 export default class CustomizeExperience extends Component {
   constructor(props) {
     super(props);
     this.state = {customizeExperienceTags: [], skipIterator: 0, addedTags: []}
-    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
   }
 
   static toTitleCase(str) {
@@ -33,7 +33,7 @@ export default class CustomizeExperience extends Component {
     document.addEventListener('scroll', this.trackScrolling);
     $.ajax({
       type: 'GET',
-      url: `${host}/api/tags?limit=12&skipAmount=${this.state.skipIterator}`,
+      url: `https://api.quizop.com/tags?limit=12&skipAmount=${this.state.skipIterator}`,
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       success: (body) => {
@@ -51,6 +51,7 @@ export default class CustomizeExperience extends Component {
       e.currentTarget.style.color = 'rgb(80, 80, 80)';
       let tmpArr = this.state.addedTags;
       tmpArr.splice(this.state.addedTags.indexOf(tagName), 1);
+      TweenMax.to('#customize button', 0.5, { transform: 'translate3d(0, 300px, 0)', ease: Power3.easeOut });
       return this.setState({ addedTags: tmpArr });
     }
     if (this.state.addedTags.length === 4) {
@@ -91,7 +92,7 @@ export default class CustomizeExperience extends Component {
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
     $.ajax({
       type: 'GET',
-      url: `${host}/api/tags?limit=12&skipAmount=${this.state.skipIterator}`,
+      url: `https://api.quizop.com/tags?limit=12&skipAmount=${this.state.skipIterator}`,
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       success: (body) => {
@@ -113,15 +114,14 @@ export default class CustomizeExperience extends Component {
     $('.submit-btn').css({ filter: 'grayscale(100%)' });
     $.ajax({
       type: 'POST',
-      url: `${host}/api/users/update-customized-tags`,
+      url: `https://api.quizop.com/users/update-customized-tags`,
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       headers: {
-        'Authorization': `Bearer ${userData.userObject.token}`
+        'Authorization': `Bearer ${this.props.userObject.token}`
       },
       data: JSON.stringify({ tags: this.state.addedTags }),
       success: (body) => {
-        console.log(body)
         const newCookie = {
           isAuthenticated: true,
           userObject: body.userObject
@@ -131,7 +131,7 @@ export default class CustomizeExperience extends Component {
         cookies.set('userObject', newCookie, { path: '/' });
         ReactGA.event({
           category: 'User',
-          action: `${userData.userObject.name} customized their experience!`
+          action: `${this.props.userObject.name} customized their experience!`
         });
         $("html, body").animate({ scrollTop: 0 }, 350);
         Router.pushRoute('/')

@@ -2,12 +2,11 @@ import React from 'react';
 import './explore.sass';
 import $ from 'jquery';
 import _ from 'lodash';
-import Link from 'next/link';
 import ReactGA from "react-ga";
-import { verifyFrontEndAuthentication } from '../verifyFrontEndAuthentication';
-import { Router } from '../../../routes';
-
-let userData = {};
+import pluralize from "pluralize";
+import { Router, Link } from '../../../routes';
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 
 class Explore extends React.Component {
   constructor (props) {
@@ -25,17 +24,14 @@ class Explore extends React.Component {
       hideContentLoader: false,
       personalityQuizzes: [],
     };
-
-    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
   }
 
 
   async componentDidMount () {
-    const host = window.location.protocol + '//' + window.location.host;
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview('/explore');
 
-    fetch(`${host}/api/quizzes/featured?limit=5&skip=0`, {
+    fetch(`https://api.quizop.com/quizzes/featured?limit=5&skip=0`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json; charset=utf-8' }
     }).then((response) => {
@@ -46,7 +42,7 @@ class Explore extends React.Component {
       console.log(err);
     });
 
-    fetch(`${host}/api/quizzes/personality-quizzes`, {
+    fetch(`https://api.quizop.com/quizzes/personality-quizzes`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json; charset=utf-8' }
     }).then((response) => {
@@ -57,7 +53,7 @@ class Explore extends React.Component {
       console.log(err);
     });
 
-    fetch(`${host}/api/tags?limit=8&skipAmount=0`, {
+    fetch(`https://api.quizop.com/tags?limit=8&skipAmount=0`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json; charset=utf-8' }
     }).then((response) => {
@@ -66,16 +62,16 @@ class Explore extends React.Component {
           topTags: body.tags
         }, () => {
           const shouldFetchUsersCustomizedExperience =
-            userData.isAuthenticated &&
-            userData.userObject.customizedTags !== 'none';
+            this.props.isAuthenticated &&
+            this.props.userObject.customizedTags !== 'none';
           this.setState({
             previousUserTags: shouldFetchUsersCustomizedExperience
-              ? userData.userObject.customizedTags.split(',')
+              ? this.props.userObject.customizedTags.split(',')
               : this.state.topTags.slice(0, 5)
           }, () => {
             for (let i = 0; i < this.state.previousUserTags.length; i++) {
               let stateKey = `topic${i + 1}Quizzes`;
-              fetch(`${host}/api/quizzes/quizzes-by-topic`, {
+              fetch(`https://api.quizop.com/quizzes/quizzes-by-topic`, {
                 method: 'POST',
                 body: JSON.stringify({ topic: shouldFetchUsersCustomizedExperience
                     ? this.state.previousUserTags[i]
@@ -102,24 +98,31 @@ class Explore extends React.Component {
   renderTopicSection (quizI, section) {
     if (this.state[section].length >= 4) {
       return (
-        <div className={`col large-one ${section}`}>
-          <div onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI].personalityResults, this.state[section][quizI].title, this.state[section][quizI]._id)} style={{ background: `url(${this.state[section][quizI].quizImage}) center center no-repeat`, backgroundSize: 'cover' }} className="large-img" />
-
-          <div className="text-container">
-            <div className="text-container">
-              <h1 onClick={this.redirectToShowQuizPage.bind(this, this.state[section][quizI].personalityResults, this.state[section][quizI].title, this.state[section][quizI]._id)}>{ this.state[section][quizI].title }</h1>
-              <p>{ this.state[section][quizI].description }</p>
-              <div className="tags">
-                <p className="user-name">
-                  {this.state[section][quizI].tags.split(',').map((tag, i) => {
-                    return (
-                      <span onClick={this.routeToTagPage.bind(this, tag)} key={i} className="span-color">{tag}</span>
-                    )
-                  })}
-                </p>
+        <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)} className={`col large-one ${section}`}>
+          <Link route={!this.state[section][quizI].personalityResults || this.state[section][quizI].personalityResults.length === 0 ? `/quiz/${_.kebabCase(this.state[section][quizI].title)}/${this.state[section][quizI]._id}` : `/personality-quiz/${_.kebabCase(this.state[section][quizI].title)}/${this.state[section][quizI]._id}`} >
+            <a title={`${_.startCase(_.toLower((this.state[section][quizI].title)))} Game`}>
+              <div style={{ background: `url(${this.state[section][quizI].quizImage}) center center no-repeat`, backgroundSize: 'cover' }} className="large-img" />
+              <div className="text-container">
+                <div className="text-container">
+                  <h1 onClick={this.redirectToShowQuizPage.bind(this, this.state[section][quizI].personalityResults, this.state[section][quizI].title, this.state[section][quizI]._id)}>{ this.state[section][quizI].title }</h1>
+                  <p style={{ color: 'rgb(90, 90, 95)' }}>{ this.state[section][quizI].description }</p>
+                  <Link route={`/category/${_.kebabCase(this.state[section][quizI].tags)}`}>
+                    <a title={`${_.startCase(_.toLower((this.pluralizeTopic(this.state[section][quizI].tags))))} Quizzes`}>
+                      <div className="tags">
+                        <p className="user-name">
+                          {this.state[section][quizI].tags.split(',').map((tag, i) => {
+                            return (
+                              <span onClick={this.routeToTagPage.bind(this, tag)} key={i} className="span-color">{tag}</span>
+                            )
+                          })}
+                        </p>
+                      </div>
+                    </a>
+                  </Link>
+                </div>
               </div>
-            </div>
-          </div>
+            </a>
+          </Link>
         </div>
       )
     }
@@ -129,40 +132,60 @@ class Explore extends React.Component {
     if (this.state[section].length >= 4) {
       return (
         <div>
-          <div className="item">
-              <div onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI].personalityResults, this.state[section][quizI].title, this.state[section][quizI]._id )}
-                   style={{
-                     background: `url(${ this.state[section][quizI].quizImage}) center center no-repeat`,
-                     backgroundSize: 'cover'
-                   }} className="side-img"/>
-            <div className="text-container">
-              <h1 onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI].personalityResults, this.state[section][quizI].title, this.state[section][quizI]._id)}>{this.state[section][quizI].title}</h1>
+          <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)} className="item">
+            <Link route={!this.state[section][quizI].personalityResults || this.state[section][quizI].personalityResults.length === 0 ? `/quiz/${_.kebabCase(this.state[section][quizI].title)}/${this.state[section][quizI]._id}` : `/personality-quiz/${_.kebabCase(this.state[section][quizI].title)}/${this.state[section][quizI]._id}`} >
+              <a title={`${_.startCase(_.toLower((this.state[section][quizI].title)))} Game`}>
+                <div style={{background: `url(${ this.state[section][quizI].quizImage}) center center no-repeat`, backgroundSize: 'cover'}} className="side-img"/>
+                <div className="text-container">
+                  <h1 onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI].personalityResults, this.state[section][quizI].title, this.state[section][quizI]._id)}>{this.state[section][quizI].title}</h1>
+                  <p style={{ color: 'rgb(90, 90, 95)' }}>{this.state[section][quizI].description}</p>
+                  <Link route={`/category/${_.kebabCase(this.state[section][quizI].tags)}`}>
+                    <a title={`${_.startCase(_.toLower((this.pluralizeTopic(this.state[section][quizI].tags))))} Quizzes`}>
+                      <div className="tags">
+                        <span onClick={ this.routeToTagPage.bind(this, this.state[section][quizI].tags.split(',')[0])} className="span-color">{this.state[section][quizI].tags.split(',')[0]}</span>
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              </a>
+            </Link>
+          </div>
+          <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)} className="item">
+            <Link route={!this.state[section][quizI + 1].personalityResults || this.state[section][quizI + 1].personalityResults.length === 0 ? `/quiz/${_.kebabCase(this.state[section][quizI + 1].title)}/${this.state[section][quizI + 1]._id}` : `/personality-quiz/${_.kebabCase(this.state[section][quizI + 1].title)}/${this.state[section][quizI + 1]._id}`} >
+              <a title={`${_.startCase(_.toLower((this.state[section][quizI + 1].title)))} Game`}>
+                <div onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 1].personalityResults, this.state[section][quizI + 1].title, this.state[section][quizI + 1]._id)} style={{ background: `url(${this.state[section][quizI + 1].quizImage}) center center no-repeat`, backgroundSize: 'cover' }} className="side-img" />
+                <div className="text-container">
+                  <h1 onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 1].personalityResults, this.state[section][quizI + 1].title, this.state[section][quizI + 1]._id )}>{this.state[section][quizI + 1].title}</h1>
+                  <p style={{ color: 'rgb(90, 90, 95)' }}>{this.state[section][quizI + 1].description}</p>
+                  <Link route={`/category/${_.kebabCase(this.state[section][quizI + 1].tags)}`}>
+                    <a title={`${_.startCase(_.toLower((this.pluralizeTopic(this.state[section][quizI + 1].tags))))} Quizzes`}>
+                      <div className="tags">
+                        <span onClick={ this.routeToTagPage.bind(this, this.state[section][quizI + 1].tags.split(',')[0] )} className="span-color">{this.state[section][quizI + 1].tags.split(',')[0]}</span>
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              </a>
+            </Link>
 
-              <p>{this.state[section][quizI].description}</p>
-              <div className="tags">
-                <span onClick={ this.routeToTagPage.bind(this, this.state[section][quizI].tags.split(',')[0])} className="span-color">{this.state[section][quizI].tags.split(',')[0]}</span>
-              </div>
-            </div>
           </div>
-          <div className="item">
-            <div onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 1].personalityResults, this.state[section][quizI + 1].title, this.state[section][quizI + 1]._id)} style={{ background: `url(${this.state[section][quizI + 1].quizImage}) center center no-repeat`, backgroundSize: 'cover' }} className="side-img" />
-            <div className="text-container">
-              <h1 onClick={ this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 1].personalityResults, this.state[section][quizI + 1].title, this.state[section][quizI + 1]._id )}>{this.state[section][quizI + 1].title}</h1>
-              <p>{this.state[section][quizI + 1].description}</p>
-              <div className="tags">
-                <span onClick={ this.routeToTagPage.bind(this, this.state[section][quizI + 1].tags.split(',')[0] )} className="span-color">{this.state[section][quizI + 1].tags.split(',')[0]}</span>
-              </div>
-            </div>
-          </div>
-          <div className="item">
-            <div onClick={this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 2].personalityResults, this.state[section][quizI + 2].title, this.state[section][quizI + 2]._id )} style={{background: `url(${this.state[section][quizI + 2].quizImage}) center center no-repeat`, backgroundSize: 'cover' }} className="side-img"/>
-            <div className="text-container">
-              <h1 onClick={this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 2].personalityResults, this.state[section][quizI + 2].title, this.state[section][quizI + 2]._id )}>{this.state[section][quizI + 2].title}</h1>
-              <p>{this.state[section][quizI + 2].description}</p>
-              <div className="tags">
-                <span onClick={this.routeToTagPage.bind(this, this.state[section][quizI + 2].tags.split(',')[0])} className="span-color">{this.state[section][quizI + 2].tags.split(',')[0]}</span>
-              </div>
-            </div>
+          <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)} className="item">
+            <Link route={!this.state[section][quizI + 2].personalityResults || this.state[section][quizI + 2].personalityResults.length === 0 ? `/quiz/${_.kebabCase(this.state[section][quizI + 2].title)}/${this.state[section][quizI + 2]._id}` : `/personality-quiz/${_.kebabCase(this.state[section][quizI + 2].title)}/${this.state[section][quizI + 2]._id}`} >
+              <a title={`${_.startCase(_.toLower((this.state[section][quizI + 2].title)))} Game`}>
+                <div onClick={this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 2].personalityResults, this.state[section][quizI + 2].title, this.state[section][quizI + 2]._id )} style={{background: `url(${this.state[section][quizI + 2].quizImage}) center center no-repeat`, backgroundSize: 'cover' }} className="side-img"/>
+                <div className="text-container">
+                  <h1 onClick={this.redirectToShowQuizPage.bind(this, this.state[section][quizI + 2].personalityResults, this.state[section][quizI + 2].title, this.state[section][quizI + 2]._id )}>{this.state[section][quizI + 2].title}</h1>
+                  <p style={{ color: 'rgb(90, 90, 95)' }}>{this.state[section][quizI + 2].description}</p>
+                  <Link route={`/category/${_.kebabCase(this.state[section][quizI + 2].tags)}`}>
+                    <a title={`${_.startCase(_.toLower((this.pluralizeTopic(this.state[section][quizI + 2].tags))))} Quizzes`}>
+                      <div className="tags">
+                        <span onClick={this.routeToTagPage.bind(this, this.state[section][quizI + 2].tags.split(',')[0])} className="span-color">{this.state[section][quizI + 2].tags.split(',')[0]}</span>
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              </a>
+            </Link>
           </div>
         </div>
       );
@@ -179,22 +202,19 @@ class Explore extends React.Component {
     }
   }
 
-  spinalCase(str) {
-    let removeSpecial = str.replace(/[^a-zA-Z ]/g, "")
-    var spinal = removeSpecial.replace(/(?!^)([A-Z])/g, ' $1')
-      .replace(/[_\s]+(?=[a-zA-Z])/g, '-').toLowerCase();
-    return spinal
-  }
-
   routeToTagPage (tagName) {
     $("html, body").animate({ scrollTop: 0 }, 350);
-    Router.pushRoute(`/category/${this.spinalCase(tagName)}`)
+    Router.pushRoute(`/category/${_.kebabCase(tagName)}`)
   }
 
   renderTopTags () {
     if (this.state.topTags.length > 0) {
       return this.state.topTags.map(tag => (
-        <p key={tag._id} onClick={this.routeToTagPage.bind(this, tag.name)}>{ tag.name }</p>
+        <Link route={`/category/${_.kebabCase(tag.name)}`}>
+          <a title={`${_.startCase(_.toLower((this.pluralizeTopic(tag.name))))} Quizzes`}>
+            <p key={tag._id}>{ tag.name }</p>
+          </a>
+        </Link>
       ))
     }
   }
@@ -210,7 +230,7 @@ class Explore extends React.Component {
           <p>We offer the best quizzing experience there is! Sign Up Today!</p>
 
           <Link href="/register">
-            <a title="About Next Js">
+            <a title="Register To BrainFlop">
               <button>SIGN UP</button>
             </a>
           </Link>
@@ -220,116 +240,123 @@ class Explore extends React.Component {
     )
   }
 
+  pluralizeTopic(topic) {
+    return pluralize.isPlural(topic)
+      ? pluralize.singular(topic)
+      : topic;
+  }
+
   featuredQuizzes() {
     if (this.state.featuredQuizzes.length > 0) {
       return (
         <div className="featured-text-container">
-          <div style={{ marginLeft: '0px' }} className="col featured-1">
-              <div onClick={
-                this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[0].personalityResults, this.state.featuredQuizzes[0].title, this.state.featuredQuizzes[0]._id )}
-                   style={{
-                     background: `url("${this.state.featuredQuizzes[0].quizImage}") center center no-repeat`,
-                     backgroundSize: 'cover'
-                   }} className="featured-1-img featured-img-1"/>
-            <div className="text-container">
-                <h1 onClick={this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[0].personalityResults, this.state.featuredQuizzes[0].title, this.state.featuredQuizzes[0]._id )}>{this.state.featuredQuizzes[0].title}</h1>
-              <p>{this.state.featuredQuizzes[0].description}</p>
-              <div className="tags">
-                {this.state.featuredQuizzes[0].tags.split(',').map((tag) => (
-                  <div>
-                    <img src="/static/images/icons/lightbulb.svg" />
-                    <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[0].tags)} className="span-color">
-                      {this.state.featuredQuizzes[0].tags}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)} style={{ marginLeft: '0px' }} className="col featured-1">
+            <Link route={!this.state.featuredQuizzes[0].personalityResults || this.state.featuredQuizzes[0].personalityResults.length === 0 ? `/quiz/${_.kebabCase(this.state.featuredQuizzes[0].title)}/${this.state.featuredQuizzes[0]._id}` : `/personality-quiz/${_.kebabCase(this.state.featuredQuizzes[0].title)}/${this.state.featuredQuizzes[0]._id}`} >
+              <a title={`${_.startCase(_.toLower((this.state.featuredQuizzes[0].title)))} Game`}>
+                <div style={{background: `url("${this.state.featuredQuizzes[0].quizImage}") center center no-repeat`, backgroundSize: 'cover'}} className="featured-1-img featured-img-1" />
+                <div className="text-container">
+                  <h1>{this.state.featuredQuizzes[0].title}</h1>
+                  <p style={{ color: 'rgb(90, 90, 95)' }}>{this.state.featuredQuizzes[0].description}</p>
+                  <Link route={`/category/${_.kebabCase(this.state.featuredQuizzes[0].tags)}`}>
+                    <a title={`${_.startCase(_.toLower((this.pluralizeTopic(this.state.featuredQuizzes[0].tags))))} Quizzes`}>
+                      <div className="tags">
+                        <div>
+                          <img src="/static/images/icons/lightbulb.svg" />
+                          <span className="span-color">
+                            {this.state.featuredQuizzes[0].tags}
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              </a>
+            </Link>
           </div>
           <div className="col featured-2">
-            <div className="featured-2-item">
-                <div onClick={
-                  this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[1].personalityResults, this.state.featuredQuizzes[1].title, this.state.featuredQuizzes[1]._id )}
-                     style={{
-                       background: `url("${this.state.featuredQuizzes[1].quizImage}") center center no-repeat`,
-                       backgroundSize: 'cover'
-                     }} className="side-img"/>
-              <div className="text-container">
-                <h1 onClick={
-                  this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[1].personalityResults, this.state.featuredQuizzes[1].title, this.state.featuredQuizzes[1]._id, history )}
-                >{this.state.featuredQuizzes[1].title}</h1>
-                <div className="tags">
-                  <div>
-                    <img src="/static/images/icons/lightbulb.svg" />
-                    <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[1].tags, history)} className="span-color">{this.state.featuredQuizzes[1].tags}</span>
+            <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)} className="featured-2-item">
+              <Link route={!this.state.featuredQuizzes[1].personalityResults || this.state.featuredQuizzes[1].personalityResults.length === 0 ? `/quiz/${_.kebabCase(this.state.featuredQuizzes[1].title)}/${this.state.featuredQuizzes[1]._id}` : `/personality-quiz/${_.kebabCase(this.state.featuredQuizzes[1].title)}/${this.state.featuredQuizzes[1]._id}`} >
+                <a title={`${_.startCase(_.toLower((this.state.featuredQuizzes[1].title)))} Game`}>
+                  <div style={{background: `url("${this.state.featuredQuizzes[1].quizImage}") center center no-repeat`, backgroundSize: 'cover'}} className="side-img"/>
+                  <div className="text-container">
+                    <h1 onClick={this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[1].personalityResults, this.state.featuredQuizzes[1].title, this.state.featuredQuizzes[1]._id, history )}>{this.state.featuredQuizzes[1].title}</h1>
+                    <Link route={`/category/${_.kebabCase(this.state.featuredQuizzes[1].tags)}`}>
+                      <a title={`${_.startCase(_.toLower((this.pluralizeTopic(this.state.featuredQuizzes[1].tags))))} Quizzes`}>
+                        <div className="tags">
+                          <div>
+                            <img src="/static/images/icons/lightbulb.svg" />
+                            <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[1].tags, history)} className="span-color">{this.state.featuredQuizzes[1].tags}</span>
+                          </div>
+                        </div>
+                      </a>
+                    </Link>
                   </div>
-                </div>
-              </div>
+                </a>
+              </Link>
             </div>
-            <div className="featured-2-item">
-              <div onClick={
-                this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[2].personalityResults, this.state.featuredQuizzes[2].title, this.state.featuredQuizzes[2]._id, history )}
-                   style={{
-                     background: `url("${this.state.featuredQuizzes[2].quizImage}") center center no-repeat`,
-                     backgroundSize: 'cover'
-                   }} className="side-img"/>
-
-              <div className="text-container">
-                <h1 onClick={
-                  this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[2].personalityResults, this.state.featuredQuizzes[2].title, this.state.featuredQuizzes[2]._id, history )}
-                >{this.state.featuredQuizzes[2].title}</h1>
-                <div className="tags">
-                  <div>
-                    <img src="/static/images/icons/lightbulb.svg" />
-                    <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[2].tags, history)} className="span-color">{this.state.featuredQuizzes[2].tags}</span>
+            <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)} className="featured-2-item">
+              <Link route={!this.state.featuredQuizzes[2].personalityResults || this.state.featuredQuizzes[2].personalityResults.length === 0 ? `/quiz/${_.kebabCase(this.state.featuredQuizzes[2].title)}/${this.state.featuredQuizzes[2]._id}` : `/personality-quiz/${_.kebabCase(this.state.featuredQuizzes[2].title)}/${this.state.featuredQuizzes[2]._id}`} >
+                <a title={`${_.startCase(_.toLower((this.state.featuredQuizzes[2].title)))} Game`}>
+                  <div style={{background: `url("${this.state.featuredQuizzes[2].quizImage}") center center no-repeat`, backgroundSize: 'cover'}} className="side-img"/>
+                  <div className="text-container">
+                    <h1 onClick={this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[2].personalityResults, this.state.featuredQuizzes[2].title, this.state.featuredQuizzes[2]._id, history )}>{this.state.featuredQuizzes[2].title}</h1>
+                    <Link route={`/category/${_.kebabCase(this.state.featuredQuizzes[2].tags)}`}>
+                      <a title={`${_.startCase(_.toLower((this.pluralizeTopic(this.state.featuredQuizzes[2].tags))))} Quizzes`}>
+                        <div className="tags">
+                          <div>
+                            <img src="/static/images/icons/lightbulb.svg" />
+                            <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[2].tags, history)} className="span-color">{this.state.featuredQuizzes[2].tags}</span>
+                          </div>
+                        </div>
+                      </a>
+                    </Link>
                   </div>
-                </div>
-              </div>
+                </a>
+              </Link>
             </div>
-            <div className="featured-2-item">
-              <div onClick={
-                this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[3].personalityResults, this.state.featuredQuizzes[3].title, this.state.featuredQuizzes[3]._id, history )}
-                   style={{
-                     background: `url("${this.state.featuredQuizzes[3].quizImage}") center center no-repeat`,
-                     backgroundSize: 'cover'
-                   }} className="side-img"/>
-
-              <div className="text-container">
-                <h1 onClick={
-                  this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[3].personalityResults, this.state.featuredQuizzes[3].title, this.state.featuredQuizzes[3]._id, history )}
-                >{this.state.featuredQuizzes[3].title}</h1>
-
-                <div className="tags">
-                  <div>
-                    <img src="/static/images/icons/lightbulb.svg" />
-                    <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[3].tags, history)} className="span-color">{this.state.featuredQuizzes[3].tags}</span>
+            <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)} className="featured-2-item">
+              <Link route={!this.state.featuredQuizzes[3].personalityResults || this.state.featuredQuizzes[3].personalityResults.length === 0 ? `/quiz/${_.kebabCase(this.state.featuredQuizzes[3].title)}/${this.state.featuredQuizzes[3]._id}` : `/personality-quiz/${_.kebabCase(this.state.featuredQuizzes[3].title)}/${this.state.featuredQuizzes[3]._id}`} >
+                <a title={`${_.startCase(_.toLower((this.state.featuredQuizzes[3].title)))} Game`}>
+                  <div style={{background: `url("${this.state.featuredQuizzes[3].quizImage}") center center no-repeat`, backgroundSize: 'cover'}} className="side-img"/>
+                  <div className="text-container">
+                    <h1 onClick={this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[3].personalityResults, this.state.featuredQuizzes[3].title, this.state.featuredQuizzes[3]._id, history )}>{this.state.featuredQuizzes[3].title}</h1>
+                    <Link route={`/category/${_.kebabCase(this.state.featuredQuizzes[3].tags)}`}>
+                      <a title={`${_.startCase(_.toLower((this.pluralizeTopic(this.state.featuredQuizzes[3].tags))))} Quizzes`}>
+                        <div className="tags">
+                          <div>
+                            <img src="/static/images/icons/lightbulb.svg" />
+                            <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[3].tags, history)} className="span-color">{this.state.featuredQuizzes[3].tags}</span>
+                          </div>
+                        </div>
+                      </a>
+                    </Link>
                   </div>
-                </div>
-              </div>
+                </a>
+              </Link>
             </div>
           </div>
-          <div className="col featured-1 featured-1-second">
-            <div onClick={
-              this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[4].personalityResults, this.state.featuredQuizzes[4].title, this.state.featuredQuizzes[4]._id, history )}
-                 style={{
-                   background: `url("${this.state.featuredQuizzes[4].quizImage}") center center no-repeat`,
-                   backgroundSize: 'cover'
-                 }} className="featured-1-img"/>
-            <div className="text-container featured-text-container-2">
-              <h1 onClick={
-                this.redirectToShowQuizPage.bind(this, this.state.featuredQuizzes[4].personalityResults, this.state.featuredQuizzes[4].title, this.state.featuredQuizzes[4]._id, history )}
-              >{this.state.featuredQuizzes[4].title}
-              </h1>
-              <p>{this.state.featuredQuizzes[4].description}</p>
-              <div className="tags">
-                {this.state.featuredQuizzes[4].tags.split(',').map((tag) => (
-                  <div>
-                    <img src="/static/images/icons/lightbulb.svg" />
-                    <span onClick={this.routeToTagPage.bind(this, tag, history)} className="span-color">{tag}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)} className="col featured-1 featured-1-second">
+            <Link route={!this.state.featuredQuizzes[4].personalityResults || this.state.featuredQuizzes[4].personalityResults.length === 0 ? `/quiz/${_.kebabCase(this.state.featuredQuizzes[4].title)}/${this.state.featuredQuizzes[4]._id}` : `/personality-quiz/${_.kebabCase(this.state.featuredQuizzes[4].title)}/${this.state.featuredQuizzes[4]._id}`} >
+              <a title={`${_.startCase(_.toLower((this.state.featuredQuizzes[4].title)))} Game`}>
+                <div style={{background: `url("${this.state.featuredQuizzes[4].quizImage}") center center no-repeat`, backgroundSize: 'cover'}} className="featured-1-img"/>
+                <div className="text-container featured-text-container-2">
+                  <h1>{this.state.featuredQuizzes[4].title}</h1>
+                  <p style={{ color: 'rgb(90, 90, 95)' }}>{this.state.featuredQuizzes[4].description}</p>
+                  <Link route={`/category/${_.kebabCase(this.state.featuredQuizzes[4].tags)}`}>
+                    <a title={`${_.startCase(_.toLower((this.pluralizeTopic(this.state.featuredQuizzes[4].tags))))} Quizzes`}>
+                      <div className="tags">
+                        {this.state.featuredQuizzes[4].tags.split(',').map((tag) => (
+                          <div>
+                            <img src="/static/images/icons/lightbulb.svg" />
+                            <span onClick={this.routeToTagPage.bind(this, tag, history)} className="span-color">{tag}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              </a>
+            </Link>
           </div>
         </div>
       )
@@ -389,7 +416,11 @@ class Explore extends React.Component {
           <div className="upper-nav-tags">
             <div className="tags-container">
               { topTags }
-              <p onClick={this.redirectToSeeMorePage.bind(this)}>MORE</p>
+              <Link route='/categories'>
+                <a title='View Categories'>
+                  <p>MORE</p>
+                </a>
+              </Link>
             </div>
           </div>
 
@@ -398,11 +429,15 @@ class Explore extends React.Component {
               <img alt='featured image' src="/static/images/icons/star.svg" />
             </h1>
             {this.state.hideContentLoader ? featuredQuizzes : contentLoader}
-            <a style={{ cursor: 'pointer' }} onClick={() => { $("html, body").animate({ scrollTop: 0 }, 350); Router.pushRoute('/featured') }}>
-              <div className="see-all-links">
-                SEE ALL
-              </div>
-            </a>
+            <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)}>
+              <Link route='/featured'>
+                <a title='Featured Quizzes' style={{ cursor: 'pointer' }}>
+                  <div className="see-all-links">
+                    SEE ALL
+                  </div>
+                </a>
+              </Link>
+            </div>
           </div>
 
           <img style={{ transform: 'translateY(25px)' }} alt='underline' className="underline underline2 mobile-first-underline" src="/static/images/icons/squiggly.svg" />
@@ -422,16 +457,23 @@ class Explore extends React.Component {
               :
               contentLoader
             }
-              <a style={{ cursor: 'pointer' }} onClick={() => { $("html, body").animate({ scrollTop: 0 }, 350); Router.pushRoute('/personality-quizzes') }}>
-                <div className="see-all-links">
-                  SEE ALL PERSONALITY QUIZZES
-                </div>
-              </a>
+            <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)}>
+              <Link route='/personality-quizzes'>
+                <a title='Personality Quizzes' style={{ cursor: 'pointer' }}>
+                  <div className="see-all-links">
+                    SEE ALL PERSONALITY QUIZZES
+                  </div>
+                </a>
+              </Link>
+            </div>
           </div>
 
           <img style={{ transform: 'translateY(2px)' }} alt='underline' className="underline underline2 mobile-first-underline" src="/static/images/icons/squiggly.svg" />
 
-          { signUpCTA }
+          {this.props.isAuthenticated
+            ? null
+            : signUpCTA
+          }
 
           <div className="tag-topic tag-topic1">
             <h1 className="tag-title">
@@ -452,11 +494,15 @@ class Explore extends React.Component {
               :
               contentLoader
             }
-            <a style={{ cursor: 'pointer' }} onClick={() => { $("html, body").animate({ scrollTop: 0 }, 350); Router.pushRoute(`/category/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[0].name === undefined ? _.kebabCase(this.state.previousUserTags[0]) : _.kebabCase(this.state.previousUserTags[0].name) : ''}`) }}>
-              <div className="see-all-links">
-                SEE ALL
-              </div>
-            </a>
+            <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)}>
+              <Link route={`/category/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[0].name === undefined ? _.kebabCase(this.state.previousUserTags[0]) : _.kebabCase(this.state.previousUserTags[0].name) : ''}`}>
+                <a title={`${_.startCase(_.toLower(this.pluralizeTopic((this.state.previousUserTags.length > 0 ? this.state.previousUserTags[0].name === undefined ? this.state.previousUserTags[0] : this.state.previousUserTags[0].name : ''))))} Quizzes`} style={{ cursor: 'pointer' }}>
+                  <div className="see-all-links">
+                    SEE ALL
+                  </div>
+                </a>
+              </Link>
+            </div>
           </div>
 
           <img alt='underline' className="underline underline2" src="/static/images/icons/squiggly.svg" />
@@ -466,7 +512,7 @@ class Explore extends React.Component {
               Like us on Facebook
               <img alt='underline' src="/static/images/icons/underline.svg" />
             </h1>
-            <a target="_blank" href="https://www.facebook.com/brainflopcorp/">
+            <a title="Like Us On Facebook" target="_blank" href="https://www.facebook.com/brainflopcorp/">
               <button>Like</button>
             </a>
           </div>
@@ -492,11 +538,15 @@ class Explore extends React.Component {
               :
               contentLoader
             }
-            <a style={{ cursor: 'pointer' }} onClick={() => { $("html, body").animate({ scrollTop: 0 }, 350); Router.pushRoute(`/category/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[1].name === undefined ? _.kebabCase(this.state.previousUserTags[1]) : _.kebabCase(this.state.previousUserTags[1].name) : ''}`) }}>
-              <div className="see-all-links">
-                SEE ALL
-              </div>
-            </a>
+            <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)}>
+              <Link route={`/category/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[1].name === undefined ? _.kebabCase(this.state.previousUserTags[1]) : _.kebabCase(this.state.previousUserTags[1].name) : ''}`}>
+                <a title={`${_.startCase(_.toLower(this.pluralizeTopic(this.state.previousUserTags.length > 0 ? this.state.previousUserTags[1].name === undefined ? this.state.previousUserTags[1] : this.state.previousUserTags[1].name : '')))} Quizzes`} style={{ cursor: 'pointer' }}>
+                  <div className="see-all-links">
+                    SEE ALL
+                  </div>
+                </a>
+              </Link>
+            </div>
           </div>
 
           <img alt='underline' className="underline underline2" src="/static/images/icons/squiggly.svg" />
@@ -520,11 +570,15 @@ class Explore extends React.Component {
               :
               contentLoader
             }
-            <a style={{ cursor: 'pointer' }} onClick={() => { $("html, body").animate({ scrollTop: 0 }, 350); Router.pushRoute(`/category/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[2].name === undefined ? _.kebabCase(this.state.previousUserTags[2]) : _.kebabCase(this.state.previousUserTags[2].name) : ''}`) }}>
-              <div className="see-all-links">
-                SEE ALL
-              </div>
-            </a>
+            <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)}>
+              <Link route={`/category/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[2].name === undefined ? _.kebabCase(this.state.previousUserTags[2]) : _.kebabCase(this.state.previousUserTags[2].name) : ''}`}>
+                <a title={`${_.startCase(_.toLower(this.pluralizeTopic(this.state.previousUserTags.length > 0 ? this.state.previousUserTags[2].name === undefined ? this.state.previousUserTags[2] : this.state.previousUserTags[2].name : '')))} Quizzes`} style={{ cursor: 'pointer' }}>
+                  <div className="see-all-links">
+                    SEE ALL
+                  </div>
+                </a>
+              </Link>
+            </div>
           </div>
 
           <img style={{ transform: 'translateY(15px)' }} alt='underline' className="underline underline2" src="/static/images/icons/squiggly.svg" />
@@ -535,9 +589,13 @@ class Explore extends React.Component {
               <img alt='underline' src="/static/images/icons/underline.svg" />
             </h1>
             <p>Want to create your own personalized quiz? Go for it!</p>
-            <a style={{ cursor: 'pointer' }} onClick={() => { $("html, body").animate({ scrollTop: 0 }, 350); Router.pushRoute(`/create-quiz`) }}>
-              <button>Create</button>
-            </a>
+            <div onClick={() => { $("html, body").animate({ scrollTop: 0 }, 350) }}>
+              <Link route='/create-quiz' style={{ cursor: 'pointer' }} >
+                <a title='Create Your Own Quiz!'>
+                  <button>Create</button>
+                </a>
+              </Link>
+          </div>
           </div>
 
 
@@ -562,11 +620,15 @@ class Explore extends React.Component {
               :
               contentLoader
             }
-            <a style={{ cursor: 'pointer' }} onClick={() => { $("html, body").animate({ scrollTop: 0 }, 350); Router.pushRoute(`/category/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[3].name === undefined ? _.kebabCase(this.state.previousUserTags[3]) : _.kebabCase(this.state.previousUserTags[3].name) : ''}`) }}>
-              <div className="see-all-links">
-                SEE ALL
-              </div>
-            </a>
+            <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)}>
+              <Link route={`/category/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[3].name === undefined ? _.kebabCase(this.state.previousUserTags[3]) : _.kebabCase(this.state.previousUserTags[3].name) : ''}`}>
+                <a title={`${_.startCase(_.toLower(this.pluralizeTopic(this.state.previousUserTags.length > 0 ? this.state.previousUserTags[3].name === undefined ? this.state.previousUserTags[3] : this.state.previousUserTags[3].name : '')))} Quizzes`} style={{ cursor: 'pointer' }}>
+                  <div className="see-all-links">
+                    SEE ALL
+                  </div>
+                </a>
+              </Link>
+            </div>
           </div>
 
           <img alt='underline' className="underline underline2" src="/static/images/icons/squiggly.svg" />
@@ -591,27 +653,20 @@ class Explore extends React.Component {
               :
               contentLoader
             }
-            <a style={{ cursor: 'pointer' }} onClick={() => { $("html, body").animate({ scrollTop: 0 }, 350); Router.pushRoute(`/category/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[4].name === undefined ? _.kebabCase(this.state.previousUserTags[4]) : _.kebabCase(this.state.previousUserTags[4].name) : ''}`) }}>
-              <div className="see-all-links">
-                SEE ALL
-              </div>
-            </a>
-          </div>
 
-          <img alt='underline' className="underline underline2" src="/static/images/icons/squiggly.svg" />
-
-          <div style={{ background: `url("/static/images/icons/lookatreviews.svg") center center no-repeat`, backgroundSize: 'cover', transform: 'translateY(10px)' }} className="sign-up-cta facebook-cta">
-            <h1>
-              Check out our reviews
-              <img alt='underline' src="/static/images/icons/underline.svg" />
-            </h1>
-            <a target="_blank" href="https://www.facebook.com/pg/brainflopcorp/reviews/?ref=page_internal">
-              <button>Check it out!</button>
-            </a>
+            <div onClick={() => $("html, body").animate({ scrollTop: 0 }, 350)}>
+              <Link route={`/category/${this.state.previousUserTags.length > 0 ? this.state.previousUserTags[4].name === undefined ? _.kebabCase(this.state.previousUserTags[4]) : _.kebabCase(this.state.previousUserTags[4].name) : ''}`}>
+                <a title={`${_.startCase(_.toLower(this.pluralizeTopic(this.state.previousUserTags.length > 0 ? this.state.previousUserTags[4].name === undefined ? this.state.previousUserTags[4] : this.state.previousUserTags[4].name : '')))} Quizzes`} style={{ cursor: 'pointer' }}>
+                  <div className="see-all-links">
+                    SEE ALL
+                  </div>
+                </a>
+              </Link>
+            </div>
           </div>
         </div>
         <div className="explore-footer">
-          <h1>Copyright @ 2018 BrainFlop <a style={{ color: 'rgb(200,170,170)' }} href="/privacy-policy">Privacy Policy</a></h1>
+          <h1>Copyright @ 2018 BrainFlop <a title='Privacy Policy' style={{ color: 'rgb(200,170,170)', marginLeft: '5px' }} href="/privacy-policy">Privacy Policy</a></h1>
         </div>
       </div>
     )

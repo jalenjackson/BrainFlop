@@ -1,17 +1,18 @@
 import React from 'react'
 import FacebookLogin from 'react-facebook-login'
 import ReactGA from 'react-ga';
+import Cookies from "universal-cookie";
+import {Router} from "../../routes";
 
 class FaceBookAuthentication extends React.Component {
   responseFacebook = (response) => {
-    console.log(response)
     if (!localStorage.getItem('Token')) {
       if (response.hasOwnProperty('status')) {
         if (response.status === 'undefined' || response.status === undefined) {
           return
         }
       }
-      fetch(`${QuizOpDomain.host}/users/facebook`, {
+      fetch(`https://api.quizop.com/users/facebook`, {
         method: 'POST',
         body: JSON.stringify({
           email: response.email,
@@ -22,26 +23,32 @@ class FaceBookAuthentication extends React.Component {
         }
       }).then((response) => {
         response.json().then((body) => {
-          console.log(body)
           if (body) {
-            this.props.loginUser(body);
+            const userObject = {
+              isAuthenticated: true,
+              userObject: body
+            };
+
+            const cookies = new Cookies();
+            cookies.set('userObject', userObject, { path: '/' });
+
             ReactGA.event({
               category: 'User',
               action: `${body.name} used facebook login successfully`
             })
             if (this.props.redirect && this.props.redirect === 'createQuiz') {
-              return this.props.history.push('/create-quiz')
+              return Router.pushRoute('/create-quiz')
             }
-            this.props.history.push('/explore')
+            Router.pushRoute('/')
           } else {
-            window.location.href = '/login'
+            window.location.href = '/register'
           }
         })
       }).catch((err) => {
         ReactGA.event({
           category: 'User',
           action: `facebook login error occured ${err}`
-        })
+        });
         console.log(err)
       })
     }

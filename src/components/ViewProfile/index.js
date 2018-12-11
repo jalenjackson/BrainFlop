@@ -6,9 +6,6 @@ import {Router} from '../../../routes.js'
 import TweenMax, {Power3} from "gsap/TweenMaxBase";
 import ReactGA from "react-ga";
 import _ from 'lodash';
-import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
-let host = null;
-let userData = {};
 
 ReactChartkick.addAdapter(Chart);
 
@@ -27,18 +24,16 @@ export default class ViewProfileComponent extends React.Component {
       editErrorMessage: '',
       user: {}
     };
-    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
   }
 
   componentDidMount () {
-    host = window.location.protocol + '//' + window.location.host;
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview(`/profile/${this.props.router.query.id}`);
     $('body').css({ background: 'rgb(255,245,245)' });
     $(window).scrollTop(0)
     document.addEventListener('scroll', this.trackScrolling);
 
-    fetch(`${host}/api/users/get-user`, {
+    fetch(`https://api.quizop.com/users/get-user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -54,7 +49,7 @@ export default class ViewProfileComponent extends React.Component {
       console.log(err);
     });
 
-    fetch(`${host}/api/quizzes/user-quizzes`, {
+    fetch(`https://api.quizop.com/quizzes/user-quizzes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -91,7 +86,7 @@ export default class ViewProfileComponent extends React.Component {
   async fetchMoreQuizzes() {
     await this.setState({ skipIterator: this.state.skipIterator + 8 });
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
-    fetch(`${host}/api/quizzes/user-quizzes`, {
+    fetch(`https://api.quizop.com/quizzes/user-quizzes`, {
       method: 'POST',
       body: JSON.stringify({
         userId: this.props.router.query.id,
@@ -99,7 +94,7 @@ export default class ViewProfileComponent extends React.Component {
       }),
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': `Bearer ${userData.userObject.token}`,
+        'Authorization': `Bearer ${this.props.userObject.token}`,
       },
     }).then((response) => {
       response.json().then((body) => {

@@ -1,12 +1,10 @@
 import React from 'react'
 import $ from 'jquery'
+import {Link} from '../../../routes.js'
+import _ from 'lodash';
 import ReactGA from "react-ga";
-import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
-var SpeechRecognition = null;
-var recognition = null;
-let isError = false;
-let userData = {};
-let host = null;
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 
 class EditQuiz extends React.Component {
   constructor (props) {
@@ -35,18 +33,16 @@ class EditQuiz extends React.Component {
       questionsFetched: false,
       editTagValue: ''
     };
-    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
   }
 
   componentDidMount () {
-    host = window.location.protocol + '//' + window.location.host;
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview(`/quiz/edit/${this.props.router.query.quizId}`);
-    fetch(`${host}/api/quizzes/${this.props.router.query.quizId}`, {
+    fetch(`https://api.quizop.com/quizzes/${this.props.router.query.quizId}`, {
       method: 'GET'
     }).then((response) => {
       response.json().then((body) => {
-        if (!body.quiz || body.quiz === undefined || body.quiz.userId !== userData.userObject.userId) {
+        if (!body.quiz || body.quiz === undefined || body.quiz.userId !== this.props.userObject.userId) {
           window.location.href = '/'
         }
         this.setState({ quizData: body, title: body.quiz.title, description: body.quiz.description, editTagValue: body.quiz.tags })
@@ -55,7 +51,7 @@ class EditQuiz extends React.Component {
       console.log(err)
     });
 
-    fetch(`${host}/api/questions/get-quiz-questions`, {
+    fetch(`https://api.quizop.com/questions/get-quiz-questions`, {
       method: 'POST',
       body: JSON.stringify({ quizId: this.props.router.query.quizId, usingForEdit: true }),
       headers: {
@@ -76,7 +72,7 @@ class EditQuiz extends React.Component {
       renderAutoCompleteResults: true
     }, () => {
       if (key === 'question' && this.state.question !== '') {
-        fetch(`${host}/api/search/questions?term=${encodeURIComponent(this.state.question)}`, {
+        fetch(`https://api.quizop.com/search/questions?term=${encodeURIComponent(this.state.question)}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'
@@ -119,9 +115,9 @@ class EditQuiz extends React.Component {
       }
 
       const headers = this.state.isFileIncluded ? {
-        'Authorization': `Bearer ${userData.userObject.token}`
+        'Authorization': `Bearer ${this.props.userObject.token}`
       } : {
-        'Authorization': `Bearer ${userData.userObject.token}`,
+        'Authorization': `Bearer ${this.props.userObject.token}`,
         'Content-Type': 'application/json'
       }
 
@@ -131,7 +127,7 @@ class EditQuiz extends React.Component {
 
       $('.loader').css({ opacity: 1 })
 
-      fetch(`${host}/api/questions`, {
+      fetch(`https://api.quizop.com/questions`, {
         method: 'POST',
         body,
         headers
@@ -158,7 +154,7 @@ class EditQuiz extends React.Component {
           this.closeAddQuestionModal();
           ReactGA.event({
             category: 'User',
-            action: `${userData.userObject.name} succesfully added a new question!`
+            action: `${this.props.userObject.name} succesfully added a new question!`
           })
           $('.loader').css({ opacity: 0 });
         })
@@ -206,10 +202,10 @@ class EditQuiz extends React.Component {
 
   deleteQuestion (questionId, e) {
     e.stopPropagation()
-    fetch(`${host}/api/questions/${questionId}`, {
+    fetch(`https://api.quizop.com/questions/${questionId}`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${userData.userObject.token}`,
+        'Authorization': `Bearer ${this.props.userObject.token}`,
         'Content-Type': 'application/json'
       }
     }).then((response) => {
@@ -235,10 +231,10 @@ class EditQuiz extends React.Component {
     }
     $('.loader').css({ opacity: 1 })
 
-    fetch(`${host}/api/questions/${this.state.editingQuestionId}`, {
+    fetch(`https://api.quizop.com/questions/${this.state.editingQuestionId}`, {
       method: 'PATCH',
       headers: {
-        'Authorization': `Bearer ${userData.userObject.token}`,
+        'Authorization': `Bearer ${this.props.userObject.token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
@@ -355,10 +351,10 @@ class EditQuiz extends React.Component {
       tags: key === 'tag' ? $('.input-tag').val() : this.state.quizData.quiz.tags
     }
     $('.loader').css({ opacity: 1 })
-    fetch(`${host}/api/quizzes/${this.props.router.query.quizId}`, {
+    fetch(`https://api.quizop.com/quizzes/${this.props.router.query.quizId}`, {
       method: 'PATCH',
       headers: {
-        'Authorization': `Bearer ${userData.userObject.token}`,
+        'Authorization': `Bearer ${this.props.userObject.token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
@@ -501,80 +497,78 @@ class EditQuiz extends React.Component {
 
     return (
       <div>
-        {userData.isAuthenticated
-          ?
-          <div id="edit-quiz">
-
-            <div className="edit-quiz-overlay-modal">
-              <div className="edit-quiz-modal">
-                <div className="text-container">
-                  <h1>Great! Now click the "Add Question Button" And Add 7 or more Questions.</h1>
-                  <p>Once you are finished share this quiz on our facebook page and give us a review for a chance of winning $200!</p>
-                  <a target="_blank" href="https://www.facebook.com/brainflopcorp">BrainFlopCorp</a>
-                  <button onClick={() => $('.edit-quiz-overlay-modal').css({ display: 'none' })}>Okay</button>
-                </div>
+        <div id="edit-quiz">
+          <div className="edit-quiz-overlay-modal">
+            <div className="edit-quiz-modal">
+              <div className="text-container">
+                <h1>Verify You Have 7 Or More Questions</h1>
+                <p>Once you are finished, share this quiz on our facebook page and give us a review for a chance of winning $100!</p>
+                <a target="_blank" href="https://www.facebook.com/brainflopcorp">BrainFlopCorp</a>
+                <button onClick={() => $('.edit-quiz-overlay-modal').css({ display: 'none' })}>Okay</button>
               </div>
-            </div>
-            <div className="edit-quiz-background" />
-            <div className="quiz-header">
-
-              { this.state.editingTitleField ? renderEditTitle : renderTitle }
-              { this.state.editingParagraphField ? renderEditDescription : renderDescription }
-              { this.state.editingTagField ? renderEditTag : renderTag }
-
-              <p className="question-amount">{this.state.addedQuestions.length} questions</p>
-            </div>
-            <div className="questions-container">
-              <div className="added-questions">
-                {this.state.questionsFetched ? addedQuestions : contentLoader}
-              </div>
-              <div onClick={this.showAddQuestionModal.bind(this, 'add')} className="card add-new-question">
-                <h1>Add A New Question</h1>
-                <img src='/static/images/icons/add-new-question.svg' />
-              </div>
-            </div>
-            <div className="add-question-modal">
-              <div className="add-question">
-                <img className="close-add-question" onClick={this.closeAddQuestionModal.bind(this)} src='/static/images/icons/close.png' />
-                <h1>Add new question</h1>
-
-                <div className="question-container-with-icon">
-                  <input value={this.state.question} onChange={this.setQuestionValue.bind(this, 'question')} className="question" type="text" placeholder="Question" />
-                </div>
-                <div>
-                  <ul className="add-question-autocomplete">
-                    { this.state.renderAutoCompleteResults ? renderAutoCompleteResults : ''}
-                  </ul>
-                </div>
-                {this.state.isFileIncluded ? showAddedImage : ''}
-                <div className="question-container-with-icon question-container-with-icon2">
-                  <input value={this.state.answer1} onChange={this.setQuestionValue.bind(this, 'answer1')} className="correct-answer answer1" type="text" placeholder="Correct Answer" />
-                </div>
-                <div className="question-container-with-icon question-container-with-icon2">
-                  <input value={this.state.answer2} onChange={this.setQuestionValue.bind(this, 'answer2')} type="text" className="answer2" placeholder="Wrong Answer" />
-                </div>
-                <div className="question-container-with-icon question-container-with-icon2">
-                  <input value={this.state.answer3} onChange={this.setQuestionValue.bind(this, 'answer3')} type="text" className="answer3" placeholder="Wrong Answer" />
-                </div>
-                <div className="question-container-with-icon question-container-with-icon2">
-                  <input value={this.state.answer4} onChange={this.setQuestionValue.bind(this, 'answer4')} type="text" className="answer4" placeholder="Wrong Answer" />
-                </div>
-                {this.state.addQuestionText !== 'EDIT QUESTION'
-                  ? <div className="file-upload-wrapper" data-text="Add an optional image!">
-                    <input onChange={this.setFileFieldValue.bind(this)} className='file-upload' type="file"/>
-                  </div>
-                  : ''
-                }
-                <button onClick={this.state.addingQuestion ? this.submitQuestion.bind(this) : this.editQuestion.bind(this)}>{ this.state.addQuestionText }</button>
-              </div>
-            </div>
-            <div className="loader">
-              <img src='/static/images/icons/loader.svg' />
             </div>
           </div>
-          :
-          <Redirect to='/register' />
-        }
+
+          <div className="edit-quiz-background" />
+          <div className="quiz-header">
+
+            { this.state.editingTitleField ? renderEditTitle : renderTitle }
+            { this.state.editingParagraphField ? renderEditDescription : renderDescription }
+            { this.state.editingTagField ? renderEditTag : renderTag }
+
+            <p className="question-amount">{this.state.addedQuestions.length} questions</p>
+            <Link route={`/quiz/${this.state.quizData ? _.kebabCase(this.state.quizData.quiz.title) : null}/${this.state.quizData ? this.state.quizData.quiz._id : null}`} >
+              <a style={{ background: 'rgb(75, 70, 70)', borderRadius: '.3em', color: 'white', padding: '10px 10px 10px 10px', fontSize: '14px' }} title="Preview Quiz">Preview Quiz</a>
+            </Link>
+          </div>
+          <div className="questions-container">
+            <div className="added-questions">
+              {this.state.questionsFetched ? addedQuestions : contentLoader}
+            </div>
+            <div onClick={this.showAddQuestionModal.bind(this, 'add')} className="card add-new-question">
+              <h1>Add A New Question</h1>
+              <img src='/static/images/icons/add-new-question.svg' />
+            </div>
+          </div>
+          <div className="add-question-modal">
+            <div className="add-question">
+              <img className="close-add-question" onClick={this.closeAddQuestionModal.bind(this)} src='/static/images/icons/close.png' />
+              <h1>Add new question</h1>
+
+              <div className="question-container-with-icon">
+                <input value={this.state.question} onChange={this.setQuestionValue.bind(this, 'question')} className="question" type="text" placeholder="Question" />
+              </div>
+              <div>
+                <ul className="add-question-autocomplete">
+                  { this.state.renderAutoCompleteResults ? renderAutoCompleteResults : ''}
+                </ul>
+              </div>
+              {this.state.isFileIncluded ? showAddedImage : ''}
+              <div className="question-container-with-icon question-container-with-icon2">
+                <input value={this.state.answer1} onChange={this.setQuestionValue.bind(this, 'answer1')} className="correct-answer answer1" type="text" placeholder="Correct Answer" />
+              </div>
+              <div className="question-container-with-icon question-container-with-icon2">
+                <input value={this.state.answer2} onChange={this.setQuestionValue.bind(this, 'answer2')} type="text" className="answer2" placeholder="Wrong Answer" />
+              </div>
+              <div className="question-container-with-icon question-container-with-icon2">
+                <input value={this.state.answer3} onChange={this.setQuestionValue.bind(this, 'answer3')} type="text" className="answer3" placeholder="Wrong Answer" />
+              </div>
+              <div className="question-container-with-icon question-container-with-icon2">
+                <input value={this.state.answer4} onChange={this.setQuestionValue.bind(this, 'answer4')} type="text" className="answer4" placeholder="Wrong Answer" />
+              </div>
+              {this.state.addQuestionText !== 'EDIT QUESTION'
+                ? <div className="file-upload-wrapper" data-text="Add an optional image!">
+                  <input onChange={this.setFileFieldValue.bind(this)} className='file-upload' type="file"/>
+                </div>
+                : ''
+              }
+              <button onClick={this.state.addingQuestion ? this.submitQuestion.bind(this) : this.editQuestion.bind(this)}>{ this.state.addQuestionText }</button>
+            </div>
+          </div>
+          <div className="loader">
+            <img src='/static/images/icons/loader.svg' />
+          </div>
+        </div>
       </div>
     )
   }

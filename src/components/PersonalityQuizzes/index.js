@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import {Power3, TweenMax} from "gsap/all";
 import $ from 'jquery';
+import pluralize from "pluralize";
 import ReactGA from "react-ga";
-import {verifyFrontEndAuthentication} from "../verifyFrontEndAuthentication";
-import {Router} from "../../../routes";
+import {Router, Link} from "../../../routes";
 import _ from "lodash";
-let userData = {};
-let host = null;
 
 class PersonalityQuizzesComponent extends Component {
 
@@ -17,15 +15,13 @@ class PersonalityQuizzesComponent extends Component {
       skipIterator: 0,
       tagsRendered: false
     };
-    userData = verifyFrontEndAuthentication(this.props.userObject, this.props.isAuthenticated);
   }
 
   componentDidMount() {
-    host = window.location.protocol + '//' + window.location.host;
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview(`/personality-quizzes`);
     document.addEventListener('scroll', this.trackScrolling);
-    fetch(`${host}/api/quizzes/personality-quizzes`, {
+    fetch(`https://api.quizop.com/quizzes/personality-quizzes`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -61,7 +57,7 @@ class PersonalityQuizzesComponent extends Component {
   async fetchMoreQuizzes() {
     await this.setState({ skipIterator: this.state.skipIterator + 8 });
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
-    fetch(`${host}/api/quizzes/quizzes-by-topic`, {
+    fetch(`https://api.quizop.com/quizzes/quizzes-by-topic`, {
       method: 'POST',
       body: JSON.stringify({
         topic: this.props.router.query.tagName,
@@ -69,7 +65,7 @@ class PersonalityQuizzesComponent extends Component {
       }),
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': `Bearer ${userData.userObject.token}`,
+        'Authorization': `Bearer ${this.props.userObject.token}`,
       },
     }).then((response) => {
       response.json().then((body) => {
@@ -87,32 +83,36 @@ class PersonalityQuizzesComponent extends Component {
     })
   }
 
-  navigateToTagPage (tagName) {
-    $("html, body").animate({ scrollTop: 0 }, 350);
-    history.push(`/category/${tagName}`)
-  }
-
-  navigateToQuizPage (quizTitle, quizId) {
-    $("html, body").animate({ scrollTop: 0 }, 350);
-    Router.pushRoute(`/personality-quiz/${_.kebabCase(quizTitle)}/${quizId}`)
+  pluralizeTopic(topic) {
+    return pluralize.isPlural(topic)
+      ? pluralize.singular(topic)
+      : topic;
   }
 
   renderQuizzes() {
     if (this.state.quizzes.length > 0) {
       return this.state.quizzes.map((quiz) => (
         <div className="col">
-          <div onClick={this.navigateToQuizPage.bind(this, quiz.title, quiz._id)} className="quiz-img" style={{ background: `url(${quiz.quizImage}) center center no-repeat`, backgroundSize: 'cover' }} />
-          <div className="text-container">
-            <h1 onClick={this.navigateToQuizPage.bind(this, quiz.title, quiz._id)}>{ quiz.title }</h1>
-            <p>{ quiz.description }</p>
-            <div className="tags">
-              <p className="user-name">
-                { quiz.tags.split(',').map((tag) => (
-                  <span onClick={this.navigateToTagPage.bind(this, tag)} className="span-color">{tag}</span>
-                )) }
-              </p>
-            </div>
-          </div>
+          <Link route={`/personality-quiz/${_.kebabCase(quiz.title)}/${quiz._id}`} >
+            <a title={`${_.startCase(_.toLower((quiz.title)))} Game`}>
+              <div className="quiz-img" style={{ background: `url(${quiz.quizImage}) center center no-repeat`, backgroundSize: 'cover' }} />
+              <div className="text-container">
+                <h1>{ quiz.title }</h1>
+                <p style={{ color: 'rgb(90, 90, 95)' }}>{ quiz.description }</p>
+                <Link route={`/category/${_.kebabCase(quiz.tags)}`}>
+                  <a title={`${_.startCase(_.toLower(this.pluralizeTopic(quiz.tags)))} Quizzes`}>
+                    <div className="tags">
+                      <p style={{ marginTop: '10px', marginLeft: '6px' }} className="user-name">
+                        { quiz.tags.split(',').map((tag) => (
+                          <span className="span-color">{tag}</span>
+                        )) }
+                      </p>
+                    </div>
+                  </a>
+                </Link>
+              </div>
+            </a>
+          </Link>
         </div>
       ))
     }
@@ -159,7 +159,11 @@ class PersonalityQuizzesComponent extends Component {
                 <img src='/static/images/icons/underline.svg' />
               </h1>
               <p>All of the best personality quizzes</p>
-              <button onClick={this.redirectToBuildQuizPage.bind(this)}>Build your own quiz</button>
+              <Link route='/create-quiz'>
+                <a title='Create Your Own Quiz'>
+                  <button>Build your own quiz</button>
+                </a>
+              </Link>
             </div>
             :
             <div className='topic-loader' />

@@ -3,11 +3,9 @@ import MenuLeft from './partials/menuLeft';
 import MenuRightLinks from './partials/menuRightLinks'
 import CollapsedNavbar from './partials/collapsedNavbar'
 import './navbar.sass';
-import {Router} from '../../../routes';
-import Link from 'next/link';
+import {Router, Link} from '../../../routes';
 import $ from 'jquery'
 import _ from 'lodash';
-let host = null;
 
 class Navbar extends React.Component {
 
@@ -20,21 +18,18 @@ class Navbar extends React.Component {
     };
   }
 
-  componentDidMount() {
-    host = window.location.protocol + '//' + window.location.host;
-  }
-
-
   redirectToSearchPage (searchTerm) {
-    if (window.location.pathname.split('/')[1] === 'search') {
-      return window.location.href = `/search/${searchTerm}`
+    if (this.state.searchTerm.replace(/[^a-zA-Z ]/g, "") !== '') {
+      if (window.location.pathname.split('/')[1] === 'search') {
+        return window.location.href = `/search/${_.kebabCase(this.state.searchTerm.replace(/[^a-zA-Z ]/g, ""))}`
+      }
+      Router.pushRoute(`/search/${_.kebabCase(this.state.searchTerm.replace(/[^a-zA-Z ]/g, ""))}`);
+      document.activeElement.blur();
+      $("input").blur();
+      this.setState({ searchAutocomplete: false }, () => {
+        this.hideSearchResults()
+      })
     }
-    Router.pushRoute(`/search/${_.kebabCase(searchTerm)}`);
-    document.activeElement.blur();
-    $("input").blur();
-    this.setState({ searchAutocomplete: false }, () => {
-      this.hideSearchResults()
-    })
   }
 
   renderSearchAutocomplete () {
@@ -52,7 +47,7 @@ class Navbar extends React.Component {
   updateSearchTern (e) {
     this.setState({ searchTerm: e.target.value }, () => {
       if (this.state.searchTerm) {
-        fetch(`${host}/api/search/quizzes?term=${encodeURIComponent(this.state.searchTerm)}&skipIterator=0`, {
+        fetch(`https://api.quizop.com/search/quizzes?term=${encodeURIComponent(this.state.searchTerm)}&skipIterator=0`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'
@@ -77,12 +72,12 @@ class Navbar extends React.Component {
   }
 
   handleEnter (e) {
-    if (this.state.searchTerm) {
+      if (this.state.searchTerm && this.state.searchTerm.replace(/[^a-zA-Z ]/g, "") !== '') {
       if (e.key === 'Enter') {
         if (window.location.pathname.split('/')[1] === 'search') {
-          return window.location.href = `/search/${this.state.searchTerm}`;
+          return window.location.href = `/search/${_.kebabCase(this.state.searchTerm.replace(/[^a-zA-Z ]/g, ""))}`;
         }
-        Router.pushRoute(`/search/${_.kebabCase(this.state.searchTerm)}`);
+        Router.pushRoute(`/search/${_.kebabCase(this.state.searchTerm.replace(/[^a-zA-Z ]/g, ""))}`);
         this.setState({ searchAutocomplete: [], searchTerm: '' });
         $('.quiz-search-input').blur();
         this.hideSearchResults();
@@ -128,7 +123,7 @@ class Navbar extends React.Component {
           </div>
           <MenuRightLinks userObject={this.props.userObject} isAuthenticated={this.props.isAuthenticated} />
           <div className="mobile-quick-links">
-            <Link href={ '/explore' }>
+            <Link href={ '/' }>
               <a>
                 <div className="icon-container home-icon">
                   <img className="icon-img" style={{ transform: 'scale(1.1)' }} src='/static/images/icons/home.svg' />
@@ -140,14 +135,14 @@ class Navbar extends React.Component {
                 <img onClick={this.showSearchInput.bind(this)} className="icon-img"  style={{ transform: 'scale(1.4) translateY(1.4px)' }} src='/static/images/icons/search.svg' />
               </div>
             </a>
-            <Link href="/create-quiz">
+            <Link route={ '/create-quiz' }>
               <a>
                 <div className="icon-container">
                   <img className="icon-img"  style={{ transform: 'scale(1.65) translateY(2px)' }} src='/static/images/icons/build.svg' />
                 </div>
               </a>
             </Link>
-            <Link href={ '/register' }>
+            <Link href={ this.props.isAuthenticated ? '/profile' : '/register' }>
               <a>
                 <div className="icon-container">
                   <img className="icon-img"  style={{ transform: 'scale(1.1) translateY(-4px)' }} src='/static/images/icons/profile.svg' />
@@ -157,29 +152,22 @@ class Navbar extends React.Component {
           </div>
           <div className="side-bar">
             <div className="quick-links">
-              <Link href={ '/explore' }>
-                <a title="A Revolutionary Quizzing Experience | BrainFlop">
+              <Link route={ '/' }>
+                <a title="Explore Quizzes">
                   <div className="icon-container home-icon">
                     <img className="icon-img" style={{ transform: 'scale(1.1)' }} src='/static/images/icons/home.svg' />
                   </div>
                 </a>
               </Link>
-              <Link href="/explore">
-                <a title="Explore Quizzes | BrainFlop">
-                  <div className="icon-container">
-                    <img className="icon-img"  style={{ transform: 'scale(1.4) translateY(1.4px)' }} src='/static/images/icons/lightning.svg' />
-                  </div>
-                </a>
-              </Link>
-              <Link href="/create-quiz">
-                <a title="Create A Quiz | BrainFlop">
+              <Link route={'/create-quiz'}>
+                <a title="Create Your Own Quiz">
                   <div className="icon-container">
                     <img className="icon-img"  style={{ transform: 'scale(1.65) translateY(2px)' }} src='/static/images/icons/build.svg' />
                   </div>
                 </a>
               </Link>
-              <Link href={ '/profile' }>
-                <a title="Register | BrainFlop">
+              <Link route={ this.props.isAuthenticated ? '/profile' : '/register' }>
+                <a title="Register To BrainFlop">
                   <div style={{ paddingBottom: '0px' }} className="icon-container">
                     <img className="icon-img"  style={{ transform: 'scale(1.1) translateY(-4px)' }} src='/static/images/icons/profile.svg' />
                   </div>
