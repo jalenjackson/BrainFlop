@@ -2,117 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e998a653-e746-411b-b4a6-4fd923b3a3e4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/checkAuthentication.js" beforeDir="false" afterPath="$PROJECT_DIR$/checkAuthentication.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/Search.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/Search.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/_app.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/_document.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_document.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/categories.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/categories.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/category.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/category.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/createAQuiz.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/createAQuiz.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/customizeExperience.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/customizeExperience.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/editQuiz.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/editQuiz.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/featured.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/featured.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/inviteAFriendAnswerChoiceQuizGame.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/inviteAFriendAnswerChoiceQuizGame.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/onlineAnswerChoiceQuizGame.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/onlineAnswerChoiceQuizGame.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/personalityQuizGame.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/personalityQuizGame.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/personalityQuizzes.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/personalityQuizzes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/privacyPolicy.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/privacyPolicy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/profile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/quiz.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/quiz.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/singlePlayerAnswerChoiceQuizGame.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/singlePlayerAnswerChoiceQuizGame.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/termsAndConditions.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/termsAndConditions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/viewProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/viewProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/questions/createNewQuestion.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/questions/createPersonalityQuestion.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/questions/deleteQuestion.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/questions/getAllQuestions.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/questions/getPersonalityQuestions.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/questions/retrieveQuestion.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/questions/updateQuestion.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/questionsController.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/createNewQuiz.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/createPersonalityQuestionResult.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/createQuizFromAPI.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/createQuizFromData.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/deleteQuiz.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/getAllPersonalityQuizzes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/getAllQuizzes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/getAllUserQuizzes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/getFeaturedQuizzes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/getQuizzesByTopic.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/removePersonalityQuestionResult.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/retrieveQuiz.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/updateQuiz.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzes/updateQuizAnalytics.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/quizzesController.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/search/searchQuestions.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/search/searchQuizzes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/search/serarchTags.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/searchController.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/tags/getAllTags.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/tagsController.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/time/getCurrentTime.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/timeController.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/users/deleteUser.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/users/editUser.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/users/facebookAuthentication.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/users/forgotPassword.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/users/forgotPasswordChange.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/users/getUser.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/users/login.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/users/signup.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/users/updateCustomizedTags.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/users/updateUserAnalytics.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/controllers/usersController.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/imageUpload/quizImageMulter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/middleware/checkAuth.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/models/questions.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/models/quiz.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/models/tags.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/models/user.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/routes/questions.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/routes/quizzes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/routes/search.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/routes/tags.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/routes/time.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/routes/user.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Categories/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Categories/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Category/category.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Category/category.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Category/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Category/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CreateAQuiz/createAQuiz.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateAQuiz/createAQuiz.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CreateAQuiz/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateAQuiz/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CustomizeExperience/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CustomizeExperience/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/EditQuiz/editQuiz.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EditQuiz/editQuiz.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/EditQuiz/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EditQuiz/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Explore/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Explore/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Featured/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Featured/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/InviteAFriendAnswerChoiceQuizGame/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/InviteAFriendAnswerChoiceQuizGame/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navbar/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navbar/navbar.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar/navbar.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navbar/partials/menuRightLinks.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar/partials/menuRightLinks.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/OnlineAnswerChoiceQuizGame/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/OnlineAnswerChoiceQuizGame/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PersonalityQuizGame/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PersonalityQuizGame/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PersonalityQuizzes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PersonalityQuizzes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Profile/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Quiz/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Quiz/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Register/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Register/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Search/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Search/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SinglePlayerAnswerChoiceQuizGame/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SinglePlayerAnswerChoiceQuizGame/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ViewProfile/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ViewProfile/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/facebook-login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/facebook-login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/searchingLoader.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/searchingLoader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/verifyFrontEndAuthentication.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gsap/SplitText.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -140,11 +31,11 @@
           <entry key="css" value="5" />
           <entry key="gitignore" value="1" />
           <entry key="jpg" value="1" />
-          <entry key="js" value="520" />
+          <entry key="js" value="525" />
           <entry key="json" value="10" />
           <entry key="jsx" value="8" />
           <entry key="lock" value="1" />
-          <entry key="sass" value="34" />
+          <entry key="sass" value="35" />
           <entry key="scss" value="1" />
           <entry key="svg" value="2" />
         </counts>
@@ -155,11 +46,11 @@
           <entry key="Image" value="1" />
           <entry key="JSON" value="10" />
           <entry key="JSX Harmony" value="8" />
-          <entry key="JavaScript" value="518" />
+          <entry key="JavaScript" value="523" />
           <entry key="PLAIN_TEXT" value="3" />
           <entry key="SCSS" value="1" />
           <entry key="SVG" value="2" />
-          <entry key="Sass" value="34" />
+          <entry key="Sass" value="35" />
           <entry key="yarn.lock" value="1" />
         </counts>
       </usages-collector>
@@ -167,10 +58,10 @@
         <counts>
           <entry key="css" value="155" />
           <entry key="gitignore" value="20" />
-          <entry key="js" value="30290" />
+          <entry key="js" value="30795" />
           <entry key="json" value="552" />
           <entry key="jsx" value="659" />
-          <entry key="sass" value="1011" />
+          <entry key="sass" value="1035" />
           <entry key="scss" value="49" />
         </counts>
       </usages-collector>
@@ -179,21 +70,33 @@
           <entry key="CSS" value="155" />
           <entry key="JSON" value="552" />
           <entry key="JSX Harmony" value="659" />
-          <entry key="JavaScript" value="30280" />
+          <entry key="JavaScript" value="30785" />
           <entry key="PLAIN_TEXT" value="30" />
           <entry key="SCSS" value="49" />
-          <entry key="Sass" value="1011" />
+          <entry key="Sass" value="1035" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/now.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="320">
-              <caret line="16" column="18" lean-forward="true" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+              <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/facebook-login.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="449">
+              <caret line="42" column="18" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#25#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -212,6 +115,57 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="620">
               <caret line="31" column="5" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="280">
+              <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/categories.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/_app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/notFound.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sass/notFound.sass">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -274,9 +228,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/pages/_document.js" />
-        <option value="$PROJECT_DIR$/src/components/EditQuiz/editQuiz.sass" />
-        <option value="$PROJECT_DIR$/checkAuthentication.js" />
         <option value="$PROJECT_DIR$/src/components/Categories/index.js" />
         <option value="$PROJECT_DIR$/pages/customizeExperience.js" />
         <option value="$PROJECT_DIR$/pages/index.js" />
@@ -322,9 +273,12 @@
         <option value="$PROJECT_DIR$/src/components/InviteAFriendAnswerChoiceQuizGame/index.js" />
         <option value="$PROJECT_DIR$/pages/termsAndConditions.js" />
         <option value="$PROJECT_DIR$/pages/viewProfile.js" />
-        <option value="$PROJECT_DIR$/src/components/facebook-login.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/now.json" />
+        <option value="$PROJECT_DIR$/src/components/facebook-login.js" />
+        <option value="$PROJECT_DIR$/src/sass/notFound.sass" />
+        <option value="$PROJECT_DIR$/pages/_app.js" />
+        <option value="$PROJECT_DIR$/src/components/notFound.js" />
       </list>
     </option>
   </component>
@@ -362,6 +316,28 @@
               <item name="BrainFlopV2" type="b2602c69:ProjectViewProjectNode" />
               <item name="BrainFlopV2" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="BrainFlopV2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BrainFlopV2" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BrainFlopV2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BrainFlopV2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BrainFlopV2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BrainFlopV2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BrainFlopV2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BrainFlopV2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="sass" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -378,16 +354,16 @@
     <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/static/images/background-images" />
+      <recent name="$PROJECT_DIR$/static/images/icons" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/gsap" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/static" />
       <recent name="$PROJECT_DIR$/src/images/icons" />
       <recent name="$PROJECT_DIR$/src" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/static/images/background-images" />
-      <recent name="$PROJECT_DIR$/static/images/icons" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -415,12 +391,12 @@
       <workItem from="1544017730529" duration="65819000" />
       <workItem from="1544397859365" duration="20362000" />
       <workItem from="1544470974130" duration="25625000" />
-      <workItem from="1544549110831" duration="1549000" />
+      <workItem from="1544549110831" duration="2718000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="138685000" />
+    <option name="totallyTimeSpent" value="139854000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -453,30 +429,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/components/Navbar/partials/menuRightLinks.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="580">
-          <caret line="30" column="12" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Navbar/navbar.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6880">
-          <caret line="344" column="30" selection-start-line="344" selection-start-column="30" selection-end-line="344" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/nodemon.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -493,16 +445,6 @@
           <caret line="29" selection-start-line="29" selection-end-line="29" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/categories.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -843,13 +785,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/ViewProfile/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -865,16 +800,6 @@
           <caret line="43" selection-start-line="43" selection-end-line="43" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/facebook-login.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="820">
-          <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -913,10 +838,61 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/facebook-login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="449">
+          <caret line="42" column="18" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/now.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="320">
-          <caret line="16" column="18" lean-forward="true" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/categories.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sass/notFound.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/_app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/notFound.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

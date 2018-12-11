@@ -1,0 +1,26 @@
+@import ./mixins/material.sass
+@import ./mixins/breakpoints.sass
+
+#not-found
+  height: 100vh
+  background: url('/static/images/background-images/404.svg') center center no-repeat
+  background-size: cover
+  width: 100%
+  button
+    @include button(200px, 50px, #2FDC7F)
+    display: block
+    margin: 0 auto
+    margin-top: 10px
+    position: absolute
+    bottom: 90px
+    left: 0
+    right: 0
+    margin: auto
+    z-index: 9999999999999
+    @include small-screen
+      @include mobile-button(85%, 60px, white, #ec526d)
+      margin-top: 20px
+    &:after
+      @include button-after(rgba(117,290,197, 1))
+      @include small-screen
+        display: none

@@ -1,5 +1,6 @@
 import React from 'react'
 import App, {Container} from 'next/app'
+import PageNotFound from '../src/components/notFound';
 import NProgress from 'nprogress'
 import '../src/sass/global.sass';
 import '../src/sass/sharedQuizGame.sass';
@@ -15,6 +16,7 @@ import '../src/sass/content-loader.sass';
 import '../src/components/Login/login.sass';
 import '../src/components/Register/register.sass';
 import '../src/components/TermsAndConditions/terms.sass';
+import '../src/sass/notFound.sass';
 import '../src/components/PrivacyPolicy/privacyPolicy.sass';
 import Router from 'next/router';
 
@@ -45,7 +47,10 @@ export default class MyApp extends App {
   }
 
   render () {
-    const {Component, pageProps} = this.props
+    const {Component, pageProps} = this.props;
+    if (pageProps.hasOwnProperty('statusCode') && (pageProps.statusCode === 404 || pageProps.statusCode === 500)) {
+      return ( <PageNotFound /> )
+    }
     return (
       <Container>
         <Component {...pageProps} />
