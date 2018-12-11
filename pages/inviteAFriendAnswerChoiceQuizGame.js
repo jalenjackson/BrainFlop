@@ -9,6 +9,7 @@ import Router from "next/router";
 
 const InviteAFriendAnswerChoiceQuizGame = (Data) => (
     <div>
+      {console.log(Data)}
       <section>
         <Head>
           <title>Invite A Friend - BrainFlop</title>

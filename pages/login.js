@@ -8,7 +8,6 @@ import React from "react";
 
 const Login = (Data) => (
     <section>
-      {console.log(Data)}
       <Head>
         <title>Login To BrainFlop</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.0/TweenMax.min.js"></script>

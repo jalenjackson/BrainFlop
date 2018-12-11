@@ -62,6 +62,7 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
     };
 
 
+    console.log('Called in component!!!!')
     uuid = this.props.isAuthenticated ? this.props.userObject.userId : null;
     quizId = this.props.router.query.quizId;
     channel = quizId + this.props.router.query.userId;

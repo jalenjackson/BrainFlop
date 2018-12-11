@@ -123,7 +123,7 @@ export default class QuizShowPage extends React.Component {
             <img className="top-header-img" src='/static/images/icons/online-play.svg' />
             <h1>Join BrainFlop to play online with millions of other players!</h1>
             <img onClick={this.closeNotSignedInOnlineModal.bind(this)} className="close" src='/static/images/icons/close.png' />
-            <button>SIGN UP</button>
+            <button onClick={() => { Router.pushRoute('/register') }}>SIGN UP</button>
           </div>
         </div>
     )

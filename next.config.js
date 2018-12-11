@@ -43,7 +43,7 @@ module.exports = (phase, { defaultConfig }) => {
               reportFilename: "./bundles/client.html"
             }
           },
-          transpileModules: ["lodash-es", "gsap"],
+          transpileModules: ["lodash-es", "gsap", "pubnub-react"],
           webpack: config => {
             config.plugins = config.plugins || [];
             config.plugins = [
