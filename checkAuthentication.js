@@ -9,12 +9,12 @@ export function checkAuthentication(req) {
     return {
       isAuthenticated: true,
       userObject: retrieveUserObjectFromCookie.userObject,
-      pathName: 'https://www.brainflop.com' + url
+      pathName: 'https://brainflop.com' + url
     };
   }
   return {
     isAuthenticated: false,
     userObject: false,
-    pathName: 'https://www.brainflop.com' + url
+    pathName: 'https://brainflop.com' + url
   }
 }

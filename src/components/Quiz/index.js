@@ -18,6 +18,7 @@ export default class QuizShowPage extends React.Component {
   }
 
   componentDidMount () {
+    $(".fb-comments").attr("data-href", window.location.href);
     quizId = window.location.pathname.split('/')[3];
     SplitText = require('../../gsap/SplitText');
     ReactGA.initialize('UA-129744457-1');
@@ -155,6 +156,7 @@ export default class QuizShowPage extends React.Component {
           </div>
           <div className="card">
             <img src='/static/images/icons/piggybank.svg' />
+            <h3 onClick={() => {  $("html, body").animate({ scrollTop: $(document).height() }, "slow") }} style={{ position: 'absolute', cursor: 'pointer', left: '10px', top: '10px', fontSize: '12px', color: '#13A5FE', letterSpacing: '1px' }}>View Comments</h3>
             <h1 className="points-amount">Single Player</h1>
             <p className="online-count">Play single player and earn points</p>
             <button onClick={this.redirect.bind(this, 'alone', this.state.quizData ? this.state.quizData.quiz : null)}>Play Single Player</button>
@@ -179,6 +181,7 @@ export default class QuizShowPage extends React.Component {
             </h3>
             <p>{ this.state.quizData ? this.state.quizData.quiz.description : null }</p>
           </div>
+          <div className="fb-comments" data-href={this.props.router.asPath} data-width="470" data-num-posts="10"></div>
         </div>
     )
   }

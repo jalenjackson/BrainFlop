@@ -1,6 +1,16 @@
 @import ../../sass/mixins/material.sass
 @import ../../sass/mixins/breakpoints.sass
 #personality-quiz-game
+  .fb-comments
+    display: block
+    margin: 0 auto
+    text-align: center
+    margin-top: -10px
+    margin-bottom: 20px
+    span
+      @include small-screen
+        width: 85%
+        margin-top: -10px
   .results-modal-container
     position: fixed
     top: 71px
@@ -25,30 +35,31 @@
       background: white
       @include create-quiz-modal-box-shadow
       width: 30%
-      height: 40vh
+      height: auto
+      max-height: 40vh
+      overflow-y: auto
       z-index: 99
-      border-radius: .5em
+      border-radius: .2em
       @include medium-screen
         width: 80%
         height: 60vh
       @include small-screen
         width: 90%
-      .modal-header
-        text-align: center
-        margin-top: 10px
-        letter-spacing: 10px
-        text-transform: uppercase
-        color: rgb(100, 100, 100)
-        font-size: 17px
-        font-family: SmallFont, sans-serif
-      h2
+      h1
+        margin-left: 10px
+        letter-spacing: 1px
+        color: rgb(60, 60, 65)
+        font-size: 22px
+      p
         text-align: center
         color: rgb(80,80,80)
-        letter-spacing: 1px
-        width: 90%
+        letter-spacing: 0.5px
+        width: 85%
         display: block
         margin: 0 auto
-        margin-top: 50px
+        margin-top: 30px
+        line-height: 30px
+        font-size: 20px
         @include small-screen
           font-size: 17px
           margin-top: 20px

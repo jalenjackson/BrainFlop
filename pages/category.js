@@ -11,14 +11,14 @@ import {checkAuthentication} from "../checkAuthentication";
 const Category = (Data) => (
     <div>
       <Head>
-        <title>Top 10 Best {_.startCase(_.toLower(Data.pluralizedTopic))} Quizzes - BrainFlop</title>
+        <title>Top 10 Best {_.startCase(_.toLower(Data.pluralizedTopic))} Quizzes | BrainFlop</title>
         <meta name="description" content={`Play The Best 10 ${_.startCase(_.toLower(Data.pluralizedTopic))} Quizzes! Play Single Player, Online Or With A Friend!`} />
-        <meta itemProp="name" content={`Top 10 Best ${_.startCase(_.toLower(Data.pluralizedTopic))} Quizzes - BrainFlop`} />
+        <meta itemProp="name" content={`Top 10 Best ${_.startCase(_.toLower(Data.pluralizedTopic))} Quizzes | BrainFlop`} />
         <meta itemProp="description" content={`Play The Best 10 ${_.startCase(_.toLower(Data.pluralizedTopic))} Quizzes! Play Single Player, Online Or With A Friend!`} />
         <meta itemProp="image" content={Data.quizImage} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@QuizOp" />
-        <meta name="twitter:title" content={`Top 10 Best ${_.startCase(_.toLower(Data.pluralizedTopic))} Quizzes - BrainFlop`} />
+        <meta name="twitter:title" content={`Top 10 Best ${_.startCase(_.toLower(Data.pluralizedTopic))} Quizzes | BrainFlop`} />
         <meta name="twitter:description" content={`Play The Best 10 ${_.startCase(_.toLower(Data.pluralizedTopic))} Quizzes! Play Single Player, Online Or With A Friend!`} />
         <meta name="twitter:creator" content="@QuizOp" />
         <meta name="twitter:image:src" content={Data.quizImage} />
@@ -26,7 +26,7 @@ const Category = (Data) => (
         <meta property="fb:admins" content="100014621536916" />
         <meta property="og:url" content={Data.pathName} />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content={`Top 10 Best ${_.startCase(_.toLower(Data.pluralizedTopic))} Quizzes - BrainFlop`} />
+        <meta property="og:title" content={`Top 10 Best ${_.startCase(_.toLower(Data.pluralizedTopic))} Quizzes | BrainFlop`} />
         <meta property="og:description" content={`Play The Best 10 ${_.startCase(_.toLower(Data.pluralizedTopic))} Quizzes! Play Single Player, Online Or With A Friend!`} />
         <meta property="og:image" content={Data.quizImage} />
         <link href={Data.pathName} rel="canonical" />

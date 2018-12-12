@@ -62,7 +62,6 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
     };
 
 
-    console.log('Called in component!!!!')
     uuid = this.props.isAuthenticated ? this.props.userObject.userId : null;
     quizId = this.props.router.query.quizId;
     channel = quizId + this.props.router.query.userId;
@@ -205,11 +204,6 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
 
   async componentWillMount() {
     this.timer = setInterval(this.tick.bind(this), 1000);
-    if (window.performance) {
-      if (window.performance.navigation.type == 1) {
-        this.leaveQuizGame();
-      }
-    }
     this.pubnub.getMessage(channel, (data) => {
       switch(data.message.status.operation) {
         case 'PNSubscribeOperation': {

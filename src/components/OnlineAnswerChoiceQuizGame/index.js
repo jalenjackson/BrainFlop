@@ -201,11 +201,6 @@ class QuizRealTimeTraditional extends Component {
 
   async componentWillMount() {
     this.timer = setInterval(this.tick.bind(this), 1000);
-    if (window.performance) {
-      if (window.performance.navigation.type == 1) {
-        this.leaveQuizGame();
-      }
-    }
     this.pubnub.getMessage(channel, (data) => {
       switch(data.message.status.operation) {
         case 'PNSubscribeOperation': {

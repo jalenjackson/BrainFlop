@@ -1,7 +1,10 @@
 import React from 'react'
 import $ from 'jquery'
 import _ from 'lodash';
+import TimelineMax from "gsap/TimelineMax";
+import TweenMax, {Power4} from "gsap/TweenMax";
 let quizId = null;
+let SplitText = null;
 
 export default class PersonalityQuizGameComponent extends React.Component {
   constructor (props) {
@@ -51,10 +54,13 @@ export default class PersonalityQuizGameComponent extends React.Component {
   }
 
   componentDidMount () {
+    $(".fb-comments").attr("data-href", window.location.href);
+    SplitText = require("../../gsap/SplitText");
     fetch(`https://api.quizop.com/quizzes/${quizId}`, {
       method: 'GET'
     }).then((response) => {
       response.json().then((body) => {
+        console.log(body)
         this.setState({ results: body.quiz.personalityResults, quiz: body.quiz })
       })
     }).catch((err) => {
@@ -127,6 +133,25 @@ export default class PersonalityQuizGameComponent extends React.Component {
       this.state.results.map((result) => {
         if (result.id === highestScoreId) {
           this.setState({ finalResult: result.title, resultButtonText: 'SEE RESULTS' }, () => {
+            const T1Split = new SplitText(
+                '.results-modal p',
+                {type: 'words'}
+            );
+            const T1Animation = new TimelineMax()
+            TweenMax.set(
+                '#split',
+                {opacity: 1}
+            );
+            T1Animation.staggerFrom(
+                T1Split.words,
+                0.2,
+                {
+                  y: 10,
+                  opacity: 0,
+                  ease: Power4.easeOut,
+                  delay: 0.4
+                },
+                0.01, '+=0');
             $('.results-modal-container').css({ pointerEvents: 'auto', opacity: 1 })
           })
         }
@@ -155,10 +180,10 @@ export default class PersonalityQuizGameComponent extends React.Component {
         </div>
         <div className='results-modal-container'>
           <div className='results-modal'>
-            <h1 className='modal-header'>Your Result</h1>
-            <h2>You may die of heart disease and win the lottery</h2>
+            <p>{this.state.finalResult}</p>
           </div>
         </div>
+        <div className="fb-comments" data-href={this.props.router.asPath} data-width="470" data-num-posts="10"></div>
       </div>
     )
   }

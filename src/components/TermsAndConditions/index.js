@@ -31,12 +31,12 @@ export default class TermsAndConditionsComponent extends React.Component {
         affiliate / advertising partners may also use cookies.</p><h2>License</h2>
         <p>Unless otherwise stated, BrainFlop and/or it’s licensors own the intellectual property rights for
           all material on BrainFlop. All intellectual property rights are reserved. You may view and/or print
-          pages from https://www.brainflop.com for your own personal use subject to restrictions set in these terms and conditions.</p>
+          pages from https://brainflop.com for your own personal use subject to restrictions set in these terms and conditions.</p>
         <p>You must not:</p>
         <ol>
-          <li>Republish material from https://www.brainflop.com</li>
-          <li>Sell, rent or sub-license material from https://www.brainflop.com</li>
-          <li>Reproduce, duplicate or copy material from https://www.brainflop.com</li>
+          <li>Republish material from https://brainflop.com</li>
+          <li>Sell, rent or sub-license material from https://brainflop.com</li>
+          <li>Reproduce, duplicate or copy material from https://brainflop.com</li>
         </ol>
         <p>Redistribute content from BrainFlop (unless content is specifically made for redistribution).</p>
         <h2>Hyperlinking to our Content</h2>

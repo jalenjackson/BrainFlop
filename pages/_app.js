@@ -46,6 +46,20 @@ export default class MyApp extends App {
     return {pageProps}
   }
 
+  componentDidMount() {
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=328619197927561&autoLogAppEvents=1';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  }
+
+  componentDidUpdate() {
+    window.FB.XFBML.parse();
+  }
+
   render () {
     const {Component, pageProps} = this.props;
     if (pageProps.hasOwnProperty('statusCode') && (pageProps.statusCode === 404 || pageProps.statusCode === 500)) {
@@ -53,6 +67,7 @@ export default class MyApp extends App {
     }
     return (
       <Container>
+        <div id="fb-root"></div>
         <Component {...pageProps} />
       </Container>
     )

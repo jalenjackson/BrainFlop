@@ -9,16 +9,16 @@ import React from "react";
 const Quiz = (Data) => (
     <section>
       <Head>
-        <title>{toTitleCase(Data.router.query.quizName.split('-').join(' '))} - BrainFlop</title>
+        <title>{toTitleCase(Data.router.query.quizName.split('-').join(' '))} | BrainFlop</title>
         <meta name="description" content={`Play This ${toTitleCase(Data.quiz.tags)} Quiz Online, Single Player, Or Challenge A Friend!`}  />
 
-        <meta itemProp="name" content={`${toTitleCase(Data.router.query.quizName.split('-').join(' '))} - BrainFlop`} />
+        <meta itemProp="name" content={`${toTitleCase(Data.router.query.quizName.split('-').join(' '))} | BrainFlop`} />
         <meta itemProp="description" content={`Play This ${toTitleCase(Data.quiz.tags)} Quiz Online, Single Player, Or Challenge A Friend!`} />
         <meta itemProp="image" content={Data.quiz.quizImage} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@QuizOp" />
-        <meta name="twitter:title" content={`${toTitleCase(Data.router.query.quizName.split('-').join(' '))} - BrainFlop`} />
+        <meta name="twitter:title" content={`${toTitleCase(Data.router.query.quizName.split('-').join(' '))} | BrainFlop`} />
         <meta name="twitter:description" content={`Play This ${toTitleCase(Data.quiz.tags)} Quiz Online, Single Player, Or Challenge A Friend!`} />
         <meta name="twitter:creator" content="@QuizOp" />
         <meta name="twitter:image:src" content={Data.quiz.quizImage} />
@@ -27,13 +27,14 @@ const Quiz = (Data) => (
         <meta property="fb:admins" content="100014621536916" />
         <meta property="og:url" content={Data.pathName} />
         <meta property="og:type" content="game" />
-        <meta property="og:title" content={`${toTitleCase(Data.router.query.quizName.split('-').join(' '))} - BrainFlop`} />
+        <meta property="og:title" content={`${toTitleCase(Data.router.query.quizName.split('-').join(' '))} | BrainFlop`} />
         <meta property="og:description" content={`Play This ${toTitleCase(Data.quiz.tags)} Quiz Online, Single Player, Or Challenge A Friend!`} />
         <meta property="og:image" content={Data.quiz.quizImage} />
         <link href={Data.pathName} rel="canonical" />
+        <div id="fb-root"></div>
       </Head>
       <Navbar userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
-      <QuizShowPage userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
+      <QuizShowPage router={Data.router} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
     </section>
 );
 
