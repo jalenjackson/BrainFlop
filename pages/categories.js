@@ -28,7 +28,7 @@ const Categories = (Data) => (
       <meta property="og:image" content='https://quizop.s3.amazonaws.com/1541038760937' />
       <link href={Data.pathName} rel="canonical" />
     </Head>
-    <Navbar userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
+    <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
     <CategoriesComponent />
   </div>
 );

@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Navbar from '../src/components/Navbar';
 import TermsAndConditionsComponent from '../src/components/TermsAndConditions';
 import {checkAuthentication} from "../checkAuthentication";
+import { withRouter } from 'next/router';
 import React from "react";
 
 const TermsAndConditions = (Data) => (
@@ -27,7 +28,7 @@ const TermsAndConditions = (Data) => (
       <meta property="og:image" content='https://s3.amazonaws.com/quizop/46787915_984167748452313_32209441516421120_o+(1).png' />
       <link href={Data.pathName} rel="canonical" />
     </Head>
-    <Navbar userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
+    <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
     <TermsAndConditionsComponent />
   </section>
 );
@@ -36,4 +37,4 @@ TermsAndConditions.getInitialProps = async (req) => {
   return checkAuthentication(req);
 };
 
-export default TermsAndConditions;
+export default withRouter(TermsAndConditions);

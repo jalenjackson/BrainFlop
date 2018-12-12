@@ -2,6 +2,8 @@ import Head from 'next/head';
 import Navbar from '../src/components/Navbar';
 import PrivacyPolicyComponent from '../src/components/PrivacyPolicy';
 import {checkAuthentication} from "../checkAuthentication";
+import { withRouter } from 'next/router';
+
 import React from "react";
 import _ from "lodash";
 
@@ -28,7 +30,7 @@ const PrivacyPolicy = (Data) => (
       <meta property="og:image" content='https://s3.amazonaws.com/quizop/46787915_984167748452313_32209441516421120_o+(1).png' />
       <link href={Data.pathName} rel="canonical" />
     </Head>
-    <Navbar userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
+    <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
     <PrivacyPolicyComponent />
   </section>
 );
@@ -37,4 +39,4 @@ PrivacyPolicy.getInitialProps = async (req) => {
   return checkAuthentication(req)
 };
 
-export default PrivacyPolicy;
+export default withRouter(PrivacyPolicy);

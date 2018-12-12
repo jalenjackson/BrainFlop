@@ -29,7 +29,7 @@ const SinglePlayerAnswerChoiceQuizGame = (Data) => (
         <meta property="og:image" content={Data.quiz.quizImage} />
         <link href={Data.pathName} rel="canonical" />
       </Head>
-      <Navbar userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
+      <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
       <SinglePlayerAnswerChoiceQuizGameComponent router={Data.router} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
     </section>
 );

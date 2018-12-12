@@ -121,7 +121,7 @@ class Navbar extends React.Component {
                 null
             }
           </div>
-          <MenuRightLinks userObject={this.props.userObject} isAuthenticated={this.props.isAuthenticated} />
+          <MenuRightLinks pathName={this.props.pathName} userObject={this.props.userObject} isAuthenticated={this.props.isAuthenticated} />
           <div className="mobile-quick-links">
             <Link href={ '/' }>
               <a>

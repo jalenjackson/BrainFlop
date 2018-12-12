@@ -10,8 +10,11 @@ export default class MenuRightLinks extends React.Component {
   render () {
     const guestLinks = (
       <div className="guest-links">
-        <Link className="menu-right-links login-right-link" route="/login"><a title='Login To BrainFlop'>Login</a></Link>
-        <Link className="menu-right-links" route="/register"><a title='Register To BrainFlop' className='register-right-link'>Register</a></Link>
+        <div style={{ position: 'absolute', right: '195px', top: '-5.5px' }} className="fb-share-button" data-href={this.props.pathName} data-layout="button" data-size="large" data-mobile-iframe="true">
+          <a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=brainflop.com;src=sdkpreparse`} className="fb-xfbml-parse-ignore">Share</a>
+        </div>
+        <Link style={{ transform: 'translateY(-35px)' }} className="menu-right-links login-right-link" route="/login"><a className='undo-hide' title='Login To BrainFlop'>Login</a></Link>
+        <Link className="menu-right-links" route="/register"><a title='Register To BrainFlop' className='register-right-link undo-hide'>Register</a></Link>
       </div>
     );
 
@@ -20,16 +23,21 @@ export default class MenuRightLinks extends React.Component {
     };
 
     const userLinks = (
-      <Link route='/profile'>
-        <a style={{ display: 'inline-block' }} title='View Your Profile'>
-          <div className="mrn">
-            <h1 className="navbar-points">{ numberWithCommas(String(this.props.userObject && this.props.userObject.points ? this.props.userObject.points : 0))}</h1>
-            <div style={{ cursor: 'pointer' }} className='profile-img'>
-              <img src='/static/images/icons/user-profile.svg' />
+      <div>
+        <div style={{ position: 'absolute', right: '180px', top: '20px' }} className="fb-share-button" data-href={this.props.pathName} data-layout="button" data-size="large" data-mobile-iframe="true">
+          <a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=brainflop.com;src=sdkpreparse`} className="fb-xfbml-parse-ignore">Share</a>
+        </div>
+        <Link route='/profile'>
+          <a className='undo-hide' style={{ display: 'inline-block' }} title='View Your Profile'>
+            <div className="mrn">
+              <h1 style={{ transform: 'translate(50px, -5px)' }} className="navbar-points">{ numberWithCommas(String(this.props.userObject && this.props.userObject.points ? this.props.userObject.points : 0))}</h1>
+              <div style={{ cursor: 'pointer' }} className='profile-img'>
+                <img src='/static/images/icons/user-profile.svg' />
+              </div>
             </div>
-          </div>
-        </a>
-      </Link>
+          </a>
+        </Link>
+      </div>
     );
 
     return (

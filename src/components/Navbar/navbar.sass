@@ -354,9 +354,25 @@
     @include medium-screen-down
       display: none
     a
-      color: rgb(60, 60, 65)
       letter-spacing: 1px
-      margin-left: 20px
+      margin-left: 7px
+      border: 3px solid #FBB9C5
+      padding: 12px 12px 10px 12px
+      -webkit-border-radius: .3em
+      -moz-border-radius: .3em
+      border-radius: .3em
+      color: #FBB9C5
+      opacity: 0
+      &:hover
+        background: rgba(236,82,109, 0.1)
+        -webkit-transition: background 300ms ease-in-out, color 300ms ease-in-out
+        -moz-transition: background 300ms ease-in-out, color 300ms ease-in-out
+        -ms-transition: background 300ms ease-in-out, color 300ms ease-in-out
+        -o-transition: background 300ms ease-in-out, color 300ms ease-in-out
+        transition: background 300ms ease-in-out, color 300ms ease-in-out
+        color: rgb(90, 90, 90)
+    .undo-hide
+      opacity: 1
     .register-right-link
       border: 3px solid #ec526d
       padding: 12px 12px 10px 12px
