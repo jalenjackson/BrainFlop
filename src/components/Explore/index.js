@@ -284,7 +284,6 @@ class Explore extends React.Component {
                       <a title={`${_.startCase(_.toLower((this.pluralizeTopic(this.state.featuredQuizzes[1].tags))))} Quizzes`}>
                         <div className="tags">
                           <div>
-                            <img src="/static/images/icons/lightbulb.svg" />
                             <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[1].tags, history)} className="span-color">{this.state.featuredQuizzes[1].tags}</span>
                           </div>
                         </div>
@@ -304,7 +303,6 @@ class Explore extends React.Component {
                       <a title={`${_.startCase(_.toLower((this.pluralizeTopic(this.state.featuredQuizzes[2].tags))))} Quizzes`}>
                         <div className="tags">
                           <div>
-                            <img src="/static/images/icons/lightbulb.svg" />
                             <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[2].tags, history)} className="span-color">{this.state.featuredQuizzes[2].tags}</span>
                           </div>
                         </div>
@@ -324,7 +322,6 @@ class Explore extends React.Component {
                       <a title={`${_.startCase(_.toLower((this.pluralizeTopic(this.state.featuredQuizzes[3].tags))))} Quizzes`}>
                         <div className="tags">
                           <div>
-                            <img src="/static/images/icons/lightbulb.svg" />
                             <span onClick={this.routeToTagPage.bind(this, this.state.featuredQuizzes[3].tags, history)} className="span-color">{this.state.featuredQuizzes[3].tags}</span>
                           </div>
                         </div>

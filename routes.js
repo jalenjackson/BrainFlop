@@ -19,6 +19,7 @@ routes
   .add('personalityQuizzes', '/personality-quizzes')
   .add('Register', '/register')
   .add('termsAndConditions', '/terms-and-conditions')
-  .add('privacyPolicy', '/privacy-policy');
+  .add('privacyPolicy', '/privacy-policy')
+  .add('blog', '/blog/:name/:id');
 
 
