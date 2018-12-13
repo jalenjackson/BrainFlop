@@ -21,6 +21,7 @@
     { "src": "/create-quiz/(.*)", "dest": "/editQuiz" },
     { "src": "/search/(.*)", "dest": "/Search?searchQuery=$1" },
     { "src": "/profile/(.*)/(.*)", "dest": "/viewProfile?name=$1&id=$1" },
+    { "src": "/blog/(.*)/(.*)", "dest": "/blog?name=$1&id=$1" },
     { "src": "/personalityQuizzes", "dest": "/personalityQuizzes" },
     { "src": "/register", "dest": "/Register" },
     { "src": "/terms-and-conditions", "dest": "/termsAndConditions" },
