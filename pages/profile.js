@@ -14,7 +14,7 @@ const Profile = (Data) => (
       <meta name="description" content='View Your Profile Here At BrainFlop!' />
       <meta name="robots" content="noindex, nofollow" />
     </Head>
-    <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
+    <Navbar userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
     <ProfileComponent userObject={Data.userObject} isAuthenticated={Data.isAuthenticated}  />
   </section>
 );
