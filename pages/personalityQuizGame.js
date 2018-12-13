@@ -31,7 +31,7 @@ const PersonalityQuizGame = (Data) => (
       <link href={Data.pathName} rel="canonical" />
     </Head>
     <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
-    <PersonalityQuizGameComponent router={Data.router} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
+    <PersonalityQuizGameComponent pathName={Data.pathName} router={Data.router} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
   </section>
 );
 
@@ -40,14 +40,10 @@ PersonalityQuizGame.getInitialProps = async (req) => {
 
   const getQuizId = isClient
     ? req.query.quizId
-    : req.req.url.split('/')[3];
+    : req.req.url.split('/')[3].split('?')[0];
 
   const res = await fetch(`https://api.quizop.com/quizzes/${getQuizId}`);
   const json = await res.json();
-  const pathName = isClient
-    ? window.location.href
-    : `https://brainflop.com${req.req.url}`;
-
   let resultObj = {};
   resultObj = checkAuthentication(req);
   resultObj.quiz = json.quiz;

@@ -14,7 +14,8 @@ export default class CategoryComponent extends Component {
     this.state = {
       quizzes: [],
       skipIterator: 0,
-      tagsRendered: false
+      tagsRendered: false,
+      tagData: {}
     };
     category = _.startCase(_.toLower((this.props.router.query.slug.split('-').join(' '))));
   }
@@ -35,6 +36,22 @@ export default class CategoryComponent extends Component {
         setTimeout(() => {
           this.setState({ tagsRendered: true })
         }, 200)
+      });
+    }).catch((err) => {
+      console.log(err)
+    })
+
+    fetch(`http://localhost:8080/tags/${category}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    }).then((response) => {
+      response.json().then((body) => {
+        console.log(body)
+        this.setState({ tagData: body.tag }, () => {
+          console.log(this.state.tagData)
+        });
       });
     }).catch((err) => {
       console.log(err)
@@ -150,6 +167,7 @@ export default class CategoryComponent extends Component {
                 ?
                 <div className="text-container">
                   <h1>{category}
+
                     <img src='/static/images/icons/underline.svg' />
                   </h1>
                   <p>All Of The Best {_.startCase(_.toLower(this.props.topic))} Quizzes</p>

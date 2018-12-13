@@ -19,7 +19,7 @@ export default class PersonalityQuizGameComponent extends React.Component {
       questionsRendered: false,
       resultButtonText: 'SEE RESULTS'
     };
-    quizId = this.props.router.query.quizId;
+    quizId = this.props.pathName.split('/')[5].split('?')[0];
   }
 
   renderContentLoader () {

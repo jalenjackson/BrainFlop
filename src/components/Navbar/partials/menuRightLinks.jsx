@@ -1,16 +1,29 @@
 import React from 'react';
+import $ from 'jquery'
 import {Link} from '../../../../routes.js';
 
 export default class MenuRightLinks extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      rightGuest: '195px',
+      topGuest: '-5.5px',
+      rightUser: '180px',
+      topUser: '20px'
+    }
+  }
+
+  componentDidMount() {
+    if($(window).width() < 500) {
+      this.setState({ rightGuest: '10px', topGuest: '10px', rightUser: '10px', topUser: '10px' })
+    }
   }
 
   render () {
     const guestLinks = (
       <div className="guest-links">
-        <div style={{ position: 'absolute', right: '195px', top: '-5.5px' }} className="fb-share-button" data-href={this.props.pathName} data-layout="button" data-size="large" data-mobile-iframe="true">
+        <div style={{ position: 'absolute', right: this.state.rightGuest, top: this.state.topGuest }} className="fb-share-button" data-href={this.props.pathName} data-layout="button" data-size="large" data-mobile-iframe="true">
           <a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=brainflop.com;src=sdkpreparse`} className="fb-xfbml-parse-ignore">Share</a>
         </div>
         <Link style={{ transform: 'translateY(-35px)' }} className="menu-right-links login-right-link" route="/login"><a className='undo-hide' title='Login To BrainFlop'>Login</a></Link>
@@ -24,7 +37,7 @@ export default class MenuRightLinks extends React.Component {
 
     const userLinks = (
       <div>
-        <div style={{ position: 'absolute', right: '180px', top: '20px' }} className="fb-share-button" data-href={this.props.pathName} data-layout="button" data-size="large" data-mobile-iframe="true">
+        <div style={{ position: 'absolute', right: this.state.rightUser, top: this.state.topUser }} className="fb-share-button" data-href={this.props.pathName} data-layout="button" data-size="large" data-mobile-iframe="true">
           <a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=brainflop.com;src=sdkpreparse`} className="fb-xfbml-parse-ignore">Share</a>
         </div>
         <Link route='/profile'>

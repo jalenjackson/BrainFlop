@@ -5,38 +5,55 @@ import {withRouter} from 'next/router'
 import Head from 'next/head';
 import {checkAuthentication} from "../checkAuthentication";
 import React from "react";
+import fetch from "isomorphic-unfetch";
 
 const Blog = (Data) => (
   <section>
     <Head>
-      <title>Login To BrainFlop</title>
+      <title>{Data.blog.title} | BrainFlop</title>
+      <link href="https://fonts.googleapis.com/css?family=Charm" rel="stylesheet" />
       <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.0/TweenMax.min.js"></script>
-      <meta name="description" content='Welcome Back To BrainFlop! Login Easy And Fast With Facebook Or Your Email!' />
-      <meta itemProp="name" content='Login To BrainFlop' />
-      <meta itemProp="description" content='Welcome Back To BrainFlop! Login Easy And Fast With Facebook Or Your Email!' />
-      <meta itemProp="image" content='https://s3.amazonaws.com/quizop/46787915_984167748452313_32209441516421120_o+(1).png' />
+      <meta name="description" content={Data.blog.description} />
+      <meta itemProp="name" content={`${Data.blog.title} | BrainFlop`} />
+      <meta itemProp="description" content={Data.blog.description} />
+      <meta itemProp="image" content={Data.blog.image} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@QuizOp" />
-      <meta name="twitter:title" content='Login To BrainFlop' />
-      <meta name="twitter:description" content='Welcome Back To BrainFlop! Login Easy And Fast With Facebook Or Your Email!' />
+      <meta name="twitter:title" content={`${Data.blog.title} | BrainFlop`} />
+      <meta name="twitter:description" content={Data.blog.description} />
       <meta name="twitter:creator" content="@QuizOp" />
-      <meta name="twitter:image:src" content='https://s3.amazonaws.com/quizop/46787915_984167748452313_32209441516421120_o+(1).png' />
+      <meta name="twitter:image:src" content={Data.blog.image} />
       <meta property="og:site_name" content="BrainFlop" />
       <meta property="fb:admins" content="100014621536916" />
       <meta property="og:url" content={Data.pathName} />
       <meta property="og:type" content="website" />
-      <meta property="og:title" content='Login To BrainFlop' />
-      <meta property="og:description" content='Welcome Back To BrainFlop! Login Easy And Fast With Facebook Or Your Email!' />
-      <meta property="og:image" content='https://s3.amazonaws.com/quizop/46787915_984167748452313_32209441516421120_o+(1).png' />
+      <meta property="og:title" content={`${Data.blog.title} | BrainFlop`} />
+      <meta property="og:description" content={Data.blog.description} />
+      <meta property="og:image" content={Data.blog.image} />
       <link href={Data.pathName} rel="canonical" />
     </Head>
     <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
-    <BlogComponent  />
+    <BlogComponent pathName={Data.pathName}  />
   </section>
 );
 
 Blog.getInitialProps = async (req) => {
-  return checkAuthentication(req)
+  const isClient = typeof document !== 'undefined';
+
+  const getBlogId = isClient
+      ? req.query.id
+      : req.req.url.split('/')[3].split('?')[0];
+
+  const res = await fetch(`https://api.quizop.com/blog/${getBlogId}`);
+  const json = await res.json();
+  if (!json.blog) {
+    req.res.redirect('/');
+    req.res.end();
+    return {}
+  }
+  let result = checkAuthentication(req)
+  result.blog = json.blog
+  return result
 };
 
 export default withRouter(Blog);

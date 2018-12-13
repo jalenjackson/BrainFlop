@@ -1,5 +1,54 @@
-.blog
-  width: 50%
-  display: block
-  margin: 0 auto
-  margin-top: 150px
+@import ../../sass/mixins/material
+@import ../../sass/mixins/breakpoints
+
+.blog-container
+  .explore-btn-blog
+    @include button(52.5%, 50px, #2FDC7F)
+    display: block
+    margin: 0 auto
+    margin-top: 10px
+    margin-bottom: 40px
+    @include small-screen
+      @include mobile-button(60%, 40px, white, #ec526d)
+      font-size: 13px
+      margin-top: 20px
+    &:after
+      @include button-after(rgba(117,290,197, 1))
+      @include small-screen
+        display: none
+  img
+    border-radius: 5px
+  p
+    font-family: 'Roboto', sans-serif
+    letter-spacing: .6px
+    font-size: 18px
+    line-height: 30px
+    color: rgb(100, 100, 100)
+  .blog-header
+    margin-top: 130px
+    width: 100%
+    h1
+      font-size: 40px
+      color: rgb(30, 30, 35)
+      letter-spacing: 1px
+      text-align: center
+    p
+      text-align: center
+      color: rgb(110, 110, 110)
+      font-size: 20px
+      transform: translateY(-15px)
+      width: 40%
+      display: block
+      margin: 0 auto
+      @include medium-screen-down
+        width: 85%
+    img
+      width: 100%
+      height: auto
+  .blog
+    width: 40%
+    display: block
+    margin: 0 auto
+    margin-top: 100px
+    @include medium-screen-down
+      width: 85%
