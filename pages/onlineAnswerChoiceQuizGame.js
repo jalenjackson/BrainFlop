@@ -15,8 +15,8 @@ const OnlineAnswerChoiceQuizGame = (Data) => (
         <meta name="description" content='Play Your Favorite Quiz Online!' />
         <meta name="robots" content="noindex, nofollow" />
       </Head>
-      <Navbar userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
-      <OnlineAnswerChoiceQuizGameComponent userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} router={Data.router} />
+      <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
+      <OnlineAnswerChoiceQuizGameComponent userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} pathName={Data.pathName} />
     </section>
   </div>
 );

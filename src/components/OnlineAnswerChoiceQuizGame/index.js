@@ -60,8 +60,8 @@ class QuizRealTimeTraditional extends Component {
     };
 
     uuid = this.props.isAuthenticated ? this.props.userObject.userId : null;
-    quizId = this.props.router.query.quizId;
-    channel = this.props.router.query.quizId;
+    quizId = this.props.pathName.split('/')[6].split('?')[0];
+    channel = quizId;
 
     this.pubnub = new PubNubReact({
       publishKey: 'pub-c-dfb943ec-8bac-4d2e-be38-d28503ff79fd',
@@ -531,16 +531,18 @@ class QuizRealTimeTraditional extends Component {
   };
 
   async countDown() {
-    if (this.state.countDownTimer > 0) {
-      let countDownTimer = this.state.countDownTimer - 1;
-      await this.setState({ countDownTimer });
-    } else {
-      this.setState({
-        shouldRenderQuizQuestions: true,
-        isAnimating: false,
-      }, () => {
-        $('body').css({ background: 'linear-gradient(rgb(255,245,245), rgb(200, 150, 150)) fixed' });
-      });
+    if (process.browser) {
+      if (this.state.countDownTimer > 0) {
+        let countDownTimer = this.state.countDownTimer - 1;
+        await this.setState({countDownTimer});
+      } else {
+        this.setState({
+          shouldRenderQuizQuestions: true,
+          isAnimating: false,
+        }, () => {
+          $('body').css({background: 'linear-gradient(rgb(255,245,245), rgb(200, 150, 150)) fixed'});
+        });
+      }
     }
   }
 
@@ -553,7 +555,6 @@ class QuizRealTimeTraditional extends Component {
   componentDidMount() {
     SplitText = require("../../gsap/SplitText");
     ReactGA.initialize('UA-129744457-1')
-    ReactGA.pageview(`/quizzes/traditional/${this.props.router.query.quizId}`);
     this.interval = setInterval(() => this.updateTimer(), 1000);
     window.addEventListener('beforeunload', this.leaveQuizGame);
 
