@@ -20,6 +20,5 @@ routes
   .add('Register', '/register')
   .add('termsAndConditions', '/terms-and-conditions')
   .add('privacyPolicy', '/privacy-policy')
-  .add('blog', '/blog/:name/:id');
-
+  .add('blog', '/blog/:name/:id')
 
