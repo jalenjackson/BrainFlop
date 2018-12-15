@@ -5,57 +5,22 @@ import { Router, Link } from '../../../routes';
 import ReactGA from "react-ga";
 import _ from 'lodash';
 let category = null;
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
 
 export default class CategoryComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quizzes: [],
+      quizzes: this.props.quizzes,
       skipIterator: 0,
       tagsRendered: false,
-      tagData: {}
     };
-    category = _.startCase(_.toLower((this.props.router.query.slug.split('-').join(' '))));
+    category = this.props.category;
   }
 
   componentDidMount() {
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview(this.props.router.asPath);
+    ReactGA.pageview(window.location.href);
     document.addEventListener('scroll', this.trackScrolling);
-    fetch(`https://api.quizop.com/quizzes/quizzes-by-topic`, {
-      method: 'POST',
-      body: JSON.stringify({ topic: category, skipIterator: this.state.skipIterator }),
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-    }).then((response) => {
-      response.json().then((body) => {
-        this.setState({ quizzes: body.quizzes });
-        setTimeout(() => {
-          this.setState({ tagsRendered: true })
-        }, 200)
-      });
-    }).catch((err) => {
-      console.log(err)
-    })
-
-    fetch(`http://localhost:8080/tags/${category}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-    }).then((response) => {
-      response.json().then((body) => {
-        console.log(body)
-        this.setState({ tagData: body.tag }, () => {
-          console.log(this.state.tagData)
-        });
-      });
-    }).catch((err) => {
-      console.log(err)
-    })
   }
 
   componentWillUnmount() {
@@ -133,32 +98,9 @@ export default class CategoryComponent extends Component {
     Router.pushRoute(`/create-quiz`)
   }
 
-  renderContentLoader () {
-    return (
-        <main className="page">
-          <div className="page-content">
-            <div className="placeholder-content">
-              <div className="placeholder-content_item"></div>
-              <div className="placeholder-content_item"></div>
-              <div className="placeholder-content_item"></div>
-              <div className="placeholder-content_item"></div>
-              <div className="placeholder-content_item"></div>
-              <div className="placeholder-content_item"></div>
-              <div className="placeholder-content_item"></div>
-              <div className="placeholder-content_item"></div>
-              <div className="placeholder-content_item"></div>
-              <div className="placeholder-content_item"></div>
-              <div className="placeholder-content_item"></div>
-            </div>
-          </div>
-        </main>
-    )
-  }
-
   render() {
 
     const quizzes = this.renderQuizzes();
-    const contentLoader = this.renderContentLoader();
 
     return (
         <div style={{ marginTop: '-20px' }} id="tags">
@@ -183,14 +125,9 @@ export default class CategoryComponent extends Component {
           </div>
           <div id="quizzes">
             <h1 className="quizzes-header">All <span style={{ color: '#17CF86' }}>{_.startCase(_.toLower(this.props.topic))}</span> Quizzes</h1>
-            {
-              this.state.tagsRendered ?
-                  <div className='quizzes'>
-                    { quizzes }
-                  </div>
-                  :
-                  contentLoader
-            }
+            <div className='quizzes'>
+              { quizzes }
+            </div>
           </div>
           <div className="pagination-loader">
             <img src="/static/images/icons/rings.svg" />

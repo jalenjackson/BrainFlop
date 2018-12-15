@@ -32,34 +32,28 @@ const Category = (Data) => (
         <link href={Data.pathName} rel="canonical" />
       </Head>
       <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
-      <CategoryComponent topic={Data.pluralizedTopic} router={Data.router} />
+      <CategoryComponent quizzes={Data.quizzes} category={Data.topic} topic={Data.pluralizedTopic} router={Data.router} />
     </div>
 );
 
 Category.getInitialProps = async (req) => {
-
   const isClient = typeof document !== 'undefined';
   let topic = isClient ? req.query.slug.split('-').join(' ') : req.req.url.split('/')[2].split('?')[0].split('-').join(' ');
 
-  console.log(topic)
-
-  const res = await fetch(`https://api.quizop.com/quizzes/quizzes-by-topic?limit=1`, {
+  const res = await fetch(`https://api.quizop.com/quizzes/quizzes-by-topic`, {
     method: 'POST',
     body: JSON.stringify({ topic }),
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-    },
+    headers: {'Content-Type': 'application/json; charset=utf-8'}
   });
-
   const json = await res.json();
-
-  let pluralizedTopic = pluralize.isPlural(topic)
-    ? pluralize.singular(topic)
-    : topic;
+  let pluralizedTopic = pluralize.isPlural(topic) ? pluralize.singular(topic) : topic;
 
   let userObject = checkAuthentication(req);
+
   userObject.quizImage = json.quizzes.length > 0 ? json.quizzes[0].quizImage : 'https://quizop.s3.amazonaws.com/1541038760937';
   userObject.pluralizedTopic = pluralizedTopic;
+  userObject.quizzes = json.quizzes;
+  userObject.topic = topic;
   return userObject;
 };
 
