@@ -37,7 +37,6 @@ const Blog = (Data) => (
 
 Blog.getInitialProps = async (req) => {
   const isClient = typeof document !== 'undefined';
-  const spinalName = isClient ? req.query.name : req.req.url.split('/')[2].split('?')[0];
   const blogId = isClient ? req.query.id : req.req.url.split('/')[3].split('?')[0];
 
   const res = await fetch(`https://api.quizop.com/blog/${blogId}`);
@@ -48,11 +47,7 @@ Blog.getInitialProps = async (req) => {
     return {}
   }
   let result = checkAuthentication(req);
-  let cookieExpirationDate = new Date();
-  cookieExpirationDate.setSeconds(cookieExpirationDate.getSeconds() + 10);
-
   result.blog = json.blog;
-  result.blog.spinalName = spinalName;
   return result
 };
 

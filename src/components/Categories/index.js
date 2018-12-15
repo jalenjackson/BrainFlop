@@ -23,21 +23,7 @@ export default class TagPage extends Component {
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview('/categories');
     document.addEventListener('scroll', this.trackScrolling);
-    fetch(`https://api.quizop.com/tags?limit=9&skipAmount=0`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-    }).then((response) => {
-      response.json().then((body) => {
-        this.setState({ tags: body.tags });
-        setTimeout(() => {
-          this.setState({ tagsRendered: true })
-        }, 200)
-      });
-    }).catch((err) => {
-      console.log(err)
-    })
+    this.setState({ tagsRendered: true, tags: this.props.categories });
   }
 
   toTitleCase(str) {

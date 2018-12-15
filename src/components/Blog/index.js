@@ -1,7 +1,13 @@
 import React from 'react';
 import { Link } from '../../../routes';
+import ReactGA from "react-ga";
 
 export default class BlogComponent extends React.Component {
+  componentDidMount() {
+    ReactGA.initialize('UA-129744457-1');
+    ReactGA.pageview(window.location.pathname);
+  }
+
   render() {
     return (
       <div className='blog-container'>

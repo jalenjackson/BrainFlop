@@ -4,6 +4,7 @@ import CategoriesComponent from '../src/components/Categories'
 import Navbar from "../src/components/Navbar";
 import React from "react";
 import {checkAuthentication} from "../checkAuthentication";
+import fetch from "isomorphic-unfetch";
 
 const Categories = (Data) => (
   <div>
@@ -29,12 +30,17 @@ const Categories = (Data) => (
       <link href={Data.pathName} rel="canonical" />
     </Head>
     <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
-    <CategoriesComponent />
+    <CategoriesComponent categories={Data.categories} />
   </div>
 );
 
 Categories.getInitialProps = async (req) => {
-  return checkAuthentication(req)
+  const res = await fetch(`https://api.quizop.com/tags?limit=9&skipAmount=0`);
+  const json = await res.json();
+
+  let result = checkAuthentication(req);
+  result.categories = json.tags;
+  return result
 };
 
 export default withRouter(Categories);
