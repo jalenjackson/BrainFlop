@@ -30,6 +30,7 @@
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
     "chart.js": "^2.7.3",
+    "core-js": "^2.6.0",
     "crypto": "^1.0.1",
     "dotenv": "^6.2.0",
     "dotenv-webpack": "^1.5.7",

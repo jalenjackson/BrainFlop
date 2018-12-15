@@ -4,7 +4,8 @@ import {withRouter} from 'next/router'
 import Head from 'next/head';
 import {checkAuthentication} from "../checkAuthentication";
 import React from "react";
-import fetch from "isomorphic-unfetch";
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 
 const Blog = (Data) => (
   <section>

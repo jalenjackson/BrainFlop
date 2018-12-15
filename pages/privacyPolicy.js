@@ -3,9 +3,7 @@ import Navbar from '../src/components/Navbar';
 import PrivacyPolicyComponent from '../src/components/PrivacyPolicy';
 import {checkAuthentication} from "../checkAuthentication";
 import { withRouter } from 'next/router';
-
 import React from "react";
-import _ from "lodash";
 
 const PrivacyPolicy = (Data) => (
   <section>

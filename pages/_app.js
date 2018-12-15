@@ -2,6 +2,7 @@ import React from 'react'
 import App, {Container} from 'next/app'
 import PageNotFound from '../src/components/notFound';
 import NProgress from 'nprogress'
+import 'core-js/fn/object/assign';
 import '../src/sass/global.sass';
 import '../src/sass/sharedQuizGame.sass';
 import '../src/components/Category/category.sass';
