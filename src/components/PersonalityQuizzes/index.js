@@ -20,7 +20,6 @@ class PersonalityQuizzesComponent extends Component {
   componentDidMount() {
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview(`/personality-quizzes`);
-    document.addEventListener('scroll', this.trackScrolling);
     fetch(`https://api.quizop.com/quizzes/personality-quizzes`, {
       method: 'GET',
       headers: {
@@ -40,47 +39,6 @@ class PersonalityQuizzesComponent extends Component {
 
   componentWillUnmount() {
     document.removeEventListener('scroll', this.trackScrolling);
-  }
-
-  isBottom(el) {
-    return $(window).scrollTop() == ($(document).height() - $(window).height())
-  }
-
-  trackScrolling = () => {
-    const wrappedElement = document.getElementById("quizzes");
-    if (this.isBottom(wrappedElement)) {
-      this.fetchMoreQuizzes();
-      document.removeEventListener('scroll', this.trackScrolling);
-    }
-  };
-
-  async fetchMoreQuizzes() {
-    await this.setState({ skipIterator: this.state.skipIterator + 8 });
-    TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
-    fetch(`https://api.quizop.com/quizzes/quizzes-by-topic`, {
-      method: 'POST',
-      body: JSON.stringify({
-        topic: this.props.router.query.tagName,
-        skipIterator: this.state.skipIterator,
-      }),
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': `Bearer ${this.props.userObject.token}`,
-      },
-    }).then((response) => {
-      response.json().then((body) => {
-        let tmpArr = this.state.quizzes;
-        tmpArr.push(...body.quizzes);
-        document.addEventListener('scroll', this.trackScrolling);
-        this.setState({ quizzes: tmpArr }, () => {
-          setTimeout(() => {
-            TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 200%, 0)', ease: Power3.easeOut });
-          }, 550)
-        });
-      });
-    }).catch(() => {
-      window.location.href = '/error'
-    })
   }
 
   pluralizeTopic(topic) {
@@ -116,10 +74,6 @@ class PersonalityQuizzesComponent extends Component {
         </div>
       ))
     }
-  }
-
-  redirectToBuildQuizPage () {
-    Router.pushRoute(`/create-quiz`)
   }
 
   renderContentLoader () {

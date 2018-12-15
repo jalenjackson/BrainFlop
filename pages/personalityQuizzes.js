@@ -29,7 +29,7 @@ const PersonalityQuizzes = (Data) => (
       <link href={Data.pathName} rel="canonical" />
     </Head>
     <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
-    <PersonalityQuizzesComponent router={Data.router} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated}  />
+    <PersonalityQuizzesComponent userObject={Data.userObject} isAuthenticated={Data.isAuthenticated}  />
   </section>
 );
 
