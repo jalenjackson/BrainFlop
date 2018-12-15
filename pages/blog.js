@@ -1,6 +1,5 @@
 import BlogComponent from '../src/components/Blog';
 import Navbar from '../src/components/Navbar';
-import Cookies from 'universal-cookie';
 import {withRouter} from 'next/router'
 import Head from 'next/head';
 import {checkAuthentication} from "../checkAuthentication";
@@ -11,8 +10,6 @@ const Blog = (Data) => (
   <section>
     <Head>
       <title>{Data.blog.title} | BrainFlop</title>
-      <link href="https://fonts.googleapis.com/css?family=Charm" rel="stylesheet" />
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.0/TweenMax.min.js"></script>
       <meta name="description" content={Data.blog.description} />
       <meta itemProp="name" content={`${Data.blog.title} | BrainFlop`} />
       <meta itemProp="description" content={Data.blog.description} />
@@ -31,28 +28,31 @@ const Blog = (Data) => (
       <meta property="og:description" content={Data.blog.description} />
       <meta property="og:image" content={Data.blog.image} />
       <link href={Data.pathName} rel="canonical" />
+      <link href="https://fonts.googleapis.com/css?family=Charm" rel="stylesheet" />
     </Head>
     <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
-    <BlogComponent pathName={Data.pathName}  />
+    <BlogComponent blog={Data.blog} pathName={Data.pathName}  />
   </section>
 );
 
 Blog.getInitialProps = async (req) => {
   const isClient = typeof document !== 'undefined';
+  const spinalName = isClient ? req.query.name : req.req.url.split('/')[2].split('?')[0];
+  const blogId = isClient ? req.query.id : req.req.url.split('/')[3].split('?')[0];
 
-  const getBlogId = isClient
-      ? req.query.id
-      : req.req.url.split('/')[3].split('?')[0];
-
-  const res = await fetch(`https://api.quizop.com/blog/${getBlogId}`);
+  const res = await fetch(`https://api.quizop.com/blog/${blogId}`);
   const json = await res.json();
   if (!json.blog) {
     req.res.redirect('/');
     req.res.end();
     return {}
   }
-  let result = checkAuthentication(req)
-  result.blog = json.blog
+  let result = checkAuthentication(req);
+  let cookieExpirationDate = new Date();
+  cookieExpirationDate.setSeconds(cookieExpirationDate.getSeconds() + 10);
+
+  result.blog = json.blog;
+  result.blog.spinalName = spinalName;
   return result
 };
 
