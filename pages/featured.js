@@ -16,6 +16,7 @@ const Featured = (Data) => (
       <meta itemProp="image" content='https://s3.amazonaws.com/quizop/46787915_984167748452313_32209441516421120_o+(1).png' />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@QuizOp" />
+      <meta name="robots" content="noodp, noydir" />
       <meta name="twitter:title" content='Top 10 Best Featured Quizzes On BrainFlop' />
       <meta name="twitter:description" content='Play The Top Featured Quizzes On BrainFlop! Play Single Player, Online, Or Invite A Friend!' />
       <meta name="twitter:creator" content="@QuizOp" />

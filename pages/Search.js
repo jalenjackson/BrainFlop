@@ -16,6 +16,7 @@ const Search = (Data) => (
       <meta itemProp="image" content='https://s3.amazonaws.com/quizop/46787915_984167748452313_32209441516421120_o+(1).png' />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@QuizOp" />
+      <meta name="robots" content="noodp, noydir" />
       <meta name="twitter:title" content={`Search ${_.startCase(_.toLower(Data.router.query.searchQuery))} | BrainFlop`} />
       <meta name="twitter:description" content={`Search Results For ${_.startCase(_.toLower(Data.router.query.searchQuery))}`} />
       <meta name="twitter:creator" content="@QuizOp" />

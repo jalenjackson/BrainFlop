@@ -16,6 +16,7 @@ const Blog = (Data) => (
       <meta itemProp="description" content={Data.blog.description} />
       <meta itemProp="image" content={Data.blog.image} />
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="robots" content="noodp, noydir" />
       <meta name="twitter:site" content="@QuizOp" />
       <meta name="twitter:title" content={`${Data.blog.title} | BrainFlop`} />
       <meta name="twitter:description" content={Data.blog.description} />

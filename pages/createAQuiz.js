@@ -15,6 +15,7 @@ const CreateAQuiz = (Data) => (
       <meta itemProp="image" content='https://s3.amazonaws.com/quizop/aws-create-quiz-seo-s3.png' />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@QuizOp" />
+      <meta name="robots" content="noodp, noydir" />
       <meta name="twitter:title" content={`Quiz Maker: Create Your Own Quizzes | BrainFlop`} />
       <meta name="twitter:description" content={`Whether You Are Studying For An Exam Or You Have A Great Quiz Idea, Create Your Own Quiz In Minutes And Share It With The World!`} />
       <meta name="twitter:creator" content="@QuizOp" />

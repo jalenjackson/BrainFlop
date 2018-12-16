@@ -112,7 +112,7 @@ export default class CategoryComponent extends Component {
 
                     <img src='/static/images/icons/underline.svg' />
                   </h1>
-                  <p>All Of The Best {_.startCase(_.toLower(this.props.topic))} Quizzes</p>
+                  <p>Top 10 Best {_.startCase(_.toLower(this.props.topic))} Quizzes</p>
                   <Link route={`/create-quiz`}>
                     <a title='Create Your Own Quiz'>
                       <button onClick={this.redirectToBuildQuizPage.bind(this)}>Create Your Own Quiz</button>
@@ -124,7 +124,7 @@ export default class CategoryComponent extends Component {
             }
           </div>
           <div id="quizzes">
-            <h1 className="quizzes-header">All <span style={{ color: '#17CF86' }}>{_.startCase(_.toLower(this.props.topic))}</span> Quizzes</h1>
+            <h1 className="quizzes-header">Top 10 Best <span style={{ color: '#17CF86' }}>{_.startCase(_.toLower(this.props.topic))}</span> Quizzes</h1>
             <div className='quizzes'>
               { quizzes }
             </div>

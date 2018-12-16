@@ -25,6 +25,7 @@ const Login = (Data) => (
         <meta property="fb:admins" content="100014621536916" />
         <meta property="og:url" content={Data.pathName} />
         <meta property="og:type" content="website" />
+        <meta name="robots" content="noodp, noydir" />
         <meta property="og:title" content='Login To BrainFlop' />
         <meta property="og:description" content='Welcome Back To BrainFlop! Login Easy And Fast With Facebook Or Your Email!' />
         <meta property="og:image" content='https://s3.amazonaws.com/quizop/46787915_984167748452313_32209441516421120_o+(1).png' />

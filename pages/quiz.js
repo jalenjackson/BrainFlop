@@ -13,13 +13,14 @@ const Quiz = (Data) => (
         <meta name="description" content={`Play This ${toTitleCase(Data.quiz.quiz.tags)} Quiz Online, Single Player, Or Challenge A Friend!`}  />
 
         <meta itemProp="name" content={`${toTitleCase(Data.router.query.quizName.split('-').join(' '))} | BrainFlop`} />
-        <meta itemProp="description" content={`Play This ${toTitleCase(Data.quiz.quiz.tags)} Quiz Online, Single Player, Or Challenge A Friend!`} />
+        <meta itemProp="description" content={`${Data.quiz.quiz.title} ${Data.quiz.quiz.description}`} />
         <meta itemProp="image" content={Data.quiz.quiz.quizImage} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@QuizOp" />
+        <meta name="robots" content="noodp, noydir" />
         <meta name="twitter:title" content={`${toTitleCase(Data.router.query.quizName.split('-').join(' '))} | BrainFlop`} />
-        <meta name="twitter:description" content={`Play This ${toTitleCase(Data.quiz.quiz.tags)} Quiz Online, Single Player, Or Challenge A Friend!`} />
+        <meta name="twitter:description" content={`${Data.quiz.quiz.title} ${Data.quiz.quiz.description}`} />
         <meta name="twitter:creator" content="@QuizOp" />
         <meta name="twitter:image:src" content={Data.quiz.quiz.quizImage} />
 
@@ -28,7 +29,7 @@ const Quiz = (Data) => (
         <meta property="og:url" content={Data.pathName} />
         <meta property="og:type" content="game" />
         <meta property="og:title" content={`${toTitleCase(Data.router.query.quizName.split('-').join(' '))} | BrainFlop`} />
-        <meta property="og:description" content={`Play This ${toTitleCase(Data.quiz.quiz.tags)} Quiz Online, Single Player, Or Challenge A Friend!`} />
+        <meta property="og:description" content={`${Data.quiz.quiz.title} ${Data.quiz.quiz.description}`} />
         <meta property="og:image" content={Data.quiz.quiz.quizImage} />
         <link href={Data.pathName} rel="canonical" />
         <div id="fb-root" />

@@ -15,6 +15,7 @@ const Categories = (Data) => (
       <meta itemProp="description" content='Play These Quizzes About General Knowledge, Computers, Anatomy, Math, TV And Many More! Play Single Player, Online Or With A Friend!' />
       <meta itemProp="image" content='https://quizop.s3.amazonaws.com/1541038760937' />
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="robots" content="noodp, noydir" />
       <meta name="twitter:site" content="@QuizOp" />
       <meta name="twitter:title" content='Quizzes By Category | BrainFlop' />
       <meta name="twitter:description" content='Play These Quizzes About General Knowledge, Computers, Anatomy, Math, TV And Many More! Play Single Player, Online Or With A Friend!' />

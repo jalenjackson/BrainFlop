@@ -19,6 +19,7 @@ const PersonalityQuizzes = (Data) => (
       <meta name="twitter:title" content='Personality Quizzes | BrainFlop' />
       <meta name="twitter:description" content='Take Our Awesome Personality Quizzes And We Will Uncover Things You Never Knew About Yourself!' />
       <meta name="twitter:creator" content="@QuizOp" />
+      <meta name="robots" content="noodp, noydir" />
       <meta name="twitter:image:src" content='https://s3.amazonaws.com/quizop/46787915_984167748452313_32209441516421120_o+(1).png' />
       <meta property="og:site_name" content="BrainFlop" />
       <meta property="fb:admins" content="100014621536916" />

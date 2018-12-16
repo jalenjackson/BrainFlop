@@ -20,6 +20,7 @@ const PersonalityQuizGame = (Data) => (
       <meta name="twitter:title" content={`${_.startCase(_.toLower(Data.quiz.personalityQuiz.title))} | BrainFlop`} />
       <meta name="twitter:description" content={`Play this awesome personality quiz only on BrainFlop! ${_.startCase(_.toLower(Data.quiz.personalityQuiz.title))}`} />
       <meta name="twitter:creator" content="@QuizOp" />
+      <meta name="robots" content="noodp, noydir" />
       <meta name="twitter:image:src" content={Data.quiz.personalityQuiz.quizImage} />
       <meta property="og:site_name" content="BrainFlop" />
       <meta property="fb:admins" content="100014621536916" />

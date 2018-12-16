@@ -14,6 +14,7 @@ const SinglePlayerAnswerChoiceQuizGame = (Data) => (
         <meta itemProp="name" content={`${Data.quiz.title} Single Player | BrainFlop`} />
         <meta itemProp="description" content={`${Data.quiz.title} Play This Quiz Single Player, Online, Or Invite A Friend! Only At BrainFlop!`} />
         <meta itemProp="image" content={Data.quiz.quizImage} />
+        <meta name="robots" content="noodp,noydir" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@QuizOp" />
         <meta name="twitter:title" content={`${Data.quiz.title} Single Player | BrainFlop`} />
