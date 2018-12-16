@@ -14,7 +14,7 @@
     { "src": "/login", "dest": "/login" },
     { "src": "/profile", "dest": "/profile" },
     { "src": "/personality-quiz/(.*)/(.*)", "dest": "/personalityQuizGame?quizName=$1&quizId=$1" },
-    { "src": "/online/answer-choice/(.*)/(.*)", "dest": "/onlineAnswerChoiceQuizGame?quizName=$1&quizId=$1" },
+    { "src": "/online/answer-choice/(.*)/(.*)", "dest": "/online/answer-choice/$1/$1" },
     { "src": "/create-quiz", "dest": "/createAQuiz" },
     { "src": "/categories", "dest": "/categories" },
     { "src": "/customize-experience", "dest": "/customizeExperience" },
@@ -22,7 +22,7 @@
     { "src": "/search/(.*)", "dest": "/Search?searchQuery=$1" },
     { "src": "/profile/(.*)/(.*)", "dest": "/viewProfile?name=$1&id=$1" },
     { "src": "/blog/(.*)/(.*)", "dest": "/blog?name=$1&id=$1" },
-    { "src": "/personalityQuizzes", "dest": "/personalityQuizzes" },
+    { "src": "/personality-quiz", "dest": "/personalityQuizzes" },
     { "src": "/register", "dest": "/Register" },
     { "src": "/terms-and-conditions", "dest": "/termsAndConditions" },
     { "src": "/privacy-policy", "dest": "/privacyPolicy" }

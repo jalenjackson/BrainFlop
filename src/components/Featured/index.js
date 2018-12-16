@@ -13,7 +13,7 @@ export default class FeaturedComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quizzes: [],
+      quizzes: this.props.quizzes,
       skipIterator: 0,
       tagsRendered: false
     };
@@ -32,18 +32,6 @@ export default class FeaturedComponent extends Component {
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview('/featured');
     document.addEventListener('scroll', this.trackScrolling);
-    fetch(`https://api.quizop.com/quizzes/featured?limit=9&skip=${this.state.skipIterator}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      }
-    }).then((response) => {
-      response.json().then((body) => {
-        this.setState({ quizzes: body.quizzes, tagsRendered: true })
-      })
-    }).catch(() => {
-      window.location.href = '/error'
-    })
   }
 
   componentWillUnmount() {
@@ -131,37 +119,8 @@ export default class FeaturedComponent extends Component {
     }
   }
 
-  redirectToBuildQuizPage () {
-    Router.pushRoute('/create-quiz')
-  }
-
-  renderContentLoader () {
-    return (
-      <main className="page">
-        <div className="page-content">
-          <div className="placeholder-content">
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-          </div>
-        </div>
-      </main>
-    )
-  }
-
   render() {
-
     const quizzes = this.renderQuizzes();
-    const contentLoader = this.renderContentLoader();
-
     return (
       <div id="tags">
         <div className="topic-header">
@@ -170,19 +129,18 @@ export default class FeaturedComponent extends Component {
               <img src='/static/images/icons/underline.svg' />
             </h1>
             <p>Most Popular quizzes</p>
-            <button onClick={this.redirectToBuildQuizPage.bind(this)}>Build your own quiz</button>
+            <Link route='/create-quiz'>
+              <a title='Create Your Own Quiz'>
+                <button>Build your own quiz</button>
+              </a>
+            </Link>
           </div>
         </div>
         <div id="quizzes">
           <h1 className="quizzes-header">Featured quizzes</h1>
-          {
-            this.state.tagsRendered ?
-              <div className='quizzes'>
-                { quizzes }
-              </div>
-              :
-              contentLoader
-          }
+          <div className='quizzes'>
+            { quizzes }
+          </div>
         </div>
         <div className="pagination-loader">
           <img src='/static/images/icons/rings.svg' />

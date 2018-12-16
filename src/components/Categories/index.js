@@ -13,9 +13,8 @@ export default class TagPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tags: [],
+      tags: this.props.categories,
       skipIterator: 0,
-      tagsRendered: false
     };
   }
 
@@ -23,7 +22,6 @@ export default class TagPage extends Component {
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview('/categories');
     document.addEventListener('scroll', this.trackScrolling);
-    this.setState({ tagsRendered: true, tags: this.props.categories });
   }
 
   toTitleCase(str) {
@@ -135,14 +133,9 @@ export default class TagPage extends Component {
       <div id="tags">
         <div id="quizzes">
           <h1 style={{ fontSize: '30px' }} className="quizzes-header all-tags-header">Explore Categories </h1>
-          {
-            this.state.tagsRendered ?
-              <div className='quizzes'>
-                { quizzes }
-              </div>
-              :
-              contentLoader
-          }
+          <div className='quizzes'>
+            { quizzes }
+          </div>
         </div>
         <div className="pagination-loader">
           <img src='/static/images/icons/rings.svg' />

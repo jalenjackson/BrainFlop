@@ -4,6 +4,7 @@ import { checkAuthentication } from '../checkAuthentication';
 import Navbar from '../src/components/Navbar';
 import PersonalityQuizzesComponent from '../src/components/PersonalityQuizzes';
 import React from 'react';
+import fetch from "isomorphic-unfetch";
 
 const PersonalityQuizzes = (Data) => (
   <section>
@@ -29,12 +30,17 @@ const PersonalityQuizzes = (Data) => (
       <link href={Data.pathName} rel="canonical" />
     </Head>
     <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
-    <PersonalityQuizzesComponent userObject={Data.userObject} isAuthenticated={Data.isAuthenticated}  />
+    <PersonalityQuizzesComponent personalityQuizzes={Data.personalityQuizzes} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated}  />
   </section>
 );
 
 PersonalityQuizzes.getInitialProps = async (req) => {
-  return checkAuthentication(req)
+  const res = await fetch('https://api.quizop.com/quizzes/personality-quizzes');
+  const json = await res.json();
+
+  let obj = checkAuthentication(req);
+  obj.personalityQuizzes = json.quizzes;
+  return obj
 };
 
 export default withRouter(PersonalityQuizzes);

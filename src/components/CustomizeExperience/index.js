@@ -12,7 +12,7 @@ require('isomorphic-fetch');
 export default class CustomizeExperience extends Component {
   constructor(props) {
     super(props);
-    this.state = {customizeExperienceTags: [], skipIterator: 0, addedTags: []}
+    this.state = {customizeExperienceTags: this.props.categories, skipIterator: 0, addedTags: []}
   }
 
   static toTitleCase(str) {
@@ -31,18 +31,6 @@ export default class CustomizeExperience extends Component {
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview('/customize-experience');
     document.addEventListener('scroll', this.trackScrolling);
-    $.ajax({
-      type: 'GET',
-      url: `https://api.quizop.com/tags?limit=12&skipAmount=${this.state.skipIterator}`,
-      contentType: 'application/json; charset=utf-8',
-      dataType: 'json',
-      success: (body) => {
-        this.setState({ customizeExperienceTags: body.tags });
-      },
-      error: (err) => {
-        console.log(err)
-      }
-    });
   }
 
   addTagToSelection(tagName, e) {
@@ -88,11 +76,11 @@ export default class CustomizeExperience extends Component {
   };
 
   async fetchMoreTags() {
-    await this.setState({ skipIterator: this.state.skipIterator + 12 });
+    await this.setState({ skipIterator: this.state.skipIterator + 15 });
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
     $.ajax({
       type: 'GET',
-      url: `https://api.quizop.com/tags?limit=12&skipAmount=${this.state.skipIterator}`,
+      url: `https://api.quizop.com/tags?limit=15&skipAmount=${this.state.skipIterator}`,
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       success: (body) => {

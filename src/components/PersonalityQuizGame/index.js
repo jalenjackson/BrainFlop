@@ -11,42 +11,20 @@ export default class PersonalityQuizGameComponent extends React.Component {
     super(props);
 
     this.state = {
-      questions: [],
+      questions: this.props.personalityQuizData.personalityQuizQuestions,
       selectedAnswers: {},
-      results: [],
+      results: this.props.personalityQuizData.personalityQuiz.personalityResults,
       FinalResult: '',
-      quiz: {},
+      quiz: this.props.personalityQuizData.personalityQuiz,
       questionsRendered: false,
       resultButtonText: 'SEE RESULTS'
     };
     quizId = this.props.pathName.split('/')[5].split('?')[0];
   }
 
-  renderContentLoader () {
-    return (
-      <main className="page">
-        <div className="page-content">
-          <div className="placeholder-content">
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-            <div className="placeholder-content_item"></div>
-          </div>
-        </div>
-      </main>
-    )
-  }
-
   getRandomColor () {
-    var letters = '0123456789ABCDEF'
-    var color = '#'
+    var letters = '0123456789ABCDEF';
+    var color = '#';
     for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)]
     }
@@ -56,32 +34,6 @@ export default class PersonalityQuizGameComponent extends React.Component {
   componentDidMount () {
     $(".fb-comments").attr("data-href", window.location.href);
     SplitText = require("../../gsap/SplitText");
-    fetch(`https://api.quizop.com/quizzes/${quizId}`, {
-      method: 'GET'
-    }).then((response) => {
-      response.json().then((body) => {
-        console.log(body)
-        this.setState({ results: body.quiz.personalityResults, quiz: body.quiz })
-      })
-    }).catch((err) => {
-      console.log(err)
-    });
-
-    fetch(`https://api.quizop.com/questions/get-personality-quiz-questions`, {
-      method: 'POST',
-      body: JSON.stringify({ quizId: quizId }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then((response) => {
-      response.json().then((body) => {
-        this.setState({ questions: body.questions }, () => {
-          this.setState({ questionsRendered: true })
-        })
-      })
-    }).catch((err) => {
-      console.log(err)
-    })
   }
 
   selectAnswer (questionKey, answerData, e) {
@@ -129,7 +81,7 @@ export default class PersonalityQuizGameComponent extends React.Component {
       }
       let highestScoreId = Object.keys(testResults).reduce(function (a, b) {
         return testResults[a] > testResults[b] ? a : b
-      })
+      });
       this.state.results.map((result) => {
         if (result.id === highestScoreId) {
           this.setState({ finalResult: result.title, resultButtonText: 'SEE RESULTS' }, () => {
@@ -163,27 +115,23 @@ export default class PersonalityQuizGameComponent extends React.Component {
 
   render () {
     const questions = this.renderQuestions()
-    const contentLoader = this.renderContentLoader()
     return (
       <div id="personality-quiz-game">
         <div id='personality-quiz-play'>
           <div className="title">
             <h1>{_.startCase(_.toLower(this.state.quiz.title))}</h1>
           </div>
-          {this.state.questionsRendered
-            ? <div>
-              {questions}
-              <button onClick={this.calculateScore.bind(this)}>{this.state.resultButtonText}</button>
-            </div>
-            : contentLoader
-          }
+          <div>
+            {questions}
+            <button onClick={this.calculateScore.bind(this)}>{this.state.resultButtonText}</button>
+          </div>
         </div>
         <div className='results-modal-container'>
           <div className='results-modal'>
             <p>{this.state.finalResult}</p>
           </div>
         </div>
-        <div className="fb-comments" data-href={this.props.router.asPath} data-width="470" data-num-posts="10"></div>
+        <div className="fb-comments" data-href={this.props.router.asPath} data-width="470" data-num-posts="10" />
       </div>
     )
   }

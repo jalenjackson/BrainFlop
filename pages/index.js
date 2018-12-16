@@ -4,7 +4,8 @@ import { withRouter } from 'next/router'
 import { checkAuthentication } from '../checkAuthentication';
 import Navbar from '../src/components/Navbar';
 import React from 'react';
-import _ from "lodash";
+import fetch from "isomorphic-unfetch";
+import Cookies from "universal-cookie";
 
 const Index = (Data) => (
   <section>
@@ -30,12 +31,29 @@ const Index = (Data) => (
       <link href={Data.pathName} rel="canonical" />
     </Head>
     <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
-    <Explore userObject={Data.userObject} isAuthenticated={Data.isAuthenticated}  />
+    <Explore exploreData={Data.exploreData} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated}  />
   </section>
 );
 
 Index.getInitialProps = async (req) => {
-  return checkAuthentication(req)
+  const isClient = typeof document !== 'undefined';
+  const cookies = isClient ? new Cookies() : new Cookies(req.req.headers.cookie);
+  let userTags = false;
+
+  if (cookies.get('userObject')) {
+    userTags = cookies.get('userObject').userObject.customizedTags
+  }
+
+  const res = await fetch(`https://api.quizop.com/quizzes/explore`, {
+    method: 'POST',
+    body: JSON.stringify({ userTags }),
+    headers: {'Content-Type': 'application/json; charset=utf-8'}
+  });
+  const json = await res.json();
+
+  let returnObj = checkAuthentication(req);
+  returnObj.exploreData = json.exploreData;
+  return returnObj;
 };
 
 export default withRouter(Index);

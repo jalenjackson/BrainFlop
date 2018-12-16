@@ -4,6 +4,7 @@ import FeaturedComponent from '../src/components/Featured'
 import Navbar from "../src/components/Navbar";
 import React from "react";
 import {checkAuthentication} from "../checkAuthentication";
+import fetch from "isomorphic-unfetch";
 
 const Featured = (Data) => (
   <div>
@@ -29,12 +30,17 @@ const Featured = (Data) => (
       <link href={Data.pathName} rel="canonical" />
     </Head>
     <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
-    <FeaturedComponent router={Data.router} />
+    <FeaturedComponent quizzes={Data.quizzes} router={Data.router} />
   </div>
 );
 
 Featured.getInitialProps = async (req) => {
-  return checkAuthentication(req);
+  const res = await fetch(`https://api.quizop.com/quizzes/featured?limit=9&skip=0`);
+  const json = await res.json();
+
+  let obj = checkAuthentication(req);
+  obj.quizzes = json.quizzes;
+  return obj;
 };
 
 export default withRouter(Featured);

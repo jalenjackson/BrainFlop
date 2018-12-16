@@ -11,30 +11,14 @@ class PersonalityQuizzesComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quizzes: [],
+      quizzes: this.props.personalityQuizzes,
       skipIterator: 0,
-      tagsRendered: false
     };
   }
 
   componentDidMount() {
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview(`/personality-quizzes`);
-    fetch(`https://api.quizop.com/quizzes/personality-quizzes`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-    }).then((response) => {
-      response.json().then((body) => {
-        this.setState({ quizzes: body.quizzes });
-        setTimeout(() => {
-          this.setState({ tagsRendered: true })
-        }, 200)
-      });
-    }).catch((err) => {
-      console.log(err)
-    })
   }
 
   componentWillUnmount() {
@@ -125,14 +109,9 @@ class PersonalityQuizzesComponent extends Component {
         </div>
         <div id="quizzes">
           <h1 className="quizzes-header">All <span style={{ color: '#17CF86' }}>Personality</span> quizzes</h1>
-          {
-            this.state.tagsRendered ?
-              <div className='quizzes'>
-                { quizzes }
-              </div>
-              :
-              contentLoader
-          }
+          <div className='quizzes'>
+            { quizzes }
+          </div>
         </div>
         <div className="pagination-loader">
           <img src='/static/images/icons/rings.svg' />

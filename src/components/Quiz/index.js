@@ -11,9 +11,9 @@ export default class QuizShowPage extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      quizData: null,
-      userThatCreateTheQuiz: null,
-      questionLength: 0
+      quizData: this.props.quizData,
+      userThatCreateTheQuiz: this.props.quizData.user,
+      questionLength: this.props.quizData.quizQuestionsLength
     };
   }
 
