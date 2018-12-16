@@ -555,6 +555,7 @@ class QuizRealTimeTraditional extends Component {
   componentDidMount() {
     SplitText = require("../../gsap/SplitText");
     ReactGA.initialize('UA-129744457-1')
+    ReactGA.pageview(window.location.pathname);
     this.interval = setInterval(() => this.updateTimer(), 1000);
     window.addEventListener('beforeunload', this.leaveQuizGame);
 

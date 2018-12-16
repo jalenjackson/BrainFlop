@@ -96,7 +96,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
     SplitText = require('../../gsap/SplitText');
     quizId = window.location.pathname.split('/')[4];
     ReactGA.initialize('UA-129744457-1')
-    ReactGA.pageview(`/quizzes/play/${quizId}`);
+    ReactGA.pageview(window.location.pathname);
     myName = this.props.isAuthenticated ? this.props.userObject.name : 'Me';
     $('body').css({
       background: 'linear-gradient(rgb(255,245,245), rgb(200, 150, 150))',

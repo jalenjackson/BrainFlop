@@ -550,7 +550,7 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
   componentDidMount() {
     SplitText = require('../../gsap/SplitText');
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview(`/quizzes/traditional/${this.props.router.query.quizId}/${this.props.router.query.userId}`);
+    ReactGA.pageview(window.location.pathname);
     this.interval = setInterval(() => this.updateTimer(), 1000);
     window.addEventListener('beforeunload', this.leaveQuizGame);
 

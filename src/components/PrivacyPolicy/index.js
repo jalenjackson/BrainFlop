@@ -4,7 +4,7 @@ import ReactGA from "react-ga";
 export default class PrivacyPolicy extends React.Component {
   componentDidMount () {
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview(`/privacy-policy`)
+    ReactGA.pageview(window.location.pathname)
   }
 
   render () {

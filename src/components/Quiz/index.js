@@ -22,7 +22,7 @@ export default class QuizShowPage extends React.Component {
     quizId = window.location.pathname.split('/')[3];
     SplitText = require('../../gsap/SplitText');
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview(`/quiz/${quizId}`);
+    ReactGA.pageview(window.location.pathname);
     $(window).scrollTop(0);
 
     fetch(`https://api.quizop.com/questions/get-quiz-questions`, {

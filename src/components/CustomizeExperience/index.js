@@ -29,7 +29,7 @@ export default class CustomizeExperience extends Component {
   componentDidMount() {
     host = window.location.protocol + '//' + window.location.host;
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview('/customize-experience');
+    ReactGA.pageview(window.location.pathname);
     document.addEventListener('scroll', this.trackScrolling);
   }
 

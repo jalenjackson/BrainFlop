@@ -37,7 +37,7 @@ class EditQuiz extends React.Component {
 
   componentDidMount () {
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview(`/quiz/edit/${this.props.router.query.quizId}`);
+    ReactGA.pageview(window.location.pathname);
     fetch(`https://api.quizop.com/quizzes/${this.props.router.query.quizId}`, {
       method: 'GET'
     }).then((response) => {

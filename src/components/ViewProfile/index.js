@@ -28,7 +28,7 @@ export default class ViewProfileComponent extends React.Component {
 
   componentDidMount () {
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview(`/profile/${this.props.router.query.id}`);
+    ReactGA.pageview(window.location.pathname);
     $('body').css({ background: 'rgb(255,245,245)' });
     $(window).scrollTop(0)
     document.addEventListener('scroll', this.trackScrolling);

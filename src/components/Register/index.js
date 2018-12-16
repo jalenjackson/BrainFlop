@@ -26,7 +26,7 @@ class Register extends React.Component {
     host = window.location.protocol + '//' + window.location.host;
     SplitText = require('../../gsap/SplitText');
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview(`/register`);
+    ReactGA.pageview(window.location.pathname);
     Register.init()
   }
 

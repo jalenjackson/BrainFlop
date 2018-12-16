@@ -18,7 +18,7 @@ class PersonalityQuizzesComponent extends Component {
 
   componentDidMount() {
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview(`/personality-quizzes`);
+    ReactGA.pageview(window.location.pathname);
   }
 
   componentWillUnmount() {

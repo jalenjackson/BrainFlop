@@ -4,7 +4,7 @@ import ReactGA from "react-ga";
 export default class TermsAndConditionsComponent extends React.Component {
   componentDidMount () {
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview(`/terms-and-conditions`);
+    ReactGA.pageview(window.location.pathname);
   }
 
   render () {

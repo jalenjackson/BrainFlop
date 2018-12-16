@@ -31,7 +31,7 @@ class LoginComponent extends React.Component {
   async componentDidMount () {
     SplitText = require('../../gsap/SplitText');
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview('/login');
+    ReactGA.pageview(window.location.pathname);
     LoginComponent.init();
     host = window.location.protocol + '//' + window.location.host;
   }

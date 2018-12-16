@@ -33,7 +33,7 @@ class CreateAQuizComponent extends React.Component {
   componentDidMount () {
 
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview('/create-quiz');
+    ReactGA.pageview(window.location.pathname);
     SplitText = require('../../gsap/SplitText');
 
     const T1Split = new SplitText('.form1 h1', { type: 'words' });

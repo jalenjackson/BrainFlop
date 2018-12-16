@@ -28,7 +28,7 @@ export default class ProfileComponent extends React.Component {
 
   componentDidMount () {
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview(`/profile`);
+    ReactGA.pageview(window.location.pathname);
     document.addEventListener('scroll', this.trackScrolling);
 
     fetch(`https://api.quizop.com/quizzes/user-quizzes`, {

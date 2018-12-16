@@ -3,6 +3,7 @@ import $ from 'jquery'
 import _ from 'lodash';
 import TimelineMax from "gsap/TimelineMax";
 import TweenMax, {Power4} from "gsap/TweenMax";
+import ReactGA from "react-ga";
 let quizId = null;
 let SplitText = null;
 
@@ -32,6 +33,8 @@ export default class PersonalityQuizGameComponent extends React.Component {
   }
 
   componentDidMount () {
+    ReactGA.initialize('UA-129744457-1')
+    ReactGA.pageview(window.location.pathname);
     $(".fb-comments").attr("data-href", window.location.href);
     SplitText = require("../../gsap/SplitText");
   }

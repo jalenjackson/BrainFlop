@@ -30,7 +30,7 @@ export default class FeaturedComponent extends Component {
 
   componentDidMount() {
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview('/featured');
+    ReactGA.pageview(window.location.pathname);
     document.addEventListener('scroll', this.trackScrolling);
   }
 

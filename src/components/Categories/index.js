@@ -20,7 +20,7 @@ export default class TagPage extends Component {
 
   componentDidMount() {
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview('/categories');
+    ReactGA.pageview(window.location.pathname);
     document.addEventListener('scroll', this.trackScrolling);
   }
 

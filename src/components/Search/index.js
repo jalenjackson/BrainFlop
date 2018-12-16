@@ -24,7 +24,7 @@ export default class SearchPage extends Component {
   componentDidMount() {
     SplitText = require('../../gsap/SplitText');
     ReactGA.initialize('UA-129744457-1');
-    ReactGA.pageview(`/search/${this.props.router.query.searchQuery}`);
+    ReactGA.pageview(window.location.pathname);
     $(window).scrollTop(0)
     document.addEventListener('scroll', this.trackScrolling);
 
