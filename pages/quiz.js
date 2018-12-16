@@ -44,7 +44,7 @@ Quiz.getInitialProps  = async (req) => {
 
   const quizId = isClient
     ? req.query.quizId
-    : req.req.url.split('/')[3];
+    : req.req.url.split('/')[3].split('?')[0];
 
   const res = await fetch(`https://api.quizop.com/quizzes/quiz-page`, {
     method: 'POST',
