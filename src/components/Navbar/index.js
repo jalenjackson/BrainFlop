@@ -21,9 +21,9 @@ class Navbar extends React.Component {
   redirectToSearchPage (searchTerm) {
     if (this.state.searchTerm.replace(/[^a-zA-Z ]/g, "") !== '') {
       if (window.location.pathname.split('/')[1] === 'search') {
-        return window.location.href = `/search/${_.kebabCase(this.state.searchTerm.replace(/[^a-zA-Z ]/g, ""))}`
+        return window.location.href = `/search/${_.kebabCase(searchTerm.replace(/[^a-zA-Z ]/g, ""))}`
       }
-      Router.pushRoute(`/search/${_.kebabCase(this.state.searchTerm.replace(/[^a-zA-Z ]/g, ""))}`);
+      Router.pushRoute(`/search/${_.kebabCase(searchTerm.replace(/[^a-zA-Z ]/g, ""))}`);
       document.activeElement.blur();
       $("input").blur();
       this.setState({ searchAutocomplete: false }, () => {
@@ -130,7 +130,7 @@ class Navbar extends React.Component {
                 </div>
               </a>
             </Link>
-            <a href="#">
+            <a>
               <div className="icon-container">
                 <img onClick={this.showSearchInput.bind(this)} className="icon-img"  style={{ transform: 'scale(1.4) translateY(1.4px)' }} src='/static/images/icons/search.svg' />
               </div>
@@ -142,7 +142,7 @@ class Navbar extends React.Component {
                 </div>
               </a>
             </Link>
-            <Link href={ this.props.isAuthenticated ? '/profile' : '/register' }>
+            <Link route={ this.props.isAuthenticated ? '/profile' : '/register' }>
               <a>
                 <div className="icon-container">
                   <img className="icon-img"  style={{ transform: 'scale(1.1) translateY(-4px)' }} src='/static/images/icons/profile.svg' />
