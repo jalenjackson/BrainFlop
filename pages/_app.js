@@ -16,6 +16,7 @@ import '../src/components/Quiz/quiz.sass';
 import '../src/sass/content-loader.sass';
 import '../src/components/Login/login.sass';
 import '../src/components/Register/register.sass';
+import '../src/sass/resetPassword.sass';
 import '../src/components/TermsAndConditions/terms.sass';
 import '../src/sass/notFound.sass';
 import '../src/components/Blog/blog.sass';

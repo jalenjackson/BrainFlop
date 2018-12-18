@@ -21,4 +21,4 @@ routes
   .add('termsAndConditions', '/terms-and-conditions')
   .add('privacyPolicy', '/privacy-policy')
   .add('blog', '/blog/:name/:id')
-
+  .add('forgotPassword', '/reset/:token');
