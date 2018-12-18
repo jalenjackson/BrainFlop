@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e998a653-e746-411b-b4a6-4fd923b3a3e4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/pages/_app.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes.js" afterDir="false" />
-    </list>
+    <list default="true" id="e998a653-e746-411b-b4a6-4fd923b3a3e4" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -255,35 +251,6 @@
               <item name="BrainFlop-NextJS" type="b2602c69:ProjectViewProjectNode" />
               <item name="BrainFlop-NextJS" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="BrainFlop-NextJS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BrainFlop-NextJS" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BrainFlop-NextJS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BrainFlop-NextJS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BrainFlop-NextJS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BrainFlop-NextJS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BrainFlop-NextJS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BrainFlop-NextJS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Login" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BrainFlop-NextJS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BrainFlop-NextJS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="sass" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -347,12 +314,12 @@
       <workItem from="1544947217459" duration="607000" />
       <workItem from="1544948333098" duration="740000" />
       <workItem from="1544951449845" duration="49000" />
-      <workItem from="1544953683082" duration="5454000" />
+      <workItem from="1544953683082" duration="6168000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="231715000" />
+    <option name="totallyTimeSpent" value="232429000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
