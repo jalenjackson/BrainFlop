@@ -42,10 +42,11 @@ Index.getInitialProps = async (req) => {
   let userTags = false;
 
   if (cookies.get('userObject')) {
-    userTags = cookies.get('userObject').userObject.customizedTags
+    userTags = cookies.get('userObject').userObject.customizedTags;
+    if (userTags === 'none') userTags = false;
   }
 
-  const res = await fetch(`https://api.quizop.com/quizzes/explore`, {
+  const res = await fetch(`http://localhost:8080/quizzes/explore`, {
     method: 'POST',
     body: JSON.stringify({ userTags }),
     headers: {'Content-Type': 'application/json; charset=utf-8'}

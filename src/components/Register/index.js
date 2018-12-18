@@ -59,6 +59,7 @@ class Register extends React.Component {
           contentType: 'application/json; charset=utf-8',
           dataType: 'json',
           success: (response) => {
+            console.log(response)
             this.setState({ errorMessage: '' });
 
             const userObject = {
@@ -68,12 +69,12 @@ class Register extends React.Component {
             const cookies = new Cookies();
             cookies.set('userObject', userObject, { path: '/' });
 
-            Router.pushRoute('/customize-experience');
+            window.location.href = '/customize-experience';
           },
           error: (err) => {
             ReactGA.event({
               category: 'User',
-              action: `error occured signing up user ${err}`
+              action: `error occurred signing up user ${err}`
             });
             this.setState({ errorOccurred: false, userWithEmailFailure: true, errorMessage: '' });
           }

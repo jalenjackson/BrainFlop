@@ -22,7 +22,6 @@ class Explore extends React.Component {
     };
   }
 
-
   async componentDidMount () {
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview('/');
