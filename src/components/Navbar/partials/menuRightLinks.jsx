@@ -6,13 +6,8 @@ export default class MenuRightLinks extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      rightGuest: '195px',
-      topGuest: '-5.5px',
-      rightUser: '180px',
-      topUser: '20px'
-    }
   }
+
 
   componentDidMount() {
     if($(window).width() < 500) {
@@ -23,12 +18,6 @@ export default class MenuRightLinks extends React.Component {
   render () {
     const guestLinks = (
       <div className="guest-links">
-        { this.props.pathName ?
-            <div style={{ position: 'absolute', right: this.state.rightGuest, top: this.state.topGuest }} className="fb-share-button" data-href={this.props.pathName} data-layout="button" data-size="large" data-mobile-iframe="true">
-              <a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=brainflop.com;src=sdkpreparse`} className="fb-xfbml-parse-ignore">Share</a>
-            </div>
-            :
-            null }
         <Link style={{ transform: 'translateY(-35px)' }} className="menu-right-links login-right-link" route="/login"><a className='undo-hide' title='Login To BrainFlop'>Login</a></Link>
         <Link className="menu-right-links" route="/register"><a title='Register To BrainFlop' className='register-right-link undo-hide'>Register</a></Link>
       </div>
@@ -40,13 +29,6 @@ export default class MenuRightLinks extends React.Component {
 
     const userLinks = (
       <div>
-        { this.props.pathName ?
-            <div style={{ position: 'absolute', right: this.state.rightUser, top: this.state.topUser }} className="fb-share-button" data-href={this.props.pathName} data-layout="button" data-size="large" data-mobile-iframe="true">
-              <a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=brainflop.com;src=sdkpreparse`} className="fb-xfbml-parse-ignore">Share</a>
-            </div>
-            :
-            null
-        }
         <Link route='/profile'>
           <a className='undo-hide' style={{ display: 'inline-block' }} title='View Your Profile'>
             <div className="mrn">

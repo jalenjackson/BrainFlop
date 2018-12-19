@@ -151,6 +151,12 @@ class Navbar extends React.Component {
             </Link>
           </div>
           <div className="side-bar">
+            { this.props.pathName ?
+                <div className="fb-share-button" data-href={this.props.pathName} data-layout="button" data-size="large" data-mobile-iframe="true">
+                  <a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=brainflop.com;src=sdkpreparse`} className="fb-xfbml-parse-ignore">Share</a>
+                </div>
+                :
+                null }
             <div className="quick-links">
               <Link route={ '/' }>
                 <a title="Explore Quizzes">

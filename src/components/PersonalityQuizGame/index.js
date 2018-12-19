@@ -1,6 +1,7 @@
 import React from 'react'
 import $ from 'jquery'
 import _ from 'lodash';
+import {Router} from '../../../routes';
 import TimelineMax from "gsap/TimelineMax";
 import TweenMax, {Power4} from "gsap/TweenMax";
 import ReactGA from "react-ga";
@@ -131,8 +132,10 @@ export default class PersonalityQuizGameComponent extends React.Component {
         </div>
         <div className='results-modal-container'>
           <div className='results-modal'>
-            <p>{this.state.finalResult}</p>
+            <div dangerouslySetInnerHTML={{ __html: this.state.finalResult }} />
+            <button onClick={() => Router.pushRoute('/')}>Explore</button>
           </div>
+
         </div>
         <div className="fb-comments" data-href={this.props.router.asPath} data-width="470" data-num-posts="10" />
       </div>
