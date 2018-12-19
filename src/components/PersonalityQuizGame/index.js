@@ -5,8 +5,8 @@ import {Router} from '../../../routes';
 import TimelineMax from "gsap/TimelineMax";
 import TweenMax, {Power4} from "gsap/TweenMax";
 import ReactGA from "react-ga";
-let quizId = null;
 let SplitText = null;
+let quizId = null;
 
 export default class PersonalityQuizGameComponent extends React.Component {
   constructor (props) {
@@ -34,10 +34,10 @@ export default class PersonalityQuizGameComponent extends React.Component {
   }
 
   componentDidMount () {
+    SplitText = require("../../gsap/SplitText");
     ReactGA.initialize('UA-129744457-1')
     ReactGA.pageview(window.location.pathname);
     $(".fb-comments").attr("data-href", window.location.href);
-    SplitText = require("../../gsap/SplitText");
   }
 
   selectAnswer (questionKey, answerData, e) {
@@ -132,8 +132,13 @@ export default class PersonalityQuizGameComponent extends React.Component {
         </div>
         <div className='results-modal-container'>
           <div className='results-modal'>
-            <div dangerouslySetInnerHTML={{ __html: this.state.finalResult }} />
-            <button onClick={() => Router.pushRoute('/')}>Explore</button>
+            {console.log(this.state.quiz)}
+            {
+              this.state.quiz.tags === 'success' || this.state.quiz.tags === 'high school' || this.state.quiz.tags === 'guess your age'
+                ? <p>{this.state.finalResult}</p>
+                : <div dangerouslySetInnerHTML={{ __html: this.state.finalResult }} />
+            }
+            <button onClick={() => { $("html, body").animate({ scrollTop: 0 }, 350); Router.pushRoute('/'); }}>Explore</button>
           </div>
 
         </div>
