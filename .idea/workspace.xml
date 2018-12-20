@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e998a653-e746-411b-b4a6-4fd923b3a3e4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/singlePlayerAnswerChoiceQuizGame.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/singlePlayerAnswerChoiceQuizGame.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PersonalityQuizGame/personalityQuizGame.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PersonalityQuizGame/personalityQuizGame.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Quiz/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Quiz/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SinglePlayerAnswerChoiceQuizGame/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SinglePlayerAnswerChoiceQuizGame/index.js" afterDir="false" />
-    </list>
+    <list default="true" id="e998a653-e746-411b-b4a6-4fd923b3a3e4" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -31,11 +25,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/SinglePlayerAnswerChoiceQuizGame/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-49">
-              <caret line="276" column="46" selection-start-line="276" selection-start-column="42" selection-end-line="276" selection-end-column="46" />
+            <state relative-caret-position="501">
+              <caret line="313" column="25" selection-start-line="313" selection-start-column="25" selection-end-line="313" selection-end-column="25" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
                 <element signature="e#235#276#0" expanded="true" />
@@ -70,7 +64,7 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/PersonalityQuizGame/personalityQuizGame.sass">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="506">
@@ -346,12 +340,12 @@
       <workItem from="1544951449845" duration="49000" />
       <workItem from="1544953683082" duration="7603000" />
       <workItem from="1545180182156" duration="13264000" />
-      <workItem from="1545260343434" duration="4968000" />
+      <workItem from="1545260343434" duration="5794000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="252096000" />
+    <option name="totallyTimeSpent" value="252922000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -803,21 +797,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/SinglePlayerAnswerChoiceQuizGame/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-49">
-          <caret line="276" column="46" selection-start-line="276" selection-start-column="42" selection-end-line="276" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-            <element signature="e#235#276#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/PersonalityQuizGame/personalityQuizGame.sass">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="506">
           <caret line="53" column="18" selection-start-line="53" selection-start-column="18" selection-end-line="53" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/SinglePlayerAnswerChoiceQuizGame/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="501">
+          <caret line="313" column="25" selection-start-line="313" selection-start-column="25" selection-end-line="313" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#235#276#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
