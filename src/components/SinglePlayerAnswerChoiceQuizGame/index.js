@@ -8,17 +8,39 @@ let quizId = null;
 let myName = '';
 import { Router } from '../../../routes';
 import Cookies from "universal-cookie";
+let questionTimer = 0;
+let difficulty = '';
+let pointIterator = 0
 
 class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
   constructor (props) {
     super(props)
+
+    difficulty = this.props.pathName.split('/')[6].split('=')[1];
+
+    switch (difficulty) {
+      case 'easy':
+        questionTimer = 10;
+        pointIterator = 5;
+        break;
+      case 'medium':
+        questionTimer = 7;
+        pointIterator = 10;
+        break;
+      case 'hard':
+        questionTimer = 5;
+        pointIterator = 20;
+        break;
+      default:
+        questionTimer = 10;
+    }
 
     this.state = {
       quizQuestions: [],
       currentActiveQuestion: 0,
       gameOver: false,
       yourScore: 0,
-      questionTimer: 10,
+      questionTimer,
       startingCountdown: true,
       fetchedQuestions: false,
       answeredQuestion: false,
@@ -50,7 +72,13 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
         }
         if (this.state.currentTimeToReadCounterSet) {
           this.setState({timeToReadCounter: this.state.timeToReadCounter - 1000}, () => {
+            $('#countdown').css({
+              '-webkit-animation': 'pulsate 1s infinite',
+              'animation': 'pulsate 1s infinite'
+            });
             if (this.state.timeToReadCounter < -1000) {
+              $('#countdown-number').css({ color: '#ec526d' })
+              $('#countdown').css({ animation: 'none' })
               this.setState({
                 timeToReadFinished: true,
                 currentTimeToReadCounterSet: false,
@@ -60,7 +88,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
         }
       }
       if (this.state.startingCountdown && this.state.timeToReadFinished) {
-        $('#countdown svg circle').css({animation: 'countdown 10s linear 1 forwards'});
+        $('#countdown svg circle').css({animation: `countdown ${questionTimer}s linear 1 forwards`});
         this.setState({startingCountdown: false})
       }
       if (!this.state.answeredQuestion && this.state.timeToReadFinished) {
@@ -71,12 +99,13 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
                 gameOver: true
               })
             } else {
+              $('#countdown-number').css({ color: 'rgb(100, 100, 100)' })
               $('.answer').css({background: 'none'});
               $('.answer h1').css({color: 'rgb(80, 80, 85)'});
               $('#countdown svg circle').css({animation: 'none'});
               this.setState({
                 currentActiveQuestion: this.state.currentActiveQuestion + 1,
-                questionTimer: 10,
+                questionTimer,
                 startingCountdown: true,
                 questionsShuffled: false,
                 timeToReadFinished: false,
@@ -160,7 +189,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
         $('.letter').css({color: 'rgb(230, 230, 230)'})
         $(e.currentTarget).css({background: '#2FDC7F'})
         $(e.currentTarget).find('.letter').css({color: '#2FDC7F'})
-        this.setState({yourScore: this.state.yourScore + 10})
+        this.setState({yourScore: this.state.yourScore + pointIterator})
       } else {
         $('.answer h2').css({color: 'rgb(230, 230, 230)'})
         $('.letter').css({color: 'rgb(230, 230, 230)'})
@@ -281,9 +310,10 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
             })
           })
         } else {
+          $('#countdown-number').css({ color: 'rgb(100, 100, 100)' })
           this.setState({
             currentActiveQuestion: this.state.currentActiveQuestion + 1,
-            questionTimer: 10,
+            questionTimer,
             startingCountdown: true,
             answeredQuestion: false,
             questionsShuffled: false,
@@ -429,8 +459,8 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
     )
   }
 
-  redirectToSignUp (history) {
-    history.push('/register')
+  redirectToSignUp () {
+    Router.pushRoute('/register')
   }
 
   redirectToAction (action, history) {
@@ -458,7 +488,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
 
               { !this.props.isAuthenticated ?
                   <h2>
-                    <span onClick={this.redirectToSignUp.bind(this)}>Sign Up</span>
+                    <span onClick={this.redirectToSignUp.bind(this)}>Sign Up </span>
                     to save your score and compete against others!
                   </h2>
                   :

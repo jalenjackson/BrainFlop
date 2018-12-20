@@ -31,7 +31,7 @@ const SinglePlayerAnswerChoiceQuizGame = (Data) => (
         <link href={Data.pathName} rel="canonical" />
       </Head>
       <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
-      <SinglePlayerAnswerChoiceQuizGameComponent router={Data.router} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
+      <SinglePlayerAnswerChoiceQuizGameComponent pathName={Data.pathName} router={Data.router} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
     </section>
 );
 

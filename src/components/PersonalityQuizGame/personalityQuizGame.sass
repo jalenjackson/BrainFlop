@@ -24,6 +24,9 @@
     opacity: 0
     pointer-events: none
     transition: opacity 350ms ease-in-out
+    @include flex
+    justify-content: center
+    align-items: center
     @include medium-screen-down
       left: 0
       top: 100px
@@ -48,6 +51,7 @@
         height: 60vh
       @include small-screen
         width: 90%
+        top: 100px
       h1
         margin-left: 10px
         letter-spacing: 1px

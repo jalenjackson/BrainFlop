@@ -98,36 +98,13 @@ export default class QuizShowPage extends React.Component {
     }
   }
 
-  redirect (location, quizData) {
+  redirect (quizData, difficulty) {
     if (this.state.questionLength === 0) {
       alert(`${this.state.userThatCreateTheQuiz ? this.state.userThatCreateTheQuiz.name : ''} is still working on this quiz. Come back later when ${this.state.userThatCreateTheQuiz ? this.state.userThatCreateTheQuiz.name : ''} is finished.`)
     } else {
-      if ((location === 'online' || location === 'invite') && !this.props.isAuthenticated) {
-        $('.not-signed-in-container').css({opacity: 1, pointerEvents: 'auto'});
-        return this.renderNotSignedInOnlineModal()
-      }
       $("html, body").animate({ scrollTop: 0 }, 350);
-      if (location === 'online') Router.pushRoute(`/online/answer-choice/${_.kebabCase(quizData.title)}/${quizData._id}`);
-      if (location === 'alone') Router.pushRoute(`/single-player/answer-choice/${_.kebabCase(quizData.title)}/${quizId}`);
-      if (location === 'invite') Router.pushRoute(`/invite-friend/answer-choice/${_.kebabCase(quizData.title)}/${quizId}/${this.props.userObject.userId}`);
+      Router.pushRoute(`/single-player/answer-choice/${_.kebabCase(quizData.title)}/${quizId}?difficulty=${difficulty}`);
     }
-  }
-
-  closeNotSignedInOnlineModal () {
-    $('.not-signed-in-container').css({ opacity: 0, pointerEvents: 'none' })
-  }
-
-  renderNotSignedInOnlineModal () {
-    return (
-        <div className="not-signed-in-container">
-          <div className="card not-signed-in-online-modal">
-            <img className="top-header-img" src='/static/images/icons/online-play.svg' />
-            <h1>Join BrainFlop to play online with millions of other players!</h1>
-            <img onClick={this.closeNotSignedInOnlineModal.bind(this)} className="close" src='/static/images/icons/close.png' />
-            <button onClick={() => { Router.pushRoute('/register') }}>SIGN UP</button>
-          </div>
-        </div>
-    )
   }
 
   redirectToUserProfile (history) {
@@ -137,11 +114,9 @@ export default class QuizShowPage extends React.Component {
 
   render () {
     const renderQuizData = this.renderQuizData();
-    const notSignedInOnlineModal = this.renderNotSignedInOnlineModal();
 
     return (
         <div id="quiz-show-page">
-          {notSignedInOnlineModal}
           <div className="quiz-data-container">
             <img className="header-img" src={this.state.quizData ? this.state.quizData.quiz.quizImage : null} />
             {renderQuizData}
@@ -154,24 +129,26 @@ export default class QuizShowPage extends React.Component {
                 null
             }
           </div>
-          <div className="card">
-            <img src='/static/images/icons/piggybank.svg' />
+          <div style={{ height: '350px' }} className="card">
+            <img style={{ width: '110px' }} src='/static/images/icons/aeasy.svg' />
             <h3 onClick={() => {  $("html, body").animate({ scrollTop: $(document).height() }, "slow") }} style={{ position: 'absolute', cursor: 'pointer', left: '10px', top: '10px', fontSize: '12px', color: '#13A5FE', letterSpacing: '1px' }}>View Comments</h3>
-            <h1 className="points-amount">Single Player</h1>
-            <p className="online-count">Play single player and earn points</p>
-            <button onClick={this.redirect.bind(this, 'alone', this.state.quizData ? this.state.quizData.quiz : null)}>Play Single Player</button>
+            <div style={{ transform: 'translateY(-20px)' }}>
+              <h1 className="points-amount">Easy Mode</h1>
+              <p className="online-count">Earn 5 Points A Question</p>
+              <button onClick={this.redirect.bind(this, this.state.quizData ? this.state.quizData.quiz : null, 'easy')}>Play Easy</button>
+            </div>
           </div>
           <div className="card card2">
             <img src='/static/images/icons/invite-a-friend.svg' />
-            <h1 className="points-amount">Play Against A Friend</h1>
-            <p className="online-count">Invite a friend and go head to head!</p>
-            <button onClick={this.redirect.bind(this, 'invite', this.state.quizData ? this.state.quizData.quiz : null)}>Play Against A Friend</button>
+            <h1 className="points-amount">Medium Mode</h1>
+            <p className="online-count">Earn 10 Points A Question</p>
+            <button onClick={this.redirect.bind(this, this.state.quizData ? this.state.quizData.quiz : null, 'medium')}>Play Medium</button>
           </div>
           <div className="card card2">
-            <img src='/static/images/icons/rocket-ship.svg' />
-            <h1 className="points-amount">Online Multiplayer</h1>
-            <p className="online-count">Play against someone random around the world</p>
-            <button onClick={this.redirect.bind(this, 'online', this.state.quizData ? this.state.quizData.quiz : null)}>Play Online</button>
+            <img src='/static/images/icons/ahard.svg' />
+            <h1 className="points-amount">Hard Mode</h1>
+            <p className="online-count">Earn 20 Points A Question</p>
+            <button onClick={this.redirect.bind(this, this.state.quizData ? this.state.quizData.quiz : null, 'hard')}>Play Hard</button>
           </div>
           <div className="card">
             <img src='/static/images/icons/open-book.svg' />
