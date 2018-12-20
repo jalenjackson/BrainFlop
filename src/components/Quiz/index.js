@@ -4,6 +4,7 @@ import TimelineMax from 'gsap/TimelineMax';
 import TweenMax, {Power4} from 'gsap/TweenMaxBase';
 import ReactGA from 'react-ga';
 import {Router, Link} from "../../../routes";
+import Cookies from "universal-cookie";
 let quizId = null;
 let SplitText = null;
 
@@ -103,7 +104,9 @@ export default class QuizShowPage extends React.Component {
       alert(`${this.state.userThatCreateTheQuiz ? this.state.userThatCreateTheQuiz.name : ''} is still working on this quiz. Come back later when ${this.state.userThatCreateTheQuiz ? this.state.userThatCreateTheQuiz.name : ''} is finished.`)
     } else {
       $("html, body").animate({ scrollTop: 0 }, 350);
-      Router.pushRoute(`/single-player/answer-choice/${_.kebabCase(quizData.title)}/${quizId}?difficulty=${difficulty}`);
+      const cookies = new Cookies();
+      cookies.set('difficulty', difficulty, { path: '/' });
+      Router.pushRoute(`/single-player/answer-choice/${_.kebabCase(quizData.title)}/${quizId}`);
     }
   }
 

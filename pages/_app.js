@@ -44,6 +44,12 @@ export default class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx)
     }
 
+    if (pageProps.hasOwnProperty('statusCode') && (pageProps.statusCode === 404 || pageProps.statusCode === 500)) {
+      ctx.res.redirect('/');
+      ctx.res.end();
+      return {}
+    }
+
     return {pageProps}
   }
 
@@ -63,9 +69,7 @@ export default class MyApp extends App {
 
   render () {
     const {Component, pageProps} = this.props;
-    if (pageProps.hasOwnProperty('statusCode') && (pageProps.statusCode === 404 || pageProps.statusCode === 500)) {
-      return ( <PageNotFound /> )
-    }
+
     return (
       <Container>
         <div id="fb-root"></div>

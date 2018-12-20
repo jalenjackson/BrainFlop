@@ -5,10 +5,12 @@ import SinglePlayerAnswerChoiceQuizGameComponent from '../src/components/SingleP
 import {checkAuthentication} from "../checkAuthentication";
 import React from "react";
 import fetch from "isomorphic-unfetch";
+import Cookies from "universal-cookie";
 
 const SinglePlayerAnswerChoiceQuizGame = (Data) => (
     <section>
       <Head>
+        {console.log(Data)}
         <title>{Data.quiz.title} Single Player | BrainFlop</title>
         <meta name="description" content={`${Data.quiz.title} Play This Quiz Single Player, Online, Or Invite A Friend! Only At BrainFlop!`} />
         <meta itemProp="name" content={`${Data.quiz.title} Single Player | BrainFlop`} />
@@ -31,7 +33,7 @@ const SinglePlayerAnswerChoiceQuizGame = (Data) => (
         <link href={Data.pathName} rel="canonical" />
       </Head>
       <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
-      <SinglePlayerAnswerChoiceQuizGameComponent pathName={Data.pathName} router={Data.router} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
+      <SinglePlayerAnswerChoiceQuizGameComponent difficulty={Data.difficulty} pathName={Data.pathName} router={Data.router} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
     </section>
 );
 
@@ -45,8 +47,21 @@ SinglePlayerAnswerChoiceQuizGame.getInitialProps = async (req) => {
   const res = await fetch(`https://api.quizop.com/quizzes/${getQuizId}`);
   const json = await res.json();
 
+  let cookies = null;
+  isClient
+    ? cookies = new Cookies()
+    : cookies = new Cookies(req.req.headers.cookie);
+
   let resultObj = {};
+
+  console.log(resultObj)
+
   resultObj = checkAuthentication(req);
+  if (cookies.get('difficulty')) {
+    resultObj.difficulty = cookies.get('difficulty');
+  } else {
+    resultObj.difficulty = 'easy';
+  }
   resultObj.quiz = json.quiz;
   resultObj.isPersonalityQuiz = json.quiz.personalityResults.length > 0;
   return resultObj;

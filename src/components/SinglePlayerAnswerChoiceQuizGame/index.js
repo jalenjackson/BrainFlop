@@ -16,7 +16,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
   constructor (props) {
     super(props)
 
-    difficulty = this.props.pathName.split('/')[6].split('=')[1];
+    difficulty = this.props.difficulty;
 
     switch (difficulty) {
       case 'easy':
