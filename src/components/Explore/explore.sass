@@ -882,6 +882,7 @@
   width: auto
   padding-left: 20px
   padding-right: 20px
+  padding-bottom: 3px
   height: auto
   background: #FF416C  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C)  /* Chrome 10-25, Safari 5.1-6 */
@@ -891,14 +892,24 @@
   transform: translateY(10px)
   pointer-events: none
   transition: transform 350ms ease-in-out, opacity 350ms ease-in-out
-  @include small-screen
-    left: 0
-    right: 0
+  @include medium-screen-down
     margin: auto
+    bottom: 0
+    border-radius: 0
+    left: inherit
+    right: inherit
+    width: 100%
+    padding: 0
+    padding-bottom: 20px
+  @include small-screen
+    padding-bottom: 10px
   h1
     font-size: 18px
     color: white
     letter-spacing: 1.5px
-    @include small-screen
+    font-family: Smallfont, sans-serif
+    @include medium-screen-down
       font-size: 13px
+      margin-left: 20px
+      margin-right: 20px
 

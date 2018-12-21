@@ -6,7 +6,7 @@ import {Router} from "../../routes";
 
 class FaceBookAuthentication extends React.Component {
   responseFacebook = (response) => {
-    if (!localStorage.getItem('Token')) {
+    if (!cookies.get('userObject')) {
       if (response.hasOwnProperty('status')) {
         if (response.status === 'undefined' || response.status === undefined) {
           return
