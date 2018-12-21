@@ -27,6 +27,7 @@
     { "src": "/register", "dest": "/Register" },
     { "src": "/terms-and-conditions", "dest": "/termsAndConditions" },
     { "src": "/privacy-policy", "dest": "/privacyPolicy" },
-    { "src": "/reset/(.*)", "dest": "/forgotPassword" }
+    { "src": "/reset/(.*)", "dest": "/forgotPassword" },
+    { "src": "/leaderboard", "dest": "/leaderBoard" }
   ]
 }

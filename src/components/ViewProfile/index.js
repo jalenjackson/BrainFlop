@@ -176,10 +176,8 @@ export default class ViewProfileComponent extends React.Component {
     return (
       <div className="profile-container">
         <div id="profile">
-          <div style={{ height: '40vh' }} className="top-header">
-            <div style={{ position: 'relative' }}  className="text-container">
-              <h1 style={{ marginTop: '0%' }}>{this.state.user ? this.state.user.name : null}</h1>
-            </div>
+          <div style={{ marginTop: '70px', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} className="top-header">
+            <h1 style={{ margin: '0', color: 'white', lettterSpacing: '1px' }}>{this.state.user ? this.state.user.name : null}</h1>
           </div>
           <div className="card">
             {

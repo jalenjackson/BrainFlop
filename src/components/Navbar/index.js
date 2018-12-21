@@ -149,6 +149,13 @@ class Navbar extends React.Component {
                 </div>
               </a>
             </Link>
+            <Link route='/leaderboard'>
+              <a title="Top players on BrainFlop">
+                <div className="icon-container">
+                  <img className="icon-img"  style={{ transform: 'scale(1.1) translateY(-4px)' }} src='/static/images/icons/lightning.svg' />
+                </div>
+              </a>
+            </Link>
           </div>
           <div className="side-bar">
             { this.props.pathName ?
@@ -174,8 +181,15 @@ class Navbar extends React.Component {
               </Link>
               <Link route={ this.props.isAuthenticated ? '/profile' : '/register' }>
                 <a title="Register To BrainFlop">
-                  <div style={{ paddingBottom: '0px' }} className="icon-container">
+                  <div style={{ paddingBottom: '0px', width: '30px' }} className="icon-container">
                     <img className="icon-img"  style={{ transform: 'scale(1.1) translateY(-4px)' }} src='/static/images/icons/profile.svg' />
+                  </div>
+                </a>
+              </Link>
+              <Link route='/leaderboard'>
+                <a title="Top players on BrainFlop">
+                  <div style={{ transform: 'translateY(-7px)', width: '30px' }} className="icon-container">
+                    <img className="icon-img"  style={{ transform: 'scale(1.1) translateY(-4px)' }} src='/static/images/icons/lightning.svg' />
                   </div>
                 </a>
               </Link>

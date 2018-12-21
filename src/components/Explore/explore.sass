@@ -832,6 +832,9 @@
     -moz-border-radius: .3em
     border-radius: .3em
     box-shadow: 0px 5px 15px 5px rgba(234,75,108, .5)
+    justify-content: center
+    align-items: center
+    display: flex
   @include medium-screen
     margin-left: 70px
     width: 200px
@@ -851,6 +854,7 @@
       color: white
       font-size: 15px
       letter-spacing: .6px
+
 .explore-footer
   position: relative
   width: 100%
@@ -869,3 +873,32 @@
     display: block
     margin: 0 auto
     line-height: 25px
+
+.ranking
+  position: fixed
+  z-index: 999999999999
+  bottom: 20px
+  right: 20px
+  width: auto
+  padding-left: 20px
+  padding-right: 20px
+  height: auto
+  background: #FF416C  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C)  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FF4B2B, #FF416C) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  border-radius: 10px
+  opacity: 0
+  transform: translateY(10px)
+  pointer-events: none
+  transition: transform 350ms ease-in-out, opacity 350ms ease-in-out
+  @include small-screen
+    left: 0
+    right: 0
+    margin: auto
+  h1
+    font-size: 18px
+    color: white
+    letter-spacing: 1.5px
+    @include small-screen
+      font-size: 13px
+

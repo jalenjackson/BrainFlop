@@ -1,0 +1,93 @@
+@import '../../sass/mixins/material.sass'
+@import '../../sass/mixins/breakpoints.sass'
+#leaderboard
+  .header
+    width: 100%
+    border-top-right-radius: 30px
+    border-top-left-radius: 30px
+    height: 100px
+    background: rgba(154,160,185,.05)
+    @include flex
+    justify-content: center
+    align-items: center
+    img
+      width: 30px
+      height: auto
+      transform: translate(0, 8px)
+    h1
+      color: rgb(60 ,60, 65)
+      letter-spacing: 1.5px
+  .background-image
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: -1
+    background: url('/static/images/icons/create-question.svg') center center no-repeat
+    background-size: cover
+  .leaderboard
+    width: 60%
+    border-radius: 30px
+    background: white
+    @include create-quiz-modal-box-shadow
+    display: block
+    height: auto
+    margin-bottom: 25px
+    margin: 0 auto
+    margin-top: 150px
+    position: relative
+    @include medium-screen
+      width: 80%
+    @include small-screen
+      width: 95%
+    .user
+      position: relative
+      @include create-quiz-modal-box-shadow
+      width: 90%
+      display: block
+      cursor: pointer
+      border-radius: 10px
+      margin: 0 auto
+      -webkit-transition: border 400ms ease-in-out
+      -moz-transition: border 400ms ease-in-out
+      -ms-transition: border 400ms ease-in-out
+      -o-transition: border 400ms ease-in-out
+      transition: border 400ms ease-in-out
+      border: 2px solid transparent
+      margin-top: 20px
+      &:hover
+        border: 2px solid #2FDC7F
+      .number
+        position: absolute
+        left: 30px
+        top: calc(50% - 25px)
+        width: 50px
+        height: 50px
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
+        border-radius: 100%
+        @include flex
+        justify-content: center
+        align-items: center
+        @include small-screen
+          display: none
+        p
+          color: white
+          font-size: 17px
+      h1
+        text-align: center
+        padding-top: 50px
+        color: rgb(70, 70, 70)
+      span
+        display: block
+        text-align: center
+        padding-bottom: 30px
+        transform: translateY(-10px)
+        font-size: 17px
+        color: rgb(100, 100, 100)
+        font-weight: bold
+        letter-spacing: 1px
+        img
+          width: 25px
+          height: auto
+          transform: translate(-2px, 5.5px)
