@@ -3,6 +3,7 @@ import FacebookLogin from 'react-facebook-login'
 import ReactGA from 'react-ga';
 import Cookies from "universal-cookie";
 import {Router} from "../../routes";
+const cookies = new Cookies();
 
 class FaceBookAuthentication extends React.Component {
   responseFacebook = (response) => {
@@ -29,7 +30,6 @@ class FaceBookAuthentication extends React.Component {
               userObject: body
             };
 
-            const cookies = new Cookies();
             cookies.set('userObject', userObject, { path: '/' });
 
             ReactGA.event({
