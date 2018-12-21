@@ -142,17 +142,17 @@ class Navbar extends React.Component {
                 </div>
               </a>
             </Link>
-            <Link route={ this.props.isAuthenticated ? '/profile' : '/register' }>
-              <a>
-                <div className="icon-container">
-                  <img className="icon-img"  style={{ transform: 'scale(1.1) translateY(-4px)' }} src='/static/images/icons/profile.svg' />
-                </div>
-              </a>
-            </Link>
             <Link route='/leaderboard'>
               <a title="Top players on BrainFlop">
                 <div className="icon-container">
                   <img className="icon-img"  style={{ transform: 'scale(1.1) translateY(-4px)' }} src='/static/images/icons/lightning.svg' />
+                </div>
+              </a>
+            </Link>
+            <Link route={ this.props.isAuthenticated ? '/profile' : '/register' }>
+              <a>
+                <div className="icon-container">
+                  <img className="icon-img"  style={{ transform: 'scale(1.1) translateY(-4px)' }} src='/static/images/icons/profile.svg' />
                 </div>
               </a>
             </Link>
