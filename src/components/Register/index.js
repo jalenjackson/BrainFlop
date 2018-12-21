@@ -59,7 +59,6 @@ class Register extends React.Component {
           contentType: 'application/json; charset=utf-8',
           dataType: 'json',
           success: (response) => {
-            console.log(response)
             this.setState({ errorMessage: '' });
 
             const userObject = {

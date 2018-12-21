@@ -55,6 +55,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
       allAnsweredQuestions: [],
       allAnswered: [],
       allAnswerCompare: [],
+      numberCorrect: 0
     };
   }
 
@@ -184,16 +185,19 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
       const isGameOver = this.state.currentActiveQuestion >= this.state.quizQuestions.length - 1;
       this.setState({answeredQuestion: true})
       $('#countdown svg circle').css({animationPlayState: 'paused'})
+
       if (answer === 'answer1') {
         $('.answer h2').css({color: 'rgb(230, 230, 230)'})
         $('.letter').css({color: 'rgb(230, 230, 230)'})
         $(e.currentTarget).css({background: '#2FDC7F'})
+        this.explodeParticles(e, ['#33DC65', '#66EF01', '#39FF14'], ['#FD7479', '#F64706', '#D6241A'], true);
         $(e.currentTarget).find('.letter').css({color: '#2FDC7F'})
-        this.setState({yourScore: this.state.yourScore + pointIterator})
+        this.setState({yourScore: this.state.yourScore + pointIterator, numberCorrect: this.state.numberCorrect + 1})
       } else {
         $('.answer h2').css({color: 'rgb(230, 230, 230)'})
         $('.letter').css({color: 'rgb(230, 230, 230)'})
         $(e.currentTarget).css({background: '#FD7479'})
+        this.explodeParticles(e, ['#33DC65', '#66EF01', '#39FF14'], ['#FD7479', '#F64706', '#D6241A'], false);
         $(e.currentTarget).find('.letter').css({color: '#FD7479'})
       }
 
@@ -220,7 +224,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
           }, () => {
             const correct = Number(String(this.state.yourScore).slice(0, -1));
             const total = this.state.quizQuestions.length;
-            const score = correct / total // 0.7
+            const score = this.state.numberCorrect / total // 0.7
             let grade = null
             if (score >= 0.9) grade = 'A';
             if (score >= 0.8 && score < 0.9) grade = 'B';
@@ -242,7 +246,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
               response.json().then((body) => {
                 const correctAnswers = this.state.yourScore === 0 ? '0' : String(this.state.yourScore).slice(0, -1)
                 const totalQuestions = String(this.state.quizQuestions.length);
-                const score = correctAnswers + '/' + totalQuestions;
+                const score = this.state.numberCorrect + '/' + totalQuestions;
                 const points = this.state.yourScore;
 
                 if (this.props.isAuthenticated) {
@@ -366,6 +370,78 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
         : e.currentTarget.style.backgroundColor = "white"
   }
 
+  explodeParticles(e, correctColors, wrongColors, isCorrect) {
+    const bubbles = 25;
+
+    const colors = isCorrect ? correctColors : wrongColors;
+
+    const explode = (x, y) => {
+      let particles = [];
+      let ratio = window.devicePixelRatio;
+      let c = document.createElement('canvas');
+      let ctx = c.getContext('2d');
+
+      c.style.position = 'absolute';
+      c.style.left = (x - 100) + 'px';
+      c.style.top = (y - 100) + 'px';
+      c.style.pointerEvents = 'none';
+      c.style.width = 200 + 'px';
+      c.style.height = 200 + 'px';
+      c.style.zIndex = 100;
+      c.width = 200 * ratio;
+      c.height = 200 * ratio;
+      document.body.appendChild(c);
+
+      for(var i = 0; i < bubbles; i++) {
+        particles.push({
+          x: c.width / 2,
+          y: c.height / 2,
+          radius: r(20, 30),
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: r(0, 360, true),
+          speed: r(8, 12),
+          friction: 0.9,
+          opacity: r(0, 0.5, true),
+          yVel: 0,
+          gravity: 0.1
+        });
+      }
+
+      render(particles, ctx, c.width, c.height);
+      setTimeout(() => document.body.removeChild(c), 1000);
+    }
+
+    const render = (particles, ctx, width, height) => {
+      requestAnimationFrame(() => render(particles, ctx, width, height));
+      ctx.clearRect(0, 0, width, height);
+
+      particles.forEach((p, i) => {
+        p.x += p.speed * Math.cos(p.rotation * Math.PI / 180);
+        p.y += p.speed * Math.sin(p.rotation * Math.PI / 180);
+
+        p.opacity -= 0.01;
+        p.speed *= p.friction;
+        p.radius *= p.friction;
+        p.yVel += p.gravity;
+        p.y += p.yVel;
+
+        if(p.opacity < 0 || p.radius < 0) return;
+
+        ctx.beginPath();
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+        ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, false);
+        ctx.fill();
+      });
+
+      return ctx;
+    };
+
+    const r = (a, b, c) => parseFloat((Math.random() * ((a ? a : 1) - (b ? b : 0)) + (b ? b : 0)).toFixed(c ? c : 0));
+
+    explode(e.pageX, e.pageY);
+  }
+
   renderQuizQuestions () {
     if (this.state.fetchedQuestions) {
       let currentActiveQuestionObject = this.state.quizQuestions[this.state.currentActiveQuestion]
@@ -478,7 +554,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
           ? String(this.state.yourScore).slice(0, -1)
           : String(0)
       const totalQuestions = String(this.state.quizQuestions.length);
-      let score = correctAnswers + ' / ' + totalQuestions;
+      let score = this.state.numberCorrect + ' / ' + totalQuestions;
       return (
           <div id='results-page'>
             <img className='results-page-img' src='/static/images/icons/win.svg' />
@@ -489,7 +565,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
               { !this.props.isAuthenticated ?
                   <h2>
                     <span onClick={this.redirectToSignUp.bind(this)}>Sign Up </span>
-                    to save your score and compete against others!
+                    to save your score!
                   </h2>
                   :
                   null

@@ -49,7 +49,6 @@ class FaceBookAuthentication extends React.Component {
           category: 'User',
           action: `facebook login error occured ${err}`
         });
-        console.log(err)
       })
     }
   };

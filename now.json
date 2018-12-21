@@ -1,6 +1,9 @@
 {
   "name": "BrainFlop",
-  "alias": "brainflop.com",
+  "alias": [
+    "brainflop.com",
+    "www.brainflop.com"
+  ],
   "version": 2,
   "builds": [
     { "src": "next.config.js", "use": "@now/next" },

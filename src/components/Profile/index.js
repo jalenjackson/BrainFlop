@@ -190,7 +190,6 @@ export default class ProfileComponent extends React.Component {
       })
     }).then((response) => {
       response.json().then((body) => {
-        console.log(body)
         if (body.message) {
           return this.setState({ editErrorMessage: 'You cannot change your email to that' })
         }

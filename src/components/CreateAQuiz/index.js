@@ -65,7 +65,6 @@ class CreateAQuizComponent extends React.Component {
       const transform = !isBack ? 'translate3d(-10px, 0, 0)' : 'translate3d(10px, 0, 0)';
       const T1Split = new SplitText(`${to} h1`, { type: 'words' });
       const T1Animation = new TimelineMax();
-      console.log(T1Animation)
       TweenMax.set('#split', { opacity: 1 });
       T1Animation.staggerFrom(T1Split.words, 0.7, {y: 10, opacity: 0, ease: Power4.easeOut, delay: 0.40}, 0.02, '+=0');
       TweenMax.to(from, 0.2, {opacity: 0, transform, pointerEvents: 'none', ease: Power4.easeOut });
@@ -233,7 +232,6 @@ class CreateAQuizComponent extends React.Component {
   }
 
   render () {
-    console.log(this.state);
     const createQuizPrompts = this.createQuizPrompts();
     return (
       <div id="create-quiz">
