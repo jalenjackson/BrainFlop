@@ -22,4 +22,5 @@ routes
   .add('privacyPolicy', '/privacy-policy')
   .add('blog', '/blog/:name/:id')
   .add('forgotPassword', '/reset/:token')
-  .add('leaderBoard', '/leaderboard');
+  .add('leaderBoard', '/leaderboard')
+  .add('cta', '/register-to-win');
