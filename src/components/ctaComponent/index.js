@@ -15,7 +15,7 @@ export default class ctaComponent extends React.Component {
 
   componentDidMount() {
     $('.guest-links, .menu-search, .side-bar').hide();
-    require('../../../static/ellie/src/js/main')
+    const ellie = require('../../../static/ellie/src/js/main')
   }
 
   sendEmail(isEnter, e) {
