@@ -1,6 +1,5 @@
 import React from 'react'
 import $ from 'jquery'
-import ReactGA from "react-ga";
 import {Router} from "../../../routes";
 
 export default class ctaComponent extends React.Component {
@@ -15,7 +14,7 @@ export default class ctaComponent extends React.Component {
 
   componentDidMount() {
     $('.guest-links, .menu-search, .side-bar').hide();
-    const ellie = require('../../../static/ellie/src/js/main')
+    const ellie = require('./scrollReveal');
   }
 
   sendEmail(isEnter, e) {

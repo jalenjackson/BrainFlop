@@ -9,7 +9,6 @@ const Cta = (Data) => (
     <div>
       <section>
         <Head>
-          <link rel='stylesheet' href='/static/ellie/dist/css/style.css' />
           <title>Register To Win $100 | BrainFlop</title>
           <meta name="description" content='Register to win $100 just by adding your email address!' />
           <meta itemProp="name" content='Register To Win $100 | BrainFlop' />
@@ -29,6 +28,7 @@ const Cta = (Data) => (
           <meta property="og:title" content='Register To Win $100 | BrainFlop' />
           <meta property="og:description" content='Register to win $100 just by adding your email address!' />
           <meta property="og:image" content='https://s3.amazonaws.com/quizop/46787915_984167748452313_32209441516421120_o+(1).png' />
+          <link rel='stylesheet' href='/static/cta.css' />
           <link href={Data.pathName} rel="canonical" />
         </Head>
         <Navbar pathName={Data.pathName} userObject={Data.userObject} isAuthenticated={Data.isAuthenticated} />
