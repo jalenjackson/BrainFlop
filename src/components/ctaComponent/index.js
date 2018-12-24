@@ -29,7 +29,7 @@ export default class ctaComponent extends React.Component {
       if (this.validateEmail(this.state.email) && this.state.name) {
         $.ajax({
           type: 'POST',
-          url: `http://localhost:8080/users/cta-user`,
+          url: `https://api.quizop.com/users/cta-user`,
           data: JSON.stringify({email: this.state.email, name: this.state.name}),
           contentType: 'application/json; charset=utf-8',
           dataType: 'json',
