@@ -1753,7 +1753,6 @@ copy-descriptor@^0.1.0:
 copy-paste@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/copy-paste/-/copy-paste-1.3.0.tgz#a7e6c4a1c28fdedf2b081e72b97df2ef95f471ed"
-  integrity sha1-p+bEocKP3t8rCB5yuX3y75X0ce0=
   dependencies:
     iconv-lite "^0.4.8"
   optionalDependencies:
@@ -4064,6 +4063,10 @@ moment@^2.10.2, moment@^2.22.1:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
+moment@^2.23.0:
+  version "2.23.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.23.0.tgz#759ea491ac97d54bac5ad776996e2a58cc1bc225"
+
 mongodb-core@3.1.9:
   version "3.1.9"
   resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-3.1.9.tgz#c31ee407bf932b0149eaed775c17ee09974e4ca3"
@@ -4437,7 +4440,6 @@ node-sass@^4.10.0:
 nodemailer@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-4.7.0.tgz#4420e06abfffd77d0618f184ea49047db84f4ad8"
-  integrity sha512-IludxDypFpYw4xpzKdMAozBSkzKHmNBvGanUREjJItgJ2NYcK/s8+PggVhj7c2yGFQykKsnnmv1+Aqo0ZfjHmw==
 
 nodemon@^1.18.7:
   version "1.18.7"
@@ -4491,7 +4493,6 @@ normalize-path@^2.1.1:
 now-redirect@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/now-redirect/-/now-redirect-1.1.1.tgz#f01aee6cdf50942807517eb8611658aba5918024"
-  integrity sha1-8BrubN9QlCgHUX64YRZYq6WRgCQ=
   dependencies:
     chalk "^1.1.3"
     copy-paste "^1.3.0"
@@ -6117,7 +6118,6 @@ supports-color@^5.2.0, supports-color@^5.3.0, supports-color@^5.4.0, supports-co
 sync-exec@~0.6.x:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/sync-exec/-/sync-exec-0.6.2.tgz#717d22cc53f0ce1def5594362f3a89a2ebb91105"
-  integrity sha1-cX0izFPwzh3vVZQ2LzqJouu5EQU=
 
 table@^4.0.3:
   version "4.0.3"

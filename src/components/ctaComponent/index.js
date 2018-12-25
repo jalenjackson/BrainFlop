@@ -1,5 +1,6 @@
 import React from 'react'
 import $ from 'jquery'
+import moment from 'moment'
 import {Router} from "../../../routes";
 
 export default class ctaComponent extends React.Component {
@@ -104,8 +105,8 @@ export default class ctaComponent extends React.Component {
                   <div className="container">
                     <div className="hero-inner">
                       <div className="hero-copy">
-                        <h1 className="hero-title mt-0 is-revealing">Enter Your Email To Win $100</h1>
-                        <p className="hero-paragraph is-revealing">BrainFlop.com is an amazing quiz platform that just launched a month ago! In an effort to get more users on our site we are asking that you take a few seconds out of your day to enter your email below. In return we will be giving away $100 every month. If you leave a review on our facebook page (brainflopcorp) you will have a much better chance of winning!</p>
+                        <h1 style={{ fontSize: '24px', lineHeight: '28px' }} className="hero-title mt-0 is-revealing">$100 Giveaway! This ends Jan 15 2019! Don't miss out!</h1>
+                        <p className="hero-paragraph is-revealing">BrainFlop.com is an amazing quiz platform that just launched a month ago! In an effort to get more users on our site we are asking that you take a few seconds out of your day to enter your email below. In return we will be giving away $100 every month.</p>
                         <div className="hero-form field field-grouped is-revealing">
                           <p className='error-msg' style={{ color: 'red' }}>{this.state.errorMessage}</p>
                           <div className="control control-expanded">
