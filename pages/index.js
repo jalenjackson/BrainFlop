@@ -10,7 +10,7 @@ import Cookies from "universal-cookie";
 const Index = (Data) => (
   <section>
     <Head>
-      <title>A Beautiful Quizzing Platform</title>
+      <title>BrainFlop - Learn Under Pressure</title>
       <meta name="description" content='Play the most exciting quizzes there is! Play online, invite a friend, or play alone! Whether your studying or just love trivia. We got you!' />
       <meta itemProp="name" content='A Beautiful Quizzing Platform' />
       <meta itemProp="description" content='Play the most exciting quizzes there is! Play online, invite a friend, or play alone! Whether your studying or just love trivia. We got you!' />

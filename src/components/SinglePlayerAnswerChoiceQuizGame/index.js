@@ -14,33 +14,14 @@ let pointIterator = 0
 
 class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
   constructor (props) {
-    super(props)
-
-    difficulty = this.props.difficulty;
-
-    switch (difficulty) {
-      case 'easy':
-        questionTimer = 10;
-        pointIterator = 5;
-        break;
-      case 'medium':
-        questionTimer = 7;
-        pointIterator = 10;
-        break;
-      case 'hard':
-        questionTimer = 5;
-        pointIterator = 20;
-        break;
-      default:
-        questionTimer = 10;
-    }
+    super(props);
 
     this.state = {
       quizQuestions: [],
       currentActiveQuestion: 0,
       gameOver: false,
       yourScore: 0,
-      questionTimer,
+      questionTimer: 10,
       startingCountdown: true,
       fetchedQuestions: false,
       answeredQuestion: false,
@@ -58,6 +39,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
       numberCorrect: 0
     };
   }
+
 
   tick () {
     if (this.state.quizQuestions.length > 0) {
@@ -123,9 +105,35 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
   }
 
   componentDidMount () {
+    difficulty = this.props.difficulty;
+
+    switch (difficulty) {
+      case 'easy':
+        questionTimer = 10;
+        pointIterator = 5;
+        break;
+      case 'medium':
+        questionTimer = 7;
+        pointIterator = 10;
+        break;
+      case 'hard':
+        questionTimer = 5;
+        pointIterator = 20;
+        break;
+      default:
+        questionTimer = 10;
+    }
+
+    if (window.location.href.split('?').length > 1) {
+      questionTimer = window.location.href.split('?')[1].split('=')[1];
+      this.setState({ questionTimer });
+    } else {
+      this.setState({ questionTimer });
+    }
+
     SplitText = require('../../gsap/SplitText');
     quizId = window.location.pathname.split('/')[4];
-    ReactGA.initialize('UA-129744457-1')
+    ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview(window.location.pathname);
     myName = this.props.isAuthenticated ? this.props.userObject.name : 'Me';
     $('body').css({
@@ -133,7 +141,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
       backgroundRepeat: 'no-repeat',
       backgroundAttachment: 'fixed'
     });
-    $(window).scrollTop(0)
+    $(window).scrollTop(0);
 
     fetch(`https://api.quizop.com/quizzes/${quizId}`, {
       method: 'GET'

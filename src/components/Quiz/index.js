@@ -14,7 +14,8 @@ export default class QuizShowPage extends React.Component {
     this.state = {
       quizData: this.props.quizData,
       userThatCreateTheQuiz: this.props.quizData.user,
-      questionLength: this.props.quizData.quizQuestionsLength
+      questionLength: this.props.quizData.quizQuestionsLength,
+      freePlayTime: false
     };
   }
 
@@ -104,9 +105,13 @@ export default class QuizShowPage extends React.Component {
       alert(`${this.state.userThatCreateTheQuiz ? this.state.userThatCreateTheQuiz.name : ''} is still working on this quiz. Come back later when ${this.state.userThatCreateTheQuiz ? this.state.userThatCreateTheQuiz.name : ''} is finished.`)
     } else {
       $("html, body").animate({ scrollTop: 0 }, 350);
-      const cookies = new Cookies();
-      cookies.set('difficulty', difficulty, { path: '/' });
-      Router.pushRoute(`/single-player/answer-choice/${_.kebabCase(quizData.title)}/${quizId}`);
+      if (this.state.freePlayTime && !isNaN(this.state.freePlayTime)) {
+        Router.pushRoute(`/single-player/answer-choice/${_.kebabCase(quizData.title)}/${quizId}?time=${ this.state.freePlayTime }`);
+      } else {
+        const cookies = new Cookies();
+        cookies.set('difficulty', difficulty, {path: '/'});
+        Router.pushRoute(`/single-player/answer-choice/${_.kebabCase(quizData.title)}/${quizId}`);
+      }
     }
   }
 
@@ -132,9 +137,18 @@ export default class QuizShowPage extends React.Component {
                 null
             }
           </div>
+          <div style={{ height: '390px' }} className="card">
+            <img style={{ width: '110px' }} src='/static/images/icons/diamond.svg' />
+            <h3 onClick={() => {  $("html, body").animate({ scrollTop: $(document).height() }, "slow") }} style={{ position: 'absolute', cursor: 'pointer', left: '10px', top: '10px', fontSize: '12px', color: '#13A5FE', letterSpacing: '1px' }}>View Comments</h3>
+            <div style={{ transform: 'translateY(-20px)' }}>
+              <h1 className="points-amount">Free Play</h1>
+              <p className="online-count">Enter the amount of time you need on each question. eg. 15</p>
+              <input onChange={ e => this.setState({ freePlayTime: e.target.value }) } style={{  border: '1px solid rgb(220, 220, 220)',  display: 'block', margin: '0 auto', borderRadius: '3px', padding: '5px 5px 5px 15px', width: 'auto', fontSize: '16px', marginBottom: 10, background: 'none', flexDirection: 'column' }} />
+              <button disabled={ this.state.freePlayTime && !isNaN(this.state.freePlayTime) ? false : true  } style={{ transition: 'opacity 300ms ease-in-out', opacity: this.state.freePlayTime && !isNaN(this.state.freePlayTime) ? 1 : 0.5 }} onClick={this.redirect.bind(this, this.state.quizData ? this.state.quizData.quiz : null, 'freePlay')}>Get Started!</button>
+            </div>
+          </div>
           <div style={{ height: '350px' }} className="card">
             <img style={{ width: '110px' }} src='/static/images/icons/aeasy.svg' />
-            <h3 onClick={() => {  $("html, body").animate({ scrollTop: $(document).height() }, "slow") }} style={{ position: 'absolute', cursor: 'pointer', left: '10px', top: '10px', fontSize: '12px', color: '#13A5FE', letterSpacing: '1px' }}>View Comments</h3>
             <div style={{ transform: 'translateY(-20px)' }}>
               <h1 className="points-amount">Easy Mode</h1>
               <p className="online-count">Earn 5 Points A Question</p>
