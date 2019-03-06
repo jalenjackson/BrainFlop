@@ -23,10 +23,6 @@ class Explore extends React.Component {
   }
 
   async componentDidMount () {
-    $('.ranking').css({ transform: 'translateY(0)', opacity: '1' });
-    setTimeout(function(){
-      $('.ranking').css({ transform: 'translateY(10px)', opacity: '0' });
-    }, 5000)
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview('/');
   }
@@ -490,10 +486,6 @@ class Explore extends React.Component {
         </div>
         <div className="explore-footer">
           <h1>Copyright @ 2018 BrainFlop <a title='Privacy Policy' style={{ color: 'rgb(200,170,170)', marginLeft: '5px' }} href="/privacy-policy">Privacy Policy</a></h1>
-        </div>
-
-        <div className='ranking'>
-          <h1>BrainFlop gives away a prize to whoever is top on the Leaderboard every month!</h1>
         </div>
       </div>
     )
