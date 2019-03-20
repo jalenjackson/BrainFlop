@@ -1,3 +1,5 @@
 node_modules/
 .next/
 .idea
+.env
+now.json
