@@ -44,7 +44,7 @@ SinglePlayerAnswerChoiceQuizGame.getInitialProps = async (req) => {
     ? req.query.quizId
     : req.req.url.split('/')[4].split('?')[0];
 
-  const res = await fetch(`https://api.quizop.com/quizzes/${getQuizId}`);
+  const res = await fetch(`http://api.quizop.com/quizzes/${getQuizId}`);
   const json = await res.json();
 
   let cookies = null;

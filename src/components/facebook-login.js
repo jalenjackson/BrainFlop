@@ -13,7 +13,7 @@ class FaceBookAuthentication extends React.Component {
           return
         }
       }
-      fetch(`https://api.quizop.com/users/facebook`, {
+      fetch(`http://api.quizop.com/users/facebook`, {
         method: 'POST',
         body: JSON.stringify({
           email: response.email,

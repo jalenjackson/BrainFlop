@@ -41,7 +41,7 @@ Category.getInitialProps = async (req) => {
   const isClient = typeof document !== 'undefined';
   let topic = isClient ? req.query.slug.split('-').join(' ') : req.req.url.split('/')[2].split('?')[0].split('-').join(' ');
 
-  const res = await fetch(`https://api.quizop.com/quizzes/quizzes-by-topic`, {
+  const res = await fetch(`http://api.quizop.com/quizzes/quizzes-by-topic`, {
     method: 'POST',
     body: JSON.stringify({ topic }),
     headers: {'Content-Type': 'application/json; charset=utf-8'}

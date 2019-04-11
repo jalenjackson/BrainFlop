@@ -36,7 +36,7 @@ export default class LeaderBoardComponent extends React.Component {
   async fetchMoreUsers() {
     await this.setState({ skipIterator: this.state.skipIterator + 20 });
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
-    fetch(`https://api.quizop.com/users/get-top-users?skip=${this.state.skipIterator}&limit=20`, {
+    fetch(`http://api.quizop.com/users/get-top-users?skip=${this.state.skipIterator}&limit=20`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
     }).then((response) => {

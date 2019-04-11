@@ -58,7 +58,7 @@ export default class TagPage extends Component {
   async fetchMoreQuizzes() {
     await this.setState({ skipIterator: this.state.skipIterator + 9 });
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
-    fetch(`https://api.quizop.com/tags?limit=9&skipAmount=${this.state.skipIterator}`, {
+    fetch(`http://api.quizop.com/tags?limit=9&skipAmount=${this.state.skipIterator}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

@@ -36,7 +36,7 @@ const PersonalityQuizzes = (Data) => (
 );
 
 PersonalityQuizzes.getInitialProps = async (req) => {
-  const res = await fetch('https://api.quizop.com/quizzes/personality-quizzes');
+  const res = await fetch('http://api.quizop.com/quizzes/personality-quizzes');
   const json = await res.json();
 
   let obj = checkAuthentication(req);

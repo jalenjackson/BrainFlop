@@ -95,7 +95,7 @@ class CreateAQuizComponent extends React.Component {
     data.append('quizImage', $('.file-upload-field')[0].files[0]);
     $('.loader').css({ opacity: 1 });
 
-    fetch(`https://api.quizop.com/quizzes`, {
+    fetch(`http://api.quizop.com/quizzes`, {
       method: 'POST',
       body: data,
       headers: {
@@ -124,7 +124,7 @@ class CreateAQuizComponent extends React.Component {
   tagAutocomplete (e) {
     this.setState({category: e.target.value, renderAutoCompleteResults: true }, () => {
       if (this.state.category !== '') {
-        fetch(`https://api.quizop.com/search/tags?term=${encodeURIComponent(this.state.category)}`, {
+        fetch(`http://api.quizop.com/search/tags?term=${encodeURIComponent(this.state.category)}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'

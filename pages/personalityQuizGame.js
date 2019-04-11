@@ -42,7 +42,7 @@ PersonalityQuizGame.getInitialProps = async (req) => {
       ? req.query.quizId
       : req.req.url.split('/')[3].split('?')[0];
 
-  const res = await fetch('https://api.quizop.com/quizzes/personality-game', {
+  const res = await fetch('http://api.quizop.com/quizzes/personality-game', {
     method: 'POST',
     body: JSON.stringify({ quizId }),
     headers: {'Content-Type': 'application/json; charset=utf-8'}

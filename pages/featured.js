@@ -36,7 +36,7 @@ const Featured = (Data) => (
 );
 
 Featured.getInitialProps = async (req) => {
-  const res = await fetch(`https://api.quizop.com/quizzes/featured?limit=9&skip=0`);
+  const res = await fetch(`http://api.quizop.com/quizzes/featured?limit=9&skip=0`);
   const json = await res.json();
 
   let obj = checkAuthentication(req);

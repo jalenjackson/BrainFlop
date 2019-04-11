@@ -46,7 +46,7 @@ Quiz.getInitialProps  = async (req) => {
     ? req.query.quizId
     : req.req.url.split('/')[3].split('?')[0];
 
-  const res = await fetch(`https://api.quizop.com/quizzes/quiz-page`, {
+  const res = await fetch(`http://api.quizop.com/quizzes/quiz-page`, {
     method: 'POST',
     body: JSON.stringify({ quizId }),
     headers: {'Content-Type': 'application/json; charset=utf-8'}

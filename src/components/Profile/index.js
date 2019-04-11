@@ -31,7 +31,7 @@ export default class ProfileComponent extends React.Component {
     ReactGA.pageview(window.location.pathname);
     document.addEventListener('scroll', this.trackScrolling);
 
-    fetch(`https://api.quizop.com/quizzes/user-quizzes`, {
+    fetch(`http://api.quizop.com/quizzes/user-quizzes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -80,7 +80,7 @@ export default class ProfileComponent extends React.Component {
   async fetchMoreQuizzes() {
     await this.setState({ skipIterator: this.state.skipIterator + 8 });
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
-    fetch(`https://api.quizop.com/quizzes/user-quizzes`, {
+    fetch(`http://api.quizop.com/quizzes/user-quizzes`, {
       method: 'POST',
       body: JSON.stringify({
         userId: this.props.userObject.userId,
@@ -176,7 +176,7 @@ export default class ProfileComponent extends React.Component {
         return this.setState({ editErrorMessage: 'Email is not valid' })
       }
     }
-    fetch(`https://api.quizop.com/users/edit`, {
+    fetch(`http://api.quizop.com/users/edit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

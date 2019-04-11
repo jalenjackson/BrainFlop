@@ -38,7 +38,7 @@ class EditQuiz extends React.Component {
   componentDidMount () {
     ReactGA.initialize('UA-129744457-1');
     ReactGA.pageview(window.location.pathname);
-    fetch(`https://api.quizop.com/quizzes/${this.props.router.query.quizId}`, {
+    fetch(`http://api.quizop.com/quizzes/${this.props.router.query.quizId}`, {
       method: 'GET'
     }).then((response) => {
       response.json().then((body) => {
@@ -51,7 +51,7 @@ class EditQuiz extends React.Component {
       console.log(err)
     });
 
-    fetch(`https://api.quizop.com/questions/get-quiz-questions`, {
+    fetch(`http://api.quizop.com/questions/get-quiz-questions`, {
       method: 'POST',
       body: JSON.stringify({ quizId: this.props.router.query.quizId, usingForEdit: true }),
       headers: {
@@ -72,7 +72,7 @@ class EditQuiz extends React.Component {
       renderAutoCompleteResults: true
     }, () => {
       if (key === 'question' && this.state.question !== '') {
-        fetch(`https://api.quizop.com/search/questions?term=${encodeURIComponent(this.state.question)}`, {
+        fetch(`http://api.quizop.com/search/questions?term=${encodeURIComponent(this.state.question)}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'
@@ -127,7 +127,7 @@ class EditQuiz extends React.Component {
 
       $('.loader').css({ opacity: 1 })
 
-      fetch(`https://api.quizop.com/questions`, {
+      fetch(`http://api.quizop.com/questions`, {
         method: 'POST',
         body,
         headers
@@ -202,7 +202,7 @@ class EditQuiz extends React.Component {
 
   deleteQuestion (questionId, e) {
     e.stopPropagation()
-    fetch(`https://api.quizop.com/questions/${questionId}`, {
+    fetch(`http://api.quizop.com/questions/${questionId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${this.props.userObject.token}`,
@@ -231,7 +231,7 @@ class EditQuiz extends React.Component {
     }
     $('.loader').css({ opacity: 1 })
 
-    fetch(`https://api.quizop.com/questions/${this.state.editingQuestionId}`, {
+    fetch(`http://api.quizop.com/questions/${this.state.editingQuestionId}`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${this.props.userObject.token}`,
@@ -351,7 +351,7 @@ class EditQuiz extends React.Component {
       tags: key === 'tag' ? $('.input-tag').val() : this.state.quizData.quiz.tags
     }
     $('.loader').css({ opacity: 1 })
-    fetch(`https://api.quizop.com/quizzes/${this.props.router.query.quizId}`, {
+    fetch(`http://api.quizop.com/quizzes/${this.props.router.query.quizId}`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${this.props.userObject.token}`,

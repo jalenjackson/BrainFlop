@@ -46,7 +46,7 @@ Index.getInitialProps = async (req) => {
     if (userTags === 'none') userTags = false;
   }
 
-  const res = await fetch(`https://api.quizop.com/quizzes/explore`, {
+  const res = await fetch(`http://api.quizop.com/quizzes/explore`, {
     method: 'POST',
     body: JSON.stringify({ userTags }),
     headers: {'Content-Type': 'application/json; charset=utf-8'}

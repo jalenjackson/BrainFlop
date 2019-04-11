@@ -434,7 +434,7 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
 
           this.setState({grade});
 
-          fetch(`https://api.quizop.com/quizzes/analytics/${quizId}`, {
+          fetch(`http://api.quizop.com/quizzes/analytics/${quizId}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json'
@@ -449,7 +449,7 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
               const score = correctAnswers + '/' + totalQuestions;
               const points = this.state.yourScore;
               if (this.props.isAuthenticated) {
-                fetch(`https://api.quizop.com/users/analytics`, {
+                fetch(`http://api.quizop.com/users/analytics`, {
                   method: 'POST',
                   headers: {
                     'Authorization': `Bearer ${this.props.userObject.token}`,
@@ -478,7 +478,7 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
 
                     if (correctAnswers === totalQuestions) {
                       this.setState({wasFlawless: true, grade: 'A+'});
-                      fetch(`https://api.quizop.com/users/analytics`, {
+                      fetch(`http://api.quizop.com/users/analytics`, {
                         method: 'POST',
                         headers: {
                           'Authorization': `Bearer ${this.props.userObject.token}`,
@@ -554,7 +554,7 @@ class InviteAFriendAnswerChoiceQuizGameComponent extends Component {
     this.interval = setInterval(() => this.updateTimer(), 1000);
     window.addEventListener('beforeunload', this.leaveQuizGame);
 
-    fetch(`https://api.quizop.com/questions/get-quiz-questions`, {
+    fetch(`http://api.quizop.com/questions/get-quiz-questions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

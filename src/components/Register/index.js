@@ -54,7 +54,7 @@ class Register extends React.Component {
         })
         $.ajax({
           type: 'POST',
-          url: `https://api.quizop.com/users/signup`,
+          url: `http://api.quizop.com/users/signup`,
           data,
           contentType: 'application/json; charset=utf-8',
           dataType: 'json',

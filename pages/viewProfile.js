@@ -44,7 +44,7 @@ ViewProfile.getInitialProps = async (req) => {
     ? req.query.id
     : req.req.url.split('/')[3];
 
-  const res = await fetch(`https://api.quizop.com/users/get-user`, {
+  const res = await fetch(`http://api.quizop.com/users/get-user`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json; charset=utf-8'

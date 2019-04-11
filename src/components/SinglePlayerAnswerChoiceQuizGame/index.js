@@ -143,7 +143,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
     });
     $(window).scrollTop(0);
 
-    fetch(`https://api.quizop.com/quizzes/${quizId}`, {
+    fetch(`http://api.quizop.com/quizzes/${quizId}`, {
       method: 'GET'
     }).then((response) => {
       response.json().then((body) => {
@@ -162,7 +162,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
       console.log(err)
     })
 
-    fetch(`https://api.quizop.com/questions/get-quiz-questions`, {
+    fetch(`http://api.quizop.com/questions/get-quiz-questions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -242,7 +242,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
 
             this.setState({grade});
 
-            fetch(`https://api.quizop.com/quizzes/analytics/${quizId}`, {
+            fetch(`http://api.quizop.com/quizzes/analytics/${quizId}`, {
               method: 'PATCH',
               headers: {
                 'Content-Type': 'application/json'
@@ -258,7 +258,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
                 const points = this.state.yourScore;
 
                 if (this.props.isAuthenticated) {
-                  fetch(`https://api.quizop.com/users/analytics`, {
+                  fetch(`http://api.quizop.com/users/analytics`, {
                     method: 'POST',
                     headers: {
                       'Authorization': `Bearer ${this.props.userObject.token}`,
@@ -287,7 +287,7 @@ class SinglePlayerAnswerChoiceQuizGameComponent extends React.Component {
 
                       if (correctAnswers === totalQuestions) {
                         this.setState({wasFlawless: true, grade: 'A+'});
-                        fetch(`https://api.quizop.com/users/analytics`, {
+                        fetch(`http://api.quizop.com/users/analytics`, {
                           method: 'POST',
                           headers: {
                             'Authorization': `Bearer ${this.props.userObject.token}`,
