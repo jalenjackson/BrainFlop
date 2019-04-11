@@ -437,7 +437,7 @@ class QuizRealTimeTraditional extends Component {
 
           this.setState({grade});
 
-          fetch(`http://api.quizop.com/quizzes/analytics/${quizId}`, {
+          fetch(`https://api.quizop.com/quizzes/analytics/${quizId}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json'
@@ -452,7 +452,7 @@ class QuizRealTimeTraditional extends Component {
               const score = correctAnswers + '/' + totalQuestions;
               const points = this.state.yourScore;
               if (this.props.isAuthenticated) {
-                fetch(`http://api.quizop.com/users/analytics`, {
+                fetch(`https://api.quizop.com/users/analytics`, {
                   method: 'POST',
                   headers: {
                     'Authorization': `Bearer ${this.props.userObject.token}`,
@@ -481,7 +481,7 @@ class QuizRealTimeTraditional extends Component {
 
                     if (correctAnswers === totalQuestions) {
                       this.setState({wasFlawless: true, grade: 'A+'});
-                      fetch(`http://api.quizop.com/users/analytics`, {
+                      fetch(`https://api.quizop.com/users/analytics`, {
                         method: 'POST',
                         headers: {
                           'Authorization': `Bearer ${this.props.userObject.token}`,
@@ -559,7 +559,7 @@ class QuizRealTimeTraditional extends Component {
     this.interval = setInterval(() => this.updateTimer(), 1000);
     window.addEventListener('beforeunload', this.leaveQuizGame);
 
-    fetch(`http://api.quizop.com/questions/get-quiz-questions`, {
+    fetch(`https://api.quizop.com/questions/get-quiz-questions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

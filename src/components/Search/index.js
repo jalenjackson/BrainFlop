@@ -48,7 +48,7 @@ export default class SearchPage extends Component {
       },
       0.02, '+=0')
 
-    fetch(`http://api.quizop.com/search/quizzes?term=${searchTerm}&skipIterator=${this.state.skipIterator}`, {
+    fetch(`https://api.quizop.com/search/quizzes?term=${searchTerm}&skipIterator=${this.state.skipIterator}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -84,7 +84,7 @@ export default class SearchPage extends Component {
   async fetchMoreQuizzes() {
     await this.setState({ skipIterator: this.state.skipIterator + 9 });
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
-    fetch(`http://api.quizop.com/search/quizzes?term=${searchTerm}&skipIterator=${this.state.skipIterator}`, {
+    fetch(`https://api.quizop.com/search/quizzes?term=${searchTerm}&skipIterator=${this.state.skipIterator}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

@@ -52,7 +52,7 @@ class LoginComponent extends React.Component {
         this.setState({ errorMessage: '' });
         $.ajax({
           type: 'POST',
-          url: `http://api.quizop.com/users/login`,
+          url: `https://api.quizop.com/users/login`,
           data: JSON.stringify(data),
           contentType: 'application/json; charset=utf-8',
           dataType: 'json',
@@ -104,7 +104,7 @@ class LoginComponent extends React.Component {
       $('.forgot-password-text').css({ filter: 'grayscale(100%)' });
       $.ajax({
         type: 'POST',
-        url: `http://api.quizop.com/users/forgot`,
+        url: `https://api.quizop.com/users/forgot`,
         data: JSON.stringify({ email: this.state.forgotPasswordEmail }),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',

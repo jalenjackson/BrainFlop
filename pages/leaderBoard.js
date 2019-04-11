@@ -36,7 +36,7 @@ const LeaderBoard = (Data) => (
 );
 
 LeaderBoard.getInitialProps = async (req) => {
-  const res = await fetch(`http://api.quizop.com/users/get-top-users?skip=0&limit=20`);
+  const res = await fetch(`https://api.quizop.com/users/get-top-users?skip=0&limit=20`);
   const json = await res.json();
 
   console.log(json);

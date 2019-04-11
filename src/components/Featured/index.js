@@ -53,7 +53,7 @@ export default class FeaturedComponent extends Component {
   async fetchMoreQuizzes() {
     await this.setState({ skipIterator: this.state.skipIterator + 9 });
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
-    fetch(`http://api.quizop.com/quizzes/featured?limit=9&skip=${this.state.skipIterator}`, {
+    fetch(`https://api.quizop.com/quizzes/featured?limit=9&skip=${this.state.skipIterator}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

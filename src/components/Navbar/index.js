@@ -47,7 +47,7 @@ class Navbar extends React.Component {
   updateSearchTern (e) {
     this.setState({ searchTerm: e.target.value }, () => {
       if (this.state.searchTerm) {
-        fetch(`http://api.quizop.com/search/quizzes?term=${encodeURIComponent(this.state.searchTerm)}&skipIterator=0`, {
+        fetch(`https://api.quizop.com/search/quizzes?term=${encodeURIComponent(this.state.searchTerm)}&skipIterator=0`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'

@@ -40,7 +40,7 @@ EditQuiz.getInitialProps = async (req) => {
     ? req.query.quizId
     : req.req.url.split('/')[2];
 
-  const res = await fetch(`http://api.quizop.com/quizzes/${getQuizId}`);
+  const res = await fetch(`https://api.quizop.com/quizzes/${getQuizId}`);
   const json = await res.json();
 
   if (!json.quiz || json.quiz === undefined || json.quiz.userId !== userObject.userId) {

@@ -80,7 +80,7 @@ export default class CustomizeExperience extends Component {
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
     $.ajax({
       type: 'GET',
-      url: `http://api.quizop.com/tags?limit=15&skipAmount=${this.state.skipIterator}`,
+      url: `https://api.quizop.com/tags?limit=15&skipAmount=${this.state.skipIterator}`,
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       success: (body) => {
@@ -102,7 +102,7 @@ export default class CustomizeExperience extends Component {
     $('.submit-btn').css({ filter: 'grayscale(100%)' });
     $.ajax({
       type: 'POST',
-      url: `http://api.quizop.com/users/update-customized-tags`,
+      url: `https://api.quizop.com/users/update-customized-tags`,
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       headers: {

@@ -27,7 +27,7 @@ export default class QuizShowPage extends React.Component {
     ReactGA.pageview(window.location.pathname);
     $(window).scrollTop(0);
 
-    fetch(`http://api.quizop.com/questions/get-quiz-questions`, {
+    fetch(`https://api.quizop.com/questions/get-quiz-questions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -44,12 +44,12 @@ export default class QuizShowPage extends React.Component {
       console.log(err)
     });
 
-    fetch(`http://api.quizop.com/quizzes/${quizId}`, {
+    fetch(`https://api.quizop.com/quizzes/${quizId}`, {
       method: 'GET'
     }).then((response) => {
       response.json().then((body) => {
         this.setState({ quizData: body }, () => {
-          fetch(`http://api.quizop.com/users/get-user`, {
+          fetch(`https://api.quizop.com/users/get-user`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json; charset=utf-8'

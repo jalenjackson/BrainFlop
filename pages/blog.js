@@ -41,7 +41,7 @@ Blog.getInitialProps = async (req) => {
   const isClient = typeof document !== 'undefined';
   const blogId = isClient ? req.query.id : req.req.url.split('/')[3].split('?')[0];
 
-  const res = await fetch(`http://api.quizop.com/blog/${blogId}`);
+  const res = await fetch(`https://api.quizop.com/blog/${blogId}`);
   const json = await res.json();
   if (!json.blog) {
     req.res.redirect('/');

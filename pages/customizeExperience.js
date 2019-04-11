@@ -22,7 +22,7 @@ const CustomizeExperience = (Data) => (
 
 CustomizeExperience.getInitialProps = async (req) => {
   const isClient = typeof document !== 'undefined';
-  const res = await fetch(`http://api.quizop.com/tags?limit=15&skipAmount=0`);
+  const res = await fetch(`https://api.quizop.com/tags?limit=15&skipAmount=0`);
   const json = await res.json();
 
   const cookies = isClient ? new Cookies() : new Cookies(req.req.headers.cookie);

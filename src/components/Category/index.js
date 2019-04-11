@@ -42,7 +42,7 @@ export default class CategoryComponent extends Component {
   async fetchMoreQuizzes() {
     await this.setState({ skipIterator: this.state.skipIterator + 9 });
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
-    fetch(`http://api.quizop.com/quizzes/quizzes-by-topic`, {
+    fetch(`https://api.quizop.com/quizzes/quizzes-by-topic`, {
       method: 'POST',
       body: JSON.stringify({
         topic: category,

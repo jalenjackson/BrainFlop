@@ -33,7 +33,7 @@ export default class ViewProfileComponent extends React.Component {
     $(window).scrollTop(0)
     document.addEventListener('scroll', this.trackScrolling);
 
-    fetch(`http://api.quizop.com/users/get-user`, {
+    fetch(`https://api.quizop.com/users/get-user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -49,7 +49,7 @@ export default class ViewProfileComponent extends React.Component {
       console.log(err);
     });
 
-    fetch(`http://api.quizop.com/quizzes/user-quizzes`, {
+    fetch(`https://api.quizop.com/quizzes/user-quizzes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -86,7 +86,7 @@ export default class ViewProfileComponent extends React.Component {
   async fetchMoreQuizzes() {
     await this.setState({ skipIterator: this.state.skipIterator + 8 });
     TweenMax.to('.pagination-loader', 0.5, { transform: 'translate3d(0, 0, 0)', ease: Power3.easeOut });
-    fetch(`http://api.quizop.com/quizzes/user-quizzes`, {
+    fetch(`https://api.quizop.com/quizzes/user-quizzes`, {
       method: 'POST',
       body: JSON.stringify({
         userId: this.props.router.query.id,

@@ -19,7 +19,7 @@ export default class ForgotPasswordComponent extends React.Component {
 
   changePassword (e) {
     e.preventDefault()
-    fetch(`http://api.quizop.com/users/forgot/${token}`, {
+    fetch(`https://api.quizop.com/users/forgot/${token}`, {
       method: 'POST',
       body: JSON.stringify({ password: this.state.newPassword, token }),
       headers: {
