@@ -47,7 +47,7 @@
     "jsonwebtoken": "^8.4.0",
     "jwt-decode": "^2.2.0",
     "line-by-line": "^0.1.6",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "lru-cache": "^5.1.1",
     "moment": "^2.23.0",
     "mongoose": "^5.3.15",
