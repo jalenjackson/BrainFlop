@@ -27,7 +27,7 @@
     "@zeit/next-sass": "^1.0.1",
     "async": "^2.6.1",
     "aws-sdk": "^2.371.0",
-    "bcrypt": "^3.0.2",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "chart.js": "^2.7.3",
     "core-js": "^2.6.0",
