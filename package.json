@@ -62,7 +62,7 @@
     "next-routes": "^1.4.2",
     "next-routes-now": "^0.0.7",
     "node-gyp": "^3.8.0",
-    "node-sass": "^4.10.0",
+    "node-sass": "^4.13.1",
     "nodemailer": "^4.7.0",
     "nodemon": "^1.18.7",
     "now-redirect": "^1.1.1",
